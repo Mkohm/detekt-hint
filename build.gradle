@@ -1,0 +1,34 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.3.61"
+}
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    // When creating a sample extension, change this dependency to the detekt-api version you build against
+    // e.g. io.gitlab.arturbosch.detekt:detekt-api:1.x.x
+    implementation("io.gitlab.arturbosch.detekt:detekt-api:1.4.0")
+    // When creating a sample extension, change this dependency to the detekt-test version you build against
+    // e.g. io.gitlab.arturbosch.detekt:detekt-test:1.x.x
+    testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.4.0")
+    // Do you want to write integration or system tests? Add the cli dependency.
+   // testImplementation(":detekt-cli")
+
+    testImplementation("org.assertj:assertj-core:3.14.0")
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.9")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.5.2")
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.9")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
