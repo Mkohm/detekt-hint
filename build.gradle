@@ -3,6 +3,7 @@ plugins {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 dependencies {
@@ -13,7 +14,7 @@ dependencies {
     // e.g. io.gitlab.arturbosch.detekt:detekt-test:1.x.x
     testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.4.0")
     // Do you want to write integration or system tests? Add the cli dependency.
-   // testImplementation(":detekt-cli")
+    testImplementation("io.gitlab.arturbosch.detekt:detekt-cli:1.4.0")
 
     testImplementation("org.assertj:assertj-core:3.14.0")
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.9")
