@@ -1,18 +1,12 @@
 package io.gitlab.arturbosch.detekt.sample.extensions
 
-import io.gitlab.arturbosch.detekt.sample.extensions.processors.NumberOfLoopsProcessor
-
-import io.gitlab.arturbosch.detekt.api.DetektVisitor
-import io.gitlab.arturbosch.detekt.api.Rule
+import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.sample.extensions.rules.UseCompositionInsteadOfInheritance
-import io.gitlab.arturbosch.detekt.test.compileContentForTest
-import io.gitlab.arturbosch.detekt.test.compileForTest
+import io.gitlab.arturbosch.detekt.test.TestConfig
 import io.gitlab.arturbosch.detekt.test.lint
 import org.assertj.core.api.Assertions.assertThat
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
-import java.nio.file.Path
-import java.nio.file.Paths
 
 class UseCompositionInsteadOfInheritanceSpec : Spek({
 
@@ -58,6 +52,22 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
 
             val findings = UseCompositionInsteadOfInheritance().lint(code)
 
+            assertThat(findings).isEmpty()
+        }
+    }
+
+    describe("If rule is inactive") {
+
+        val code = """
+                class ClassContainingInheritance : ClassToInheritFrom()
+                
+                open class ClassToInheritFrom    
+            """.trimIndent()
+
+        val rule = UseCompositionInsteadOfInheritance(TestConfig(mapOf(Config.ACTIVE_KEY to "false")))
+        it("should not find any issues.") {
+
+            val findings = rule.lint(code)
             assertThat(findings).isEmpty()
         }
     }
