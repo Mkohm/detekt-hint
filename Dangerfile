@@ -13,3 +13,4 @@ fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
 fail("fit left in tests") if `grep -r fit specs/ `.length > 1
 
 kotlin_detekt.gradle_task = "detekt"
+kotlin_detekt.detekt
