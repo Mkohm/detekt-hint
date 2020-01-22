@@ -1,3 +1,5 @@
 sample:
   TooManyFunctions:
     active: true
+  UseCompositionInsteadOfInheritance:
+    active: true

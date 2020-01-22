@@ -11,3 +11,9 @@ warn("Big PR") if git.lines_of_code > 500
 # Don't let testing shortcuts get into master by accident
 fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
 fail("fit left in tests") if `grep -r fit specs/ `.length > 1
+
+# Use the kotlin_detekt danger-plugin and tell it that the task to run is called "detekt"
+kotlin_detekt.gradle_task = "detekt"
+
+# Run the task
+kotlin_detekt.detekt

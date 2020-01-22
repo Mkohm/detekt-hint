@@ -6,4 +6,4 @@ dist: trusty
 jdk: oraclejdk8
 
 script:
-  -  bundle install && bundle exec danger
+  - gem install bundler && bundle install && bundle exec danger

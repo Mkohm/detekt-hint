@@ -1,6 +1,8 @@
 package io.gitlab.arturbosch.detekt.sample.extensions
 
+import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.sample.extensions.rules.TooManyFunctions
+import io.gitlab.arturbosch.detekt.test.TestConfig
 import io.gitlab.arturbosch.detekt.test.lint
 import org.assertj.core.api.Assertions.assertThat
 import org.spekframework.spek2.Spek
@@ -8,14 +10,24 @@ import org.spekframework.spek2.style.specification.describe
 
 class TooManyFunctionsSpec : Spek({
 
-    val subject by memoized { TooManyFunctions() }
-
     describe("a simple test") {
-
+    val subject by memoized { TooManyFunctions(TestConfig(mapOf(Config.ACTIVE_KEY to "true"))) }
         it("should find one file with too many functions") {
             val findings = subject.lint(code)
             assertThat(findings).hasSize(1)
         }
+    }
+
+    describe("should not report issues if rule is inactive") {
+        val rule = TooManyFunctions(TestConfig(mapOf(Config.ACTIVE_KEY to "false")))
+        val findings = rule.lint(code)
+        assertThat(findings).isEmpty()
+    }
+
+    describe("should report issues if rule is active") {
+        val rule = TooManyFunctions(  TestConfig(mapOf(Config.ACTIVE_KEY to "true"))  )
+        val findings = rule.lint(code)
+        assertThat(findings).isNotEmpty
     }
 })
 
