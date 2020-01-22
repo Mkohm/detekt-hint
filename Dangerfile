@@ -17,3 +17,7 @@ kotlin_detekt.gradle_task = "detekt"
 
 # Run the task
 kotlin_detekt.detekt
+
+# try to run the check task as well ---debug statement
+kotlin_detekt.gradle_task = "check"
+kotlin_detekt.detekt
