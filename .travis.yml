@@ -6,4 +6,5 @@ dist: trusty
 jdk: oraclejdk8
 
 script:
+  - ./gradlew assemble
   - gem install bundler && bundle install && bundle exec danger

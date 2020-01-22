@@ -13,11 +13,5 @@ fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
 fail("fit left in tests") if `grep -r fit specs/ `.length > 1
 
 # Use the kotlin_detekt danger-plugin and tell it that the task to run is called "detekt"
-kotlin_detekt.gradle_task = "clean"
-
-# Run the task
-kotlin_detekt.detekt
-
-# try to run the check task as well ---debug statement
-kotlin_detekt.gradle_task = "check"
+kotlin_detekt.gradle_task = "detekt"
 kotlin_detekt.detekt
