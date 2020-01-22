@@ -19,6 +19,10 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
     )
 
 
+
+
+
+
     override fun visitClass(klass: KtClass) {
         super.visitClass(klass)
 
