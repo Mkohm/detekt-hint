@@ -14,6 +14,4 @@ fail("fit left in tests") if `grep -r fit specs/ `.length > 1
 
 # Use the kotlin_detekt danger-plugin and tell it that the task to run is called "detekt"
 kotlin_detekt.gradle_task = "detekt"
-
-# Run the task
 kotlin_detekt.detekt
