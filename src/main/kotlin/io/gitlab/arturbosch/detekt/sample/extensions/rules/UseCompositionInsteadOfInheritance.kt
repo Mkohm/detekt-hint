@@ -28,7 +28,10 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
 
         val inheritanceUsed = klass.getSuperNames().isNotEmpty()
 
-        if (inheritanceUsed) {
+       // val parent = klass.super
+        val inheritsFromLocalClass = true
+// maybe: klass.superTypeListEntries[0].containingFile has some data to use.e
+        if (inheritanceUsed && inheritsFromLocalClass) {
             report(
                 CodeSmell(
                     issue, Entity.from(klass),
