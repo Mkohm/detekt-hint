@@ -65,3 +65,7 @@ detekt {
 dependencies {
     detektPlugins "io.github.mkohm:detekt-hint:0.0.2"
 }
+
+test {
+    useJUnitPlatform()
+}
