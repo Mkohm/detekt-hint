@@ -63,5 +63,5 @@ detekt {
 
 // The detekt-hint extension is a dependency of detekt. Running the detekt task will now include the rules in the extension.
 dependencies {
-    detektPlugins "io.github.mkohm:detekt-hint:0.0.1"
+    detektPlugins "io.github.mkohm:detekt-hint:0.0.2"
 }
