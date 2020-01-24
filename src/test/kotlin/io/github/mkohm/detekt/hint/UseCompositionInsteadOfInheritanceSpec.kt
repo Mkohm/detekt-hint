@@ -11,35 +11,35 @@ import org.spekframework.spek2.style.specification.describe
 class UseCompositionInsteadOfInheritanceSpec : Spek({
     val testConfig = TestConfig(mapOf("dont_report_if_class_inherits_from_class_in_package" to "io.github.mkohm"))
 
-        describe("Not using inheritance") {
-            it("Should not report any warnings") {
+    describe("Not using inheritance") {
+        it("Should not report any warnings") {
 
-                // language=kotlin
-                val code = """
+            // language=kotlin
+            val code = """
                     class ClassWithNoInheritance
                 """.trimIndent()
 
-                val findings = UseCompositionInsteadOfInheritance(testConfig).lint(code)
+            val findings = UseCompositionInsteadOfInheritance(testConfig).lint(code)
 
-                assertThat(findings).isEmpty()
-            }
+            assertThat(findings).isEmpty()
         }
+    }
 
-        describe("If rule is inactive") {
+    describe("If rule is inactive") {
 
-            val code = """
+        val code = """
                     class ClassContainingInheritance : ClassToInheritFrom()
 
                     open class ClassToInheritFrom
                 """.trimIndent()
 
-            val rule = UseCompositionInsteadOfInheritance(TestConfig(mapOf(Config.ACTIVE_KEY to "false")))
-            it("should not find any issues.") {
+        val rule = UseCompositionInsteadOfInheritance(TestConfig(mapOf(Config.ACTIVE_KEY to "false")))
+        it("should not find any issues.") {
 
-                val findings = rule.lint(code)
-                assertThat(findings).isEmpty()
-            }
+            val findings = rule.lint(code)
+            assertThat(findings).isEmpty()
         }
+    }
 
     describe("Inheritance from external module") {
 
@@ -73,5 +73,3 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
         }
     }
 })
-
-

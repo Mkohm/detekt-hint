@@ -199,7 +199,7 @@ exceptions:
      - RuntimeException
 
 formatting:
-  active: true
+  active: false
   android: false
   autoCorrect: true
   AnnotationOnSeparateLine:
@@ -508,7 +508,7 @@ style:
   MandatoryBracesIfStatements:
     active: false
   MaxLineLength:
-    active: true
+    active: false
     maxLineLength: 120
     excludePackageStatements: true
     excludeImportStatements: true
@@ -520,7 +520,7 @@ style:
   NestedClassesVisibility:
     active: false
   NewLineAtEndOfFile:
-    active: true
+    active: false
   NoTabs:
     active: false
   OptionalAbstractKeyword:
