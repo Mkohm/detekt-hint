@@ -3,7 +3,7 @@
 
 detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that includes detection of violation of programming principles. Since such violations are hard to detect with low false-positive rates, detekt-hint will provide hints during QA, minimizing noise during development. The idea is that a higher false-positive rate can be accepted if the detection could be of high value, and is easy to ignore. Detections on the architectural level of code is therefore most likely to provide value.
 
-Through integration with [Danger|(https://github.com/danger/danger) comments are added to the PR.
+Through integration with [Danger](https://github.com/danger/danger) comments are added to the PR.
 
 Contributions are very much welcome. Especially help in which rules to implement is of high value.
 
