@@ -1,1 +1,1 @@
-io.gitlab.arturbosch.detekt.sample.extensions.reports.QualifiedNamesOutputReport
+io.github.mkohm.detekt.hint.reports.QualifiedNamesOutputReport
