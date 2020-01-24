@@ -7,4 +7,7 @@ jdk: oraclejdk8
 
 script:
   - ./gradlew assemble
+  - ./gradlew test
+  - ./gradlew jacocoTestReport
+  - bash <(curl -s https://codecov.io/bash)
   - gem install bundler && bundle install && bundle exec danger
