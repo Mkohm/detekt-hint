@@ -1,4 +1,4 @@
-package io.gitlab.arturbosch.detekt.sample.extensions.processors
+package io.github.mkohm.detekt.hint.processors
 
 import io.gitlab.arturbosch.detekt.api.DetektVisitor
 import io.gitlab.arturbosch.detekt.test.compileContentForTest

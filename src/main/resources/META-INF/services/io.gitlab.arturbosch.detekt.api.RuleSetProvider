@@ -1,1 +1,1 @@
-io.gitlab.arturbosch.detekt.sample.extensions.SampleProvider
+io.github.mkohm.detekt.hint.SampleProvider

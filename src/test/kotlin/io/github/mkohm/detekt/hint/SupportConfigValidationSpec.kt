@@ -1,4 +1,4 @@
-package io.gitlab.arturbosch.detekt.sample.extensions
+package io.github.mkohm.detekt.hint
 
 import io.gitlab.arturbosch.detekt.cli.CliArgs
 import io.gitlab.arturbosch.detekt.cli.InvalidConfig

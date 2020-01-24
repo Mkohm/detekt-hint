@@ -1,4 +1,4 @@
-package io.gitlab.arturbosch.detekt.sample.extensions.processors
+package io.github.mkohm.detekt.hint.processors
 
 import io.gitlab.arturbosch.detekt.api.DetektVisitor
 import io.gitlab.arturbosch.detekt.api.Detektion
@@ -11,7 +11,8 @@ class QualifiedNameProcessor : FileProcessListener {
 
     override fun onProcess(file: KtFile) {
         val packageName = file.packageFqName.asString()
-        val nameVisitor = ClassNameVisitor()
+        val nameVisitor =
+            ClassNameVisitor()
         file.accept(nameVisitor)
         val fqNames = nameVisitor.names
             .mapTo(HashSet()) { "$packageName.$it" }

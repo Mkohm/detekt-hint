@@ -1,11 +1,11 @@
-package io.gitlab.arturbosch.detekt.sample.extensions
+package io.github.mkohm.detekt.hint
 
+import io.github.mkohm.detekt.hint.rules.TooManyFunctions
+import io.github.mkohm.detekt.hint.rules.TooManyFunctionsTwo
+import io.github.mkohm.detekt.hint.rules.UseCompositionInsteadOfInheritance
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.RuleSet
 import io.gitlab.arturbosch.detekt.api.RuleSetProvider
-import io.gitlab.arturbosch.detekt.sample.extensions.rules.TooManyFunctions
-import io.gitlab.arturbosch.detekt.sample.extensions.rules.TooManyFunctionsTwo
-import io.gitlab.arturbosch.detekt.sample.extensions.rules.UseCompositionInsteadOfInheritance
 
 class SampleProvider : RuleSetProvider {
 

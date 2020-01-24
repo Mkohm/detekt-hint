@@ -1,4 +1,4 @@
-package io.gitlab.arturbosch.detekt.sample.extensions.reports
+package io.github.mkohm.detekt.hint.reports
 
 import io.gitlab.arturbosch.detekt.api.ConsoleReport
 import io.gitlab.arturbosch.detekt.api.Detektion
