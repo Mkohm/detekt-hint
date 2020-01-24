@@ -1,4 +1,4 @@
-package io.gitlab.arturbosch.detekt.sample.extensions.rules
+package io.github.mkohm.detekt.hint.rules
 
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.Debt

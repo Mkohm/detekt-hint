@@ -1,4 +1,4 @@
-package io.gitlab.arturbosch.detekt.sample.extensions.rules
+package io.github.mkohm.detekt.hint.rules
 
 import io.gitlab.arturbosch.detekt.api.CodeSmell
 import io.gitlab.arturbosch.detekt.api.Config
@@ -8,6 +8,7 @@ import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtImportDirective
 import org.jetbrains.kotlin.psi.psiUtil.getSuperNames
 
 class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(config) {
@@ -18,20 +19,31 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
         Debt.TWENTY_MINS
     )
 
+    private val imports = arrayListOf<String>()
 
+    override fun visitImportDirective(importDirective: KtImportDirective) {
+        super.visitImportDirective(importDirective)
 
-
-
+        imports.add(importDirective.text)
+    }
 
     override fun visitClass(klass: KtClass) {
         super.visitClass(klass)
 
-        val inheritanceUsed = klass.getSuperNames().isNotEmpty()
+        val excludedPackageName =
+            valueOrNull<String>("dont_report_if_class_inherits_from_class_in_package")
+                ?: error("You must configure detekt.yml to contain your package identifier, such as io.github.mkohm - or disable the rule.")
 
-       // val parent = klass.super
-        val inheritsFromLocalClass = true
-// maybe: klass.superTypeListEntries[0].containingFile has some data to use.e
-        if (inheritanceUsed && inheritsFromLocalClass) {
+        val inheritanceUsed = klass.getSuperNames().isNotEmpty()
+        if (!inheritanceUsed) return
+
+        val superClassName = klass.getSuperNames()[0]
+
+        val superClassImportString = imports.find { it.contains(superClassName) }
+
+        val localInheritanceUsed = superClassImportString?.contains(excludedPackageName) ?: true
+
+        if (localInheritanceUsed) {
             report(
                 CodeSmell(
                     issue, Entity.from(klass),

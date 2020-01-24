@@ -1,7 +1,7 @@
-package io.gitlab.arturbosch.detekt.sample.extensions.reports
+package io.github.mkohm.detekt.hint.reports
 
 import io.gitlab.arturbosch.detekt.api.Detektion
-import io.gitlab.arturbosch.detekt.sample.extensions.processors.fqNamesKey
+import io.github.mkohm.detekt.hint.processors.fqNamesKey
 
 public fun
 
