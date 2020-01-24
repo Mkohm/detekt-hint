@@ -7,7 +7,7 @@ Through integration with [Danger](https://github.com/danger/danger) comments are
 
 Contributions are very much welcome. Especially help in which rules to implement is of high value.
 
-![demo](https://github.com/Mkohm/detekt-hint/demo.png)
+![demo](demo.png)
 ## Currently supported detections
 - Use composition instead of inheritance - Will report if you inherit from a class that is in the same module.
 
