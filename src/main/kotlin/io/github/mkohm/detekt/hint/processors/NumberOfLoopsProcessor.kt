@@ -20,11 +20,6 @@ class NumberOfLoopsProcessor : FileProcessListener {
 
     class LoopVisitor : DetektVisitor() {
 
-
-
-
-
-
         internal var numberOfLoops = 0
         override fun visitLoopExpression(loopExpression: KtLoopExpression) {
             super.visitLoopExpression(loopExpression)
