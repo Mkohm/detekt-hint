@@ -5,6 +5,7 @@ import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.test.TestConfig
 import io.gitlab.arturbosch.detekt.test.lint
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatIllegalStateException
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
@@ -59,17 +60,27 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
         }
     }
 
-    describe("Inheritance from internal module") {
-        // language=kotlin
-        val code = """
+    // language=kotlin
+    val code = """
             open class InternalClass
             
             class AnotherInternalClass : InternalClass
         """.trimIndent()
+    describe("Inheritance from internal module") {
         it("Should report composition could be used instead of inheritance") {
             val rule = UseCompositionInsteadOfInheritance(testConfig)
             val findings = rule.lint(code)
             assertThat(findings).hasSize(1)
+        }
+    }
+
+    describe("Not including package identifier in config") {
+        it("Should throw runtime error") {
+            val rule = UseCompositionInsteadOfInheritance()
+            assertThatIllegalStateException().isThrownBy {
+                val findings = rule.lint(code)
+
+            }
         }
     }
 })
