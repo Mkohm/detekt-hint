@@ -20,7 +20,9 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
                     class ClassWithNoInheritance
                 """.trimIndent()
 
-            val findings = UseCompositionInsteadOfInheritance(testConfig).lint(code)
+            val findings = UseCompositionInsteadOfInheritance(
+                testConfig
+            ).lint(code)
 
             assertThat(findings).isEmpty()
         }
@@ -34,7 +36,11 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
                     open class ClassToInheritFrom
                 """.trimIndent()
 
-        val rule = UseCompositionInsteadOfInheritance(TestConfig(mapOf(Config.ACTIVE_KEY to "false")))
+        val rule = UseCompositionInsteadOfInheritance(
+            TestConfig(
+                mapOf(Config.ACTIVE_KEY to "false")
+            )
+        )
         it("should not find any issues.") {
 
             val findings = rule.lint(code)
@@ -54,7 +60,8 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
            class InternalClass: DefaultContext()
         """.trimIndent()
         it("Should not report any inheritance-warnings") {
-            val rule = UseCompositionInsteadOfInheritance(testConfig)
+            val rule =
+                UseCompositionInsteadOfInheritance(testConfig)
             val findings = rule.lint(code)
             assertThat(findings).isEmpty()
         }
@@ -68,7 +75,8 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
         """.trimIndent()
     describe("Inheritance from internal module") {
         it("Should report composition could be used instead of inheritance") {
-            val rule = UseCompositionInsteadOfInheritance(testConfig)
+            val rule =
+                UseCompositionInsteadOfInheritance(testConfig)
             val findings = rule.lint(code)
             assertThat(findings).hasSize(1)
         }
@@ -95,7 +103,8 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
            class InternalClass: DefaultContext
            """.trimIndent()
 
-            val rule = UseCompositionInsteadOfInheritance(testConfig)
+            val rule =
+                UseCompositionInsteadOfInheritance(testConfig)
 
             val findings = rule.lint(code)
             assertThat(findings).isEmpty()
@@ -106,7 +115,8 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
 
     describe("Enums") {
         it("Should not give any warnings") {
-            val rule = UseCompositionInsteadOfInheritance(testConfig)
+            val rule =
+                UseCompositionInsteadOfInheritance(testConfig)
 
             //language=kotlin
             val code = """
@@ -125,7 +135,8 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
 
     describe("Subclasses of external classes") {
         it("Should not give any warnings") {
-            val rule = UseCompositionInsteadOfInheritance(testConfig)
+            val rule =
+                UseCompositionInsteadOfInheritance(testConfig)
 
             //language=kotlin
             val code = """
