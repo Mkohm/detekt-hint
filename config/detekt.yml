@@ -6,6 +6,7 @@ build:
     # LongParameterList: 1
     # style: 1
     # comments: 1
+    sample: 0
 
 config:
   validation: false
