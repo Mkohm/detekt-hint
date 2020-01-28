@@ -61,10 +61,10 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
     }
 
     // language=kotlin
-    val code = """
+    val code = """        
             open class InternalClass
             
-            class AnotherInternalClass : InternalClass
+            class AnotherInternalClass : InternalClass()
         """.trimIndent()
     describe("Inheritance from internal module") {
         it("Should report composition could be used instead of inheritance") {
@@ -79,8 +79,77 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
             val rule = UseCompositionInsteadOfInheritance()
             assertThatIllegalStateException().isThrownBy {
                 val findings = rule.lint(code)
-
             }
+        }
+    }
+
+    describe("Implementing interface") {
+        it("Should not report any inheritance-warnings") {
+            //language=kotlin
+            val code = """
+
+            package io.gitlab.arturbosch.detekt.sample.extensions
+
+           import io.gitlab.arturbosch.detekt.api.DefaultContext
+
+           class InternalClass: DefaultContext
+           """.trimIndent()
+
+            val rule = UseCompositionInsteadOfInheritance(testConfig)
+
+            val findings = rule.lint(code)
+            assertThat(findings).isEmpty()
+        }
+    }
+
+
+
+    describe("Enums") {
+        it("Should not give any warnings") {
+            val rule = UseCompositionInsteadOfInheritance(testConfig)
+
+            //language=kotlin
+            val code = """
+                enum class RealmDataProvider(val i: Int) {
+                    UNDEFINED(0),
+                    BLE(1),
+                    CLOUD(2),
+                    OLDCSV(3)
+                }
+            """.trimIndent()
+
+            val findings = rule.lint(code)
+            assertThat(findings).isEmpty()
+        }
+    }
+
+    describe("Subclasses of external classes") {
+        it("Should not give any warnings") {
+            val rule = UseCompositionInsteadOfInheritance(testConfig)
+
+            //language=kotlin
+            val code = """
+                package io.github.mkohm.utils
+
+                import android.view.View
+                import android.view.ViewGroup
+                import androidx.annotation.CallSuper
+                import androidx.databinding.ViewDataBinding
+                import androidx.recyclerview.widget.RecyclerView
+
+                abstract class BaseRecyclerViewAdapter<T, D : ViewDataBinding> :
+                    RecyclerView.Adapter<BaseRecyclerViewAdapter.ViewHolder<D>>() {
+
+                    class ViewHolder<D : ViewDataBinding>(val binding: D) : RecyclerView.ViewHolder(binding.root)
+
+                    interface OnClickHandler<T, D : ViewDataBinding> {
+                        fun onClick(view: View, holder: ViewHolder<D>, item: T)
+                    }
+                }
+            """.trimIndent()
+
+            val findings = rule.lint(code)
+            assertThat(findings).isEmpty()
         }
     }
 })
