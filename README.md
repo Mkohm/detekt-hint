@@ -20,7 +20,7 @@ dependencies {
     detektPlugins "io.github.mkohm:detekt-hint:[version]"
 }
 ```
-to your build.gradle. Remember to enter the version of detekt-hint to use.
+to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint to use.
 
 ### With the command line
 To use the extension one must first clone this repository (and the detekt repository), and then build the jar.
