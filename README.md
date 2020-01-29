@@ -11,8 +11,8 @@ Contributions are very much welcome. Especially help in which rules to implement
 ## Currently supported detections
 - Use composition instead of inheritance - Will report if you inherit from a class that is in the same module.
 
-## Using the plugin
 
+## Using detekt-hint
 ### With Gradle
 You need to already use detekt. Look for instructions [here](https://github.com/arturbosch/detekt). Then, to add detekt-hint add 
 ```
@@ -37,3 +37,6 @@ java -jar <path to detekt-cli-jar> --plugins <path to detekt-hint-jar> --config 
 For example: `java -jar ../../../detekt/detekt-cli/build/libs/detekt-cli-1.4.0-all.jar --plugins build/libs/detekt-hint-0.0.1.jar --config detekt/detekt.yml
 `
 Remember to configure `detekt.yml` to include the additional rules from detekt-hint. Look inside this repository for an example.
+
+## Integration with Danger
+Will update this soon.
