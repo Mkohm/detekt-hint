@@ -35,12 +35,8 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
         imports.add(importDirective.text)
     }
 
-
     override fun visitClass(klass: KtClass) {
         super.visitClass(klass)
-
-
-
 
         val localPackageName =
             valueOrNull<String>("dont_report_if_class_inherits_from_class_in_package")
@@ -50,9 +46,9 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
 
         val superClassName = klass.superTypeListEntries[0].firstChild.text.substringBefore(".")
 
-      //  val supek = klass.superTypeListEntries[0].firstChild
+        //  val supek = klass.superTypeListEntries[0].firstChild
 
-      //  val methods = PsiTreeUtil.getChildrenOfTypeAsList(klass.superTypeListEntries[0], PsiMethod::class.java)
+        //  val methods = PsiTreeUtil.getChildrenOfTypeAsList(klass.superTypeListEntries[0], PsiMethod::class.java)
 
         //val subjectClass = klass.superTypeListEntries[0].findClassDescriptor(bindingContext)
         //val pseudocodeDescriptor = bindingContext[BindingContext.DECLARATION_TO_DESCRIPTOR, subjectClass?.toSourceElement?.getPsi()]
@@ -60,10 +56,13 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
         val superClassFullIdentifier =
             imports.find { it.contains(superClassName) } ?: "$localPackageName.$superClassName"
 
-        val publicInterface =
-            klass.superTypeListEntries[0].getResolvedCall(bindingContext).resultingDescriptor.findPsi()!!.parent.getChildrenOfType<KtClassBody>()[0].getChildrenOfType<KtNamedFunction>()
 
-        val funcNames = publicInterface.map { it.name ?: "No name" }
+        var publicInterface = try {
+            klass.superTypeListEntries[0].getResolvedCall(bindingContext)!!.resultingDescriptor.findPsi()!!.parent.getChildrenOfType<KtClassBody>()[0].getChildrenOfType<KtNamedFunction>().map { it.name ?: "No name" }
+        } catch (e: Exception) {
+            ""
+        }
+
 
         val localInheritanceUsed = superClassFullIdentifier.contains(localPackageName)
 
@@ -72,7 +71,7 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
             val typeA = superClassName
             val typeB = klass.name
             val message =
-                "The class ${klass.name} is using inheritance, consider using composition instead.\n\nDoes `${typeB}` want to expose ($funcNames) of `${typeA}` such that ${typeB} can be used where ${typeA} is expected (for all time)? Indicates __inheritance__.\n\nDoes ${typeB} want only some/part of the behavior exposed by ${typeA}? Indicates __Composition__."
+                "The class ${klass.name} is using inheritance, consider using composition instead.\n\nDoes `${typeB}` want to expose ($publicInterface) of `${typeA}` such that ${typeB} can be used where ${typeA} is expected (for all time)? Indicates __inheritance__.\n\nDoes ${typeB} want only some/part of the behavior exposed by ${typeA}? Indicates __Composition__."
 
             println(methodsOfSuperclass)
             report(CodeSmell(issue, Entity.from(klass), message))

@@ -34,10 +34,9 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
             val findings = subject.compileAndLintWithContext(wrapper.env, code.text)
 
             assertThat(findings).hasSize(1)
-            assertThat(findings.first().message).isEqualTo("The class Square is using inheritance, consider using composition instead.\n\nDoes `Square` want to expose (setWidth setHeight) of `Rectangle` such that Square can be used where Rectangle is expected (for all time)? Indicates __inheritance__.\n\nDoes Square want only some/part of the behavior exposed by Rectangle? Indicates __Composition__.")
+            assertThat(findings.first().message).isEqualTo("The class Square is using inheritance, consider using composition instead.\n\nDoes `Square` want to expose ([setWidth, setHeight]) of `Rectangle` such that Square can be used where Rectangle is expected (for all time)? Indicates __inheritance__.\n\nDoes Square want only some/part of the behavior exposed by Rectangle? Indicates __Composition__.")
         }
     }
-
     describe("Not using inheritance") {
         it("Should not report any warnings") {
 
