@@ -9,7 +9,6 @@ import io.gitlab.arturbosch.detekt.test.compileForTest
 import io.gitlab.arturbosch.detekt.test.lint
 import io.gitlab.arturbosch.detekt.test.resource
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatIllegalStateException
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.nio.file.Path
@@ -21,11 +20,25 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
     val testConfig = TestConfig(mapOf("dont_report_if_class_inherits_from_class_in_package" to "io.github.mkohm"))
     val subject by memoized { UseCompositionInsteadOfInheritance(testConfig) }
 
-
     val wrapper by memoized(
         factory = { KtTestCompiler.createEnvironment() },
         destructor = { it.dispose() }
     )
+
+    // language=kotlin
+    val code = """        
+            open class InternalClass
+            
+            class AnotherInternalClass : InternalClass()
+        """.trimIndent()
+    describe("Inheritance from internal module") {
+        it("Should report composition could be used instead of inheritance") {
+            val rule =
+                UseCompositionInsteadOfInheritance(testConfig)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings).hasSize(1)
+        }
+    }
 
     describe("Public interface of class A") {
         it("Should find all public methods and put in the report") {
@@ -34,9 +47,36 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
             val findings = subject.compileAndLintWithContext(wrapper.env, code.text)
 
             assertThat(findings).hasSize(1)
-            assertThat(findings.first().message).isEqualTo("The class Square is using inheritance, consider using composition instead.\n\nDoes `Square` want to expose ([setWidth, setHeight]) of `Rectangle` such that Square can be used where Rectangle is expected (for all time)? Indicates __inheritance__.\n\nDoes Square want only some/part of the behavior exposed by Rectangle? Indicates __Composition__.")
+            assertThat(findings.first().message).isEqualTo("The class Square is using inheritance, consider using composition instead.\n\nDoes `Square` want to expose (setHeight, setWidth) of `Rectangle` such that Square can be used where Rectangle is expected (for all time)? Indicates __inheritance__.\n\nDoes Square want only some/part of the behavior exposed by Rectangle? Indicates __Composition__.")
         }
     }
+
+    describe(" Private function in superclass") {
+        it("Should not be part of public interface") {
+
+            //language=kotlin
+            val code = """
+                package io.github.mkohm.detekt.hint.demo
+
+
+                open class Airplane {                    
+                    private fun takeOff() {
+                    
+                    }
+                }
+
+                class AirBus : Airplane() {
+
+                }
+            """.trimIndent()
+
+            val findings = subject.compileAndLintWithContext(wrapper.env, code)
+
+            assertThat(findings).hasSize(1)
+            assertThat(findings.first().message).contains("empty public interface")
+        }
+    }
+
     describe("Not using inheritance") {
         it("Should not report any warnings") {
 
@@ -92,29 +132,6 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
         }
     }
 
-    // language=kotlin
-    val code = """        
-            open class InternalClass
-            
-            class AnotherInternalClass : InternalClass()
-        """.trimIndent()
-    describe("Inheritance from internal module") {
-        it("Should report composition could be used instead of inheritance") {
-            val rule =
-                UseCompositionInsteadOfInheritance(testConfig)
-            val findings = rule.lint(code)
-            assertThat(findings).hasSize(1)
-        }
-    }
-
-    describe("Not including package identifier in config") {
-        it("Should throw runtime error") {
-            val rule = UseCompositionInsteadOfInheritance()
-            assertThatIllegalStateException().isThrownBy {
-                val findings = rule.lint(code)
-            }
-        }
-    }
 
     describe("Implementing interface") {
         it("Should not report any inheritance-warnings") {
