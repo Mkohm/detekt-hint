@@ -521,7 +521,7 @@ style:
   NestedClassesVisibility:
     active: false
   NewLineAtEndOfFile:
-    active: false
+    active: true
   NoTabs:
     active: false
   OptionalAbstractKeyword:
@@ -607,7 +607,6 @@ style:
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
-    dont_report_if_class_inherits_from_class_in_package: "io.github.mkohm"
   TooManyFunctions:
     active: false
 
