@@ -49,7 +49,7 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
             val typeA = superClass.name
             val typeB = klass.name
             val message =
-                "The class ${klass.name} is using inheritance, consider using composition instead.\n\nDoes `${typeB}` want to expose ($toPrint) of `${typeA}` such that ${typeB} can be used where ${typeA} is expected (for all time)? Indicates __inheritance__.\n\nDoes ${typeB} want only some/part of the behavior exposed by ${typeA}? Indicates __Composition__."
+                "The class `${klass.name}` is using inheritance, consider using composition instead.\n\nDoes `${typeB}` want to expose the complete interface (`$toPrint`) of `${typeA}` such that `${typeB}` can be used where `${typeA}` is expected? Indicates __inheritance__.\n\nDoes `${typeB}`? want only some/part of the behavior exposed by `${typeA}`? Indicates __Composition__."
 
             report(CodeSmell(issue, Entity.from(klass), message))
         }
