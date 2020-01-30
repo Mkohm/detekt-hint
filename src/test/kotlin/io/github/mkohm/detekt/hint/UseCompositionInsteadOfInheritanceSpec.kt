@@ -2,15 +2,41 @@ package io.github.mkohm.detekt.hint
 
 import io.github.mkohm.detekt.hint.rules.UseCompositionInsteadOfInheritance
 import io.gitlab.arturbosch.detekt.api.Config
+import io.gitlab.arturbosch.detekt.test.KtTestCompiler
 import io.gitlab.arturbosch.detekt.test.TestConfig
+import io.gitlab.arturbosch.detekt.test.compileAndLintWithContext
+import io.gitlab.arturbosch.detekt.test.compileForTest
 import io.gitlab.arturbosch.detekt.test.lint
+import io.gitlab.arturbosch.detekt.test.resource
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalStateException
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
+import java.nio.file.Path
+import java.nio.file.Paths
+
+val path: Path = Paths.get(resource("/cases"))
 
 class UseCompositionInsteadOfInheritanceSpec : Spek({
     val testConfig = TestConfig(mapOf("dont_report_if_class_inherits_from_class_in_package" to "io.github.mkohm"))
+    val subject by memoized { UseCompositionInsteadOfInheritance(testConfig) }
+
+
+    val wrapper by memoized(
+        factory = { KtTestCompiler.createEnvironment() },
+        destructor = { it.dispose() }
+    )
+
+    describe("Public interface of class A") {
+        it("Should find all public methods and put in the report") {
+            val code = compileForTest(path.resolve("Square.kt"))
+
+            val findings = subject.compileAndLintWithContext(wrapper.env, code.text)
+
+            assertThat(findings).hasSize(1)
+            assertThat(findings.first().message).isEqualTo("The class Square is using inheritance, consider using composition instead.\n\nDoes `Square` want to expose (setWidth setHeight) of `Rectangle` such that Square can be used where Rectangle is expected (for all time)? Indicates __inheritance__.\n\nDoes Square want only some/part of the behavior exposed by Rectangle? Indicates __Composition__.")
+        }
+    }
 
     describe("Not using inheritance") {
         it("Should not report any warnings") {
