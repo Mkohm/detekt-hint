@@ -607,7 +607,6 @@ style:
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
-    dont_report_if_class_inherits_from_class_in_package: "io.github.mkohm"
   TooManyFunctions:
     active: false
 

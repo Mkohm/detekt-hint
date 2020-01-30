@@ -32,6 +32,7 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
         val superClass =
             klass.superTypeListEntries[0].getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration
         val superClassFullIdentifier = superClass?.fqNameSafe.toString()
+        println("Local package name: $localPackageName, superclass: $superClass, superclassFullIdentifier: $superClassFullIdentifier")
         val localInheritanceUsed = superClassFullIdentifier.contains(localPackageName)
 
         if (localInheritanceUsed) {
