@@ -13,6 +13,8 @@ Contributions are very much welcome. Especially help in which rules to implement
 
 
 ## Using detekt-hint
+This repository is using detekt-hint itself, and serves as an example setup.
+
 ### With Gradle
 You need to already use detekt. Look for instructions [here](https://github.com/arturbosch/detekt). Then, to add detekt-hint add 
 ```
