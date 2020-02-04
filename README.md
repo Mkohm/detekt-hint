@@ -46,4 +46,4 @@ java -jar <path to detekt-cli-jar> --plugins <path to detekt-hint-jar> --config 
 ```
 For example: `java -jar ../../../detekt/detekt-cli/build/libs/detekt-cli-1.4.0-all.jar --plugins build/libs/detekt-hint-0.0.1.jar --config detekt/detekt.yml
 `
-Remember to configure `detekt.yml` to include the additional rules from detekt-hint. Look inside this repository for an example.
+Remember to configure `detekt.yml` to include the additional rules from detekt-hint. [Here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) is an example.
