@@ -12,19 +12,36 @@ Contributions are very much welcome. Especially help in which rules to implement
 - Use composition instead of inheritance - Will report if you inherit from a class that is in the same module.
 
 
-## Using detekt-hint
-This repository is using detekt-hint itself, and serves as an example setup.
+## Using detekt-hint with Gradle plugin
+This repository is using detekt-hint itself, and serves as an example setup. Another minimum example repository can be found [here](https://github.com/Mkohm/detekt-sample-setup).
 
-### With Gradle
-You need to already use detekt. Look for instructions [here](https://github.com/arturbosch/detekt). Then, to add detekt-hint add 
+To add detekt-hint to your repository you will have to follow these steps:
+1. Setup detekt. Look for instructions on how to use detekt with Gradle [here](https://github.com/arturbosch/detekt#with-gradle).
+2. Add the detekt-plugin. Add
 ```
 dependencies {
     detektPlugins "io.github.mkohm:detekt-hint:[version]"
 }
 ```
-to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint to use.
+to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint.
 
-### With the command line
+3. Configure Danger
+Find the environment variable ..
+
+4. Configure your CI to run Danger. You have to add 
+```bash
+gem install bundler
+bundle install
+bundle exec danger
+```
+in your script step.
+
+5. Configure detekt.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) for a sample configuration file.
+
+Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
+
+## With the command line
+If you only want to do some analysis on your code without the power of Danger commenting on your PR you can use the tool from the command line.
 To use the extension one must first clone this repository (and the detekt repository), and then build the jar.
 ```
 git clone https://github.com/Mkohm/detekt-hint
@@ -39,6 +56,3 @@ java -jar <path to detekt-cli-jar> --plugins <path to detekt-hint-jar> --config 
 For example: `java -jar ../../../detekt/detekt-cli/build/libs/detekt-cli-1.4.0-all.jar --plugins build/libs/detekt-hint-0.0.1.jar --config detekt/detekt.yml
 `
 Remember to configure `detekt.yml` to include the additional rules from detekt-hint. Look inside this repository for an example.
-
-## Integration with Danger
-Will update this soon.
