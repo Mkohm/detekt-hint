@@ -7,6 +7,7 @@ import io.gitlab.arturbosch.detekt.api.Entity
 import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
+import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.psiUtil.getSuperNames
@@ -32,12 +33,7 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
             klass.superTypeListEntries[0].getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration
                 ?: return
 
-        val superClassInClassPath = try {
-            Class.forName(superClass.fqNameSafe.toString())
-            true
-        } catch (e: ClassNotFoundException) {
-            false
-        }
+        val superClassInClassPath = isSuperClassInClassPath(superClass)
 
         // If the super class is not in the classpath it means that it is created "locally" and we are using "local-inheritance".
         if (!superClassInClassPath) {
@@ -57,6 +53,15 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
                 "The class `${klass.name}` is using inheritance, consider using composition instead.\n\nDoes `${typeB}` want to expose the complete interface (`$toPrint`) of `${typeA}` such that `${typeB}` can be used where `${typeA}` is expected? Indicates __inheritance__.\n\nDoes `${typeB}`? want only some/part of the behavior exposed by `${typeA}`? Indicates __Composition__."
 
             report(CodeSmell(issue, Entity.from(klass), message))
+        }
+    }
+
+    private fun isSuperClassInClassPath(superClass: DeclarationDescriptor): Boolean {
+        return try {
+            Class.forName(superClass.fqNameSafe.toString())
+            true
+        } catch (e: ClassNotFoundException) {
+            false
         }
     }
 

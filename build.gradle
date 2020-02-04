@@ -1,6 +1,6 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.3.61"
-    id("io.gitlab.arturbosch.detekt").version("1.4.0")
+    id("io.gitlab.arturbosch.detekt").version("1.5.0")
     id "com.vanniktech.maven.publish" version "0.8.0"
     id "jacoco"
 }
@@ -12,12 +12,12 @@ repositories {
 dependencies {
     // When creating a sample extension, change this dependency to the detekt-api version you build against
     // e.g. io.gitlab.arturbosch.detekt:detekt-api:1.x.x
-    implementation("io.gitlab.arturbosch.detekt:detekt-api:1.4.0")
+    implementation("io.gitlab.arturbosch.detekt:detekt-api:1.5.0")
     // When creating a sample extension, change this dependency to the detekt-test version you build against
     // e.g. io.gitlab.arturbosch.detekt:detekt-test:1.x.x
-    testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.4.0")
+    testImplementation("io.gitlab.arturbosch.detekt:detekt-test:1.5.0")
     // Do you want to write integration or system tests? Add the cli dependency.
-    testImplementation("io.gitlab.arturbosch.detekt:detekt-cli:1.4.0")
+    testImplementation("io.gitlab.arturbosch.detekt:detekt-cli:1.5.0")
 
     testImplementation("org.assertj:assertj-core:3.14.0")
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.9")
@@ -37,13 +37,8 @@ compileTestKotlin {
     }
 }
 
-// This task will only run the normal detekt rules, not the extensions. To run our own extension rules with detekt, run:
-// ./gradlew jar && java -jar ../../../detekt/detekt-cli/build/libs/detekt-cli-1.4.0-all.jar --plugins build/libs/detekt-hint.jar --config config/detekt.yml --debug
-// TODO: integrate this task with our own plugin so that everything is run via ./gradlew detekt
 detekt {
-    config = files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
-   // baseline = file("$projectDir/config/baseline.xml") // a way of suppressing issues before introducing detekt
-
+    config = files("$projectDir/config/detekt.yml")
     reports {
         html {
             enabled = true
@@ -64,7 +59,7 @@ detekt {
 
 // The detekt-hint extension is a dependency of detekt. Running the detekt task will now include the rules in the extension.
 dependencies {
-    detektPlugins "io.github.mkohm:detekt-hint:0.0.2"
+    detektPlugins "io.github.mkohm:detekt-hint:0.0.3"
 }
 
 test {
