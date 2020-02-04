@@ -26,7 +26,10 @@ dependencies {
 to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint.
 
 3. Configure Danger
+
+Include gemfile
 Find the environment variable ..
+Create bot user on Github
 
 4. Configure your CI to run Danger. You have to add 
 ```bash
