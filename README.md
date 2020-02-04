@@ -12,7 +12,7 @@ Contributions are very much welcome. Especially help in which rules to implement
 - Use composition instead of inheritance - Will report if you inherit from a class that is in the same module.
 
 ## Getting started
-This repository is using detekt-hint itself, and serves as an example setup. Another minimum example repository can be found [here](https://github.com/Mkohm/detekt-sample-setup).
+This repository is using detekt-hint itself, and serves as an example setup. Another minimum example repository can be found [here](https://github.com/Mkohm/detekt-hint-sample).
 
 ### Using detekt-hint with Danger
 To add detekt-hint to your repository you will have to follow these steps:
