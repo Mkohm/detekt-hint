@@ -28,7 +28,7 @@ dependencies {
 to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint.
 
 3. [Getting set up with Danger](https://danger.systems/guides/getting_started.html)
-Create a Gemfile with the following contents
+- Create a Gemfile with the following contents in the root of your repository
 
 ```
 source "https://rubygems.org"
@@ -39,7 +39,7 @@ gem 'oga'
 gem "danger-kotlin_detekt", "~> 0.0.3"
 ```
 
-Create a `Dangerfile` with the following contents
+- Create a `Dangerfile` with the following contents in the root of your repository
 ```
 # Use the kotlin_detekt danger-plugin
 #kotlin_detekt.filtering = true
@@ -48,14 +48,14 @@ kotlin_detekt.gradle_task = "detektMain"
 kotlin_detekt.detekt(inline_mode: true)
 ```
 
-Integrate Danger with your CI of choice. Add following in the script step:
+- Integrate Danger with your CI of choice. Add following in the script step:
 ```
   - ./gradlew assemble
   - gem install bundler
   - bundle install
   - bundle exec danger --verbose # Verbose is nice for debugging if any problems occur 
 ```
-4. Create a bot user in Github and get a token.
+4. Create a bot user in Github and set up access token and permissions.
 
 5. Put the token in your CI environment.
 
