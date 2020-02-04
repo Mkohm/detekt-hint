@@ -607,6 +607,4 @@ style:
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
-  TooManyFunctions:
-    active: false
 
