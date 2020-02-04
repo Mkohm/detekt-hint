@@ -14,6 +14,7 @@ Contributions are very much welcome. Especially help in which rules to implement
 ## Getting started
 This repository is using detekt-hint itself, and serves as an example setup. Another minimum example repository can be found [here](https://github.com/Mkohm/detekt-hint-sample).
 
+
 ### Using detekt-hint with Danger
 To add detekt-hint to your repository you will have to follow these steps:
 1. Setup detekt. Look for instructions on how to use detekt with Gradle [here](https://github.com/arturbosch/detekt#with-gradle).
@@ -31,19 +32,15 @@ to your build.gradle. Remember to enter the [latest version](https://mvnreposito
 
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
 
-## With the command line
-If you only want to do some analysis on your code without the power of Danger commenting on your PR you can use the tool from the command line.
-To use the extension one must first clone this repository (and the detekt repository), and then build the jar.
+### With the command line
+If you only want to do some analysis on your code without the power of Danger commenting on your PR you can use the tool from the command line. You must first clone detekt and detekt-hint repositories, and then build the required jars.
 ```
 git clone https://github.com/Mkohm/detekt-hint
-cd detekt-hint
-./gradlew jar
-```
+git clone https://github.com/arturbosch/detekt
+./detekt-hint/gradlew jar
+./detekt/gradlew build shadowJar
 
-One can then feed the jar into the detekt-cli using: 
+# Use the command line utility
+java -jar detekt-cli/build/libs/detekt-cli-[version]-all.jar --plugins detekt-hint/build/libs/detekt-hint-[version].jar --config detekt-hint/config/detekt.yml
 ```
-java -jar <path to detekt-cli-jar> --plugins <path to detekt-hint-jar> --config <path to config file>
-```
-For example: `java -jar ../../../detekt/detekt-cli/build/libs/detekt-cli-1.4.0-all.jar --plugins build/libs/detekt-hint-0.0.1.jar --config detekt/detekt.yml
-`
-Remember to configure `detekt.yml` to include the additional rules from detekt-hint. [Here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) is an example.
+Remember to enter the [latest](https://mvnrepository.com/artifact/io.gitlab.arturbosch.detekt/detekt-cli) detekt-cli version and the [latest](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) detekt-hint version.
