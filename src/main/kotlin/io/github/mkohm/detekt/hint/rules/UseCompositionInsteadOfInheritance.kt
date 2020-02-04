@@ -28,19 +28,24 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
         super.visitClass(klass)
         if (klass.getSuperNames().isEmpty() || noSuperTypeCallEntry(klass) || isEnumEntry(klass)) return
 
-        val localPackageName = klass.containingKtFile.packageName
         val superClass =
             klass.superTypeListEntries[0].getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration
-        val superClassFullIdentifier = superClass?.fqNameSafe.toString()
-        println("Local package name: $localPackageName, superclass: $superClass, superclassFullIdentifier: $superClassFullIdentifier")
-        val localInheritanceUsed = superClassFullIdentifier.contains(localPackageName)
+                ?: return
 
-        if (localInheritanceUsed) {
+        val superClassInClassPath = try {
+            Class.forName(superClass.fqNameSafe.toString())
+            true
+        } catch (e: ClassNotFoundException) {
+            false
+        }
 
-            val functions = (superClass?.findPsi() as KtClass).body?.functions
+        // If the super class is not in the classpath it means that it is created "locally" and we are using "local-inheritance".
+        if (!superClassInClassPath) {
+
+            val functions = (superClass.findPsi() as KtClass).body?.functions
             val publicFunctions = functions?.filter { it.isPublic }
 
-            val  toPrint = if (publicFunctions.isNullOrEmpty()) {
+            val toPrint = if (publicFunctions.isNullOrEmpty()) {
                 "empty public interface"
             } else {
                 publicFunctions.map { it.name }.reduceRight { ktNamedFunction, acc -> "$acc, $ktNamedFunction" }
