@@ -28,8 +28,7 @@ to your build.gradle. Remember to enter the [latest version](https://mvnreposito
 
 3. [Getting set up with Danger](https://danger.systems/guides/getting_started.html) 
 
-4. Adding and configuring the detekt-danger plugin
-See the [Dangerfile](https://github.com/Mkohm/detekt-hint/blob/Dangerfile)
+4. Adding and configuring the detekt-danger plugin in your [Dangerfile](https://github.com/Mkohm/detekt-hint/blob/Dangerfile)
 
 5. Configure detekt.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) for a sample configuration file.
 
