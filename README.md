@@ -14,7 +14,7 @@ Contributions are very much welcome. Especially help in which rules to implement
 ## Getting started
 This repository is using detekt-hint itself, and serves as an example setup. Another minimum example repository can be found [here](https://github.com/Mkohm/detekt-sample-setup).
 
-### Using detekt-hint with Gradle plugin
+### Using detekt-hint with Danger
 To add detekt-hint to your repository you will have to follow these steps:
 1. Setup detekt. Look for instructions on how to use detekt with Gradle [here](https://github.com/arturbosch/detekt#with-gradle).
 2. Add the detekt-plugin. Add
