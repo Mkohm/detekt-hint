@@ -39,6 +39,6 @@ git clone https://github.com/Mkohm/detekt-hint && git clone https://github.com/a
 ```
 Use the command line utility:
 ```bash
-java -jar detekt-cli/build/libs/detekt-cli-[version]-all.jar --plugins detekt-hint/build/libs/detekt-hint-[version].jar --config detekt-hint/config/detekt.yml --input <path-to-your-awesome-project>
+java -jar detekt/detekt-cli/build/libs/detekt-cli-[version]-all.jar --plugins detekt-hint/build/libs/detekt-hint-[version].jar --config detekt-hint/config/detekt.yml --input <path-to-your-awesome-project>
 ```
 Remember to enter the [latest](https://mvnrepository.com/artifact/io.gitlab.arturbosch.detekt/detekt-cli) detekt-cli version, the [latest](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) detekt-hint version and the path to your source code.
