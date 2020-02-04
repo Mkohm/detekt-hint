@@ -25,21 +25,9 @@ dependencies {
 ```
 to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint.
 
-3. Configure Danger
+3. [Getting set up with Danger](https://danger.systems/guides/getting_started.html) 
 
-Include gemfile
-Find the environment variable ..
-Create bot user on Github
-
-4. Configure your CI to run Danger. You have to add 
-```bash
-gem install bundler
-bundle install
-bundle exec danger
-```
-in your script step.
-
-5. Configure detekt.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) for a sample configuration file.
+4. Configure detekt.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) for a sample configuration file.
 
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
 
