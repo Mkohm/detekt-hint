@@ -25,7 +25,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.5.2")
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:2.0.9")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    detektPlugins "io.github.mkohm:detekt-hint:0.0.3"
+    detektPlugins "io.github.mkohm:detekt-hint:0.0.5"
 
 }
 compileKotlin {
