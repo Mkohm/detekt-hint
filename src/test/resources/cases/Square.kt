@@ -1,4 +1,4 @@
-package cases
+package io.github.mkohm
 
 open class Rectangle(width: Int, height: Int) {
     private var width = 0

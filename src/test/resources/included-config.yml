@@ -1,3 +1,4 @@
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
+    yourUniqueJavaPackage: "io.github.mkohm"

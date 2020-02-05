@@ -9,9 +9,9 @@ build:
     sample: 0
 
 config:
-  validation: false
+  validation: true
   # when writing own rules with new properties, exclude the property path e.g.: "my_rule_set,.*>.*>[my_property]"
-  #excludes: "sample.*,sample>.*>.*"
+  excludes: "sample.*,sample>.*>.*"
 
 processors:
   active: true
@@ -607,4 +607,6 @@ style:
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
+    yourUniqueJavaPackage: "io.github.mkohm"
+
 
