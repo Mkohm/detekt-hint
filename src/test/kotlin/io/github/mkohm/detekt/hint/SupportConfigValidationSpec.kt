@@ -22,7 +22,7 @@ class SupportConfigValidationSpec : Spek({
 
             assertThatCode { Runner(args).execute() }
                 .isInstanceOf(InvalidConfig::class.java)
-                .hasMessage("Run failed with 1 invalid config property.")
+                .hasMessageContaining("Run failed with 1 invalid config property.")
         }
 
         it("passes with excluded new rule set") {

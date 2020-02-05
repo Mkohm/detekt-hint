@@ -6,4 +6,5 @@ config:
 
 sample:
   UseCompositionInsteadOfInheritance:
-    active: false
+    active: true
+    yourUniqueJavaPackage: "io.github.mkohm"
