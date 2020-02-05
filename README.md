@@ -53,7 +53,8 @@ kotlin_detekt.detekt(inline_mode: true)
 5. [Setting up an access token](https://danger.systems/guides/getting_started.html#setting-up-an-access-token)
 
 6. [Run Danger in your CI and add access token](https://danger.systems/guides/getting_started.html#continuous-integration)
-Add following in the script step:
+
+If your CI environment does not come with bundler pre-installed you also need to install it and the required gems using the two first commands.
 ```
   - gem install bundler
   - bundle install
