@@ -26,7 +26,7 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
 
     override fun visitClass(klass: KtClass) {
         super.visitClass(klass)
-        val uniquePackageName = valueOrNull<String>("yourUniqueJavaPackage") ?: error("You must specify your unique package name in detekt.yml")
+        val uniquePackageName = valueOrNull<String>("yourUniquePackageName") ?: error("You must specify your unique package name in the configuration for rule 'UseCompositionInsteadOfInheritance'")
 
         if (klass.getSuperNames().isEmpty() || noSuperTypeCallEntry(klass) || isEnumEntry(klass)) return
 
