@@ -48,16 +48,17 @@ kotlin_detekt.gradle_task = "detektMain"
 kotlin_detekt.detekt(inline_mode: true)
 ```
 
-- Integrate Danger with your CI of choice. Add following in the script step:
+4. [Create a bot user in Github](https://danger.systems/guides/getting_started.html#creating-a-bot-account-for-danger-to-use)
+
+5. [Setting up an access token](https://danger.systems/guides/getting_started.html#setting-up-an-access-token)
+
+6. [Run Danger in your CI and add access token](https://danger.systems/guides/getting_started.html#continuous-integration)
+Add following in the script step:
 ```
-  - ./gradlew assemble
   - gem install bundler
   - bundle install
   - bundle exec danger --verbose # Verbose is nice for debugging if any problems occur 
 ```
-4. Create a bot user in Github and set up access token and permissions.
-
-5. Put the token in your CI environment.
 
 6. Configure detekt.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
 
