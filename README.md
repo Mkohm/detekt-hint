@@ -3,16 +3,15 @@
 
 detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that includes detection of violation of programming principles. Since such violations are hard to detect with low false-positive rates, detekt-hint will provide hints during QA, minimizing noise during development. The idea is that a higher false-positive rate can be accepted if the detection could be of high value, and is easy to ignore. Detections on the architectural level of code is therefore most likely to provide value.
 
-Through integration with [Danger](https://github.com/danger/danger) comments are added to the PR. Getting feedback directly on the PR makes it easy to ignore possible false-positives.
+Through integration with [Danger](https://github.com/danger/danger) comments are added to the PR. Getting feedback directly on the PR makes it easy to ignore possible false-positives. Comments also include context and tips, making it easier for the developer to make the correct decisions. 
 
 Contributions are very much welcome. Especially help in which rules to implement is of high value.
-
 ![demo](demo.png)
 ## Currently supported detections
-- Use composition instead of inheritance - Will report if you inherit from a class that is in the same module.
+- Use composition instead of inheritance - Will report if you use inheritance. Will not report if you inherit from third-party libraries.
 
 ## Getting started
-If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line)
+If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
 
 Else, grab a coffee and read on.
 
@@ -65,10 +64,9 @@ If your CI environment does not come with bundler pre-installed you also need to
 
 7. Create a PR and wait for Danger to comment.
 
-
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
 
-This repository is using detekt-hint itself, and serves as an example setup. Another minimum example repository can be found [here](https://github.com/Mkohm/detekt-hint-sample).
+This repository is using detekt-hint itself, and serves as an example setup. 
 ### With the command line
 If you only want to do some analysis on your code without the power of Danger commenting on your PR you can use the tool from the command line. You must first clone detekt and detekt-hint repositories, and then build the required jars:
 ```
