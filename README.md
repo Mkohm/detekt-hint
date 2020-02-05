@@ -28,7 +28,7 @@ dependencies {
 to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint.
 
 3. [Getting set up with Danger](https://danger.systems/guides/getting_started.html)
-- Create a Gemfile with the following contents in the root of your repository
+- Create a `Gemfile` with the following contents in the root of your repository
 
 ```
 source "https://rubygems.org"
