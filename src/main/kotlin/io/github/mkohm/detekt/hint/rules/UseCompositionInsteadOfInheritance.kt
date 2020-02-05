@@ -7,7 +7,6 @@ import io.gitlab.arturbosch.detekt.api.Entity
 import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
-import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.psiUtil.getSuperNames
@@ -27,16 +26,18 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
 
     override fun visitClass(klass: KtClass) {
         super.visitClass(klass)
+        val uniquePackageName = valueOrNull<String>("yourUniqueJavaPackage") ?: error("You must specify your unique package name in detekt.yml")
+
         if (klass.getSuperNames().isEmpty() || noSuperTypeCallEntry(klass) || isEnumEntry(klass)) return
 
         val superClass =
             klass.superTypeListEntries[0].getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration
                 ?: return
 
-        val superClassInClassPath = isSuperClassInClassPath(superClass)
+        val superClassFqName = superClass.fqNameSafe.toString()
+        val isLocalInheritanceUsed = superClassFqName.contains(uniquePackageName)
 
-        // If the super class is not in the classpath it means that it is created "locally" and we are using "local-inheritance".
-        if (!superClassInClassPath) {
+        if (isLocalInheritanceUsed) {
 
             val functions = (superClass.findPsi() as KtClass).body?.functions
             val publicFunctions = functions?.filter { it.isPublic }
@@ -53,15 +54,6 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
                 "The class `${klass.name}` is using inheritance, consider using composition instead.\n\nDoes `${typeB}` want to expose the complete interface (`$toPrint`) of `${typeA}` such that `${typeB}` can be used where `${typeA}` is expected? Indicates __inheritance__.\n\nDoes `${typeB}`? want only some/part of the behavior exposed by `${typeA}`? Indicates __Composition__."
 
             report(CodeSmell(issue, Entity.from(klass), message))
-        }
-    }
-
-    private fun isSuperClassInClassPath(superClass: DeclarationDescriptor): Boolean {
-        return try {
-            Class.forName(superClass.fqNameSafe.toString())
-            true
-        } catch (e: ClassNotFoundException) {
-            false
         }
     }
 
