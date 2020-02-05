@@ -54,7 +54,7 @@ kotlin_detekt.detekt(inline_mode: true)
 
 6. [Run Danger in your CI and add access token](https://danger.systems/guides/getting_started.html#continuous-integration)
 
-If your CI environment does not come with bundler pre-installed you also need to install it and the required gems using the two first commands.
+If your CI environment does not come with bundler pre-installed you also need to install Bundler and the required gems using the two commands below.
 ```
   - gem install bundler
   - bundle install
