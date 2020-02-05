@@ -18,7 +18,7 @@ import java.nio.file.Paths
 val path: Path = Paths.get(resource("/cases"))
 
 class UseCompositionInsteadOfInheritanceSpec : Spek({
-    val testConfig = TestConfig(mapOf("yourUniqueJavaPackage" to "io.github.mkohm"))
+    val testConfig = TestConfig(mapOf("yourUniquePackageName" to "io.github.mkohm"))
 
     val subject by memoized { UseCompositionInsteadOfInheritance(testConfig) }
     val wrapper by memoized(
