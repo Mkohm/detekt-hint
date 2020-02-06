@@ -1,12 +1,14 @@
 # detekt-hint
 [![Maintainability](https://api.codeclimate.com/v1/badges/307995daba5f21506f4d/maintainability)](https://codeclimate.com/github/Mkohm/detekt-hint/maintainability) [![codecov](https://codecov.io/gh/Mkohm/detekt-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/Mkohm/detekt-hint) [ ![Download](https://api.bintray.com/packages/bintray/jcenter/io.github.mkohm:detekt-hint/images/download.svg?version=0.0.2) ](https://bintray.com/bintray/jcenter/io.github.mkohm:detekt-hint/0.0.2/link)
 
+![demo](demo.png)
+
 detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that includes detection of violation of programming principles. Since such violations are hard to detect with low false-positive rates, detekt-hint will provide hints during QA, minimizing noise during development. The idea is that a higher false-positive rate can be accepted if the detection could be of high value, and is easy to ignore. Detections on the architectural level of code is therefore most likely to provide value.
 
 Through integration with [Danger](https://github.com/danger/danger) comments are added to the PR. Getting feedback directly on the PR makes it easy to ignore possible false-positives. Comments also include context and tips, making it easier for the developer to make the correct decisions. 
 
 Contributions are very much welcome. Especially help in which rules to implement is of high value.
-![demo](demo.png)
+
 ## Currently supported detections
 - Use composition instead of inheritance - Will report if you use inheritance. Will not report if you inherit from third-party libraries.
 
