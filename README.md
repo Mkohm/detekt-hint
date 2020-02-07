@@ -7,7 +7,7 @@ detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that 
 
 Through integration with [Danger](https://github.com/danger/danger) comments are added to the PR. Getting feedback directly on the PR makes it easy to ignore possible false-positives. Comments also include context and tips, making it easier for the developer to make the correct decisions. 
 
-Contributions are very much welcome and if you like the project - help me out with a star :). Especially help in which rules to implement is of high value.
+Contributions are very much welcome and if you like the project - help me out with a star :). Especially help in which rules to implement, how to implement them and how to reduce the false-positives.
 
 ## Currently supported detections
 - Use composition instead of inheritance - Will report if you use inheritance. Will not report if you inherit from third-party libraries.
