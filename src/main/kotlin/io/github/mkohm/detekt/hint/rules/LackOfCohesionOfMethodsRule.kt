@@ -18,11 +18,15 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule
     )
 
     private var methodsCount: Int = 0
-    private var propertiesTimesReferencesMap = mutableMapOf<KtProperty, Int>()
+    private var propertiesTimesReferencesMap = arrayListOf<KtProperty>()
 
     override fun visitNamedFunction(function: KtNamedFunction) {
         super.visitNamedFunction(function)
         methodsCount++
+
+
+        val references = function.references
+      //  val fields = references.filter
     }
 
     override fun visitProperty(property: KtProperty) {
@@ -31,8 +35,9 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule
         val howManyMethodsThatReferenceThisProperty = countReferences()
        // property.accessors
 
-        propertiesTimesReferencesMap[property] = howManyMethodsThatReferenceThisProperty
+        propertiesTimesReferencesMap.add(property)
     }
+
 
     fun countReferences(): Int {
 
@@ -53,11 +58,11 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule
         // calculate some stuff.
 
         val m = methodsCount
-        val f = propertiesTimesReferencesMap.keys.size
-        val mf_sum = propertiesTimesReferencesMap.values.sum()
+       // val f = propertiesTimesReferencesMap.keys.size
+       // val mf_sum = propertiesTimesReferencesMap.values.sum()
 
-        val lcom = 1 - (mf_sum / m * f)
-        println(lcom)
+       // val lcom = 1 - (mf_sum / m * f)
+       // println(lcom)
     }
 }
 
