@@ -28,9 +28,23 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule
     override fun visitProperty(property: KtProperty) {
         super.visitProperty(property)
 
-        val timesPropertyIsReferenced = property.accessors.size
+        val howManyMethodsThatReferenceThisProperty = countReferences()
+       // property.accessors
 
-        propertiesTimesReferencesMap[property] = timesPropertyIsReferenced
+        propertiesTimesReferencesMap[property] = howManyMethodsThatReferenceThisProperty
+    }
+
+    fun countReferences(): Int {
+
+      //  for (method in klass) {
+        //    if (method contains property)
+        // count++
+
+
+
+
+
+        return 0
     }
 
     override fun postVisit(root: KtFile) {
