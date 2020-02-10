@@ -1,15 +1,20 @@
 package io.github.mkohm.detekt.hint.rules
 
+import io.gitlab.arturbosch.detekt.api.CodeSmell
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.Debt
+import io.gitlab.arturbosch.detekt.api.Entity
 import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Severity
 import io.gitlab.arturbosch.detekt.api.ThresholdRule
-import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtExpression
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.KtReferenceExpression
+import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
 
-class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule(config, 8) {
+class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule(config, 0) {
     override val issue = Issue(
         javaClass.simpleName,
         Severity.CodeSmell,
@@ -17,54 +22,54 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : ThresholdRule
         Debt.TWENTY_MINS
     )
 
-    private var methodsCount: Int = 0
-    private var propertiesTimesReferencesMap = arrayListOf<KtProperty>()
+    // todo: consider starting at 1
+    private var mf_sum = 0
+    private var f = 0
+    private var methodsCount = 0
+    private var propertyNames = arrayListOf<String>()
+
+    override fun visitClass(klass: KtClass) {
+        mf_sum = 0
+        f = 0
+        methodsCount = 0
+        propertyNames = arrayListOf<String>()
+
+        super.visitClass(klass)
+
+        val lcom = 1 - (mf_sum.toDouble() / (methodsCount * f))
+        println(lcom)
+
+        if (lcom > threshold) {
+            report(
+                CodeSmell(issue, Entity.from(klass), "This class have a too high LCOM value: $lcom")
+            )
+        }
+    }
+
+
 
     override fun visitNamedFunction(function: KtNamedFunction) {
         super.visitNamedFunction(function)
         methodsCount++
 
+        val reference_expression =
+            (function.bodyExpression as KtExpression).collectDescendantsOfType<KtReferenceExpression> {
+                propertyNames.contains(
+                    it.text
+                )
+            }
 
-        val references = function.references
-      //  val fields = references.filter
+        mf_sum = mf_sum.plus(reference_expression.size)
     }
 
     override fun visitProperty(property: KtProperty) {
         super.visitProperty(property)
+        f++
 
-        val howManyMethodsThatReferenceThisProperty = countReferences()
-       // property.accessors
-
-        propertiesTimesReferencesMap.add(property)
+        property.name?.let { propertyNames.add(it) }
     }
 
 
-    fun countReferences(): Int {
-
-      //  for (method in klass) {
-        //    if (method contains property)
-        // count++
-
-
-
-
-
-        return 0
-    }
-
-    override fun postVisit(root: KtFile) {
-        super.postVisit(root)
-
-        // calculate some stuff.
-
-        val m = methodsCount
-       // val f = propertiesTimesReferencesMap.keys.size
-       // val mf_sum = propertiesTimesReferencesMap.values.sum()
-
-       // val lcom = 1 - (mf_sum / m * f)
-       // println(lcom)
-    }
 }
 
 // remember to test a file with multiple classes to see if the calculation is correct.
-

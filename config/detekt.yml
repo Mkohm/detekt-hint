@@ -26,11 +26,11 @@ processors:
 console-reports:
   active: true
   exclude:
-  #  - 'ProjectStatisticsReport'
-  #  - 'ComplexityReport'
-  #  - 'NotificationReport'
-  #  - 'FindingsReport'
-     - 'FileBasedFindingsReport'
+    #  - 'ProjectStatisticsReport'
+    #  - 'ComplexityReport'
+    #  - 'NotificationReport'
+    #  - 'FindingsReport'
+    - 'FileBasedFindingsReport'
   #  - 'BuildFailureReport'
 
 comments:
@@ -182,22 +182,22 @@ exceptions:
     active: true
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     exceptionNames:
-     - ArrayIndexOutOfBoundsException
-     - Error
-     - Exception
-     - IllegalMonitorStateException
-     - NullPointerException
-     - IndexOutOfBoundsException
-     - RuntimeException
-     - Throwable
+      - ArrayIndexOutOfBoundsException
+      - Error
+      - Exception
+      - IllegalMonitorStateException
+      - NullPointerException
+      - IndexOutOfBoundsException
+      - RuntimeException
+      - Throwable
     allowedExceptionNameRegex: "^(_|(ignore|expected).*)"
   TooGenericExceptionThrown:
     active: true
     exceptionNames:
-     - Error
-     - Exception
-     - Throwable
-     - RuntimeException
+      - Error
+      - Exception
+      - Throwable
+      - RuntimeException
 
 formatting:
   active: false
@@ -608,5 +608,7 @@ sample:
   UseCompositionInsteadOfInheritance:
     active: true
     yourUniquePackageName: "io.github.mkohm"
-
+  LackOfCohesionMethodsRule:
+    active: true
+    threshold: 0
 
