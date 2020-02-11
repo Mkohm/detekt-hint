@@ -8,3 +8,6 @@ sample:
   UseCompositionInsteadOfInheritance:
     active: true
     yourUniquePackageName: "io.github.mkohm"
+  LackOfCohesionMethodsRule:
+    active: true
+    threshold: 0
