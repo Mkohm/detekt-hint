@@ -10,7 +10,8 @@ Through integration with [Danger](https://github.com/danger/danger) comments are
 Contributions are very much welcome and if you like the project - help me out with a star :). Especially help in which rules to implement, how to implement them and how to reduce the false-positives.
 
 ## Currently supported detections
-- Use composition instead of inheritance - Will report if you use inheritance. Will not report if you inherit from third-party libraries.
+- Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is followed. Will not report if you inherit from third-party libraries. 
+- (SOON) Lack Of Cohesion of Methods - Notifies you if the LCOM value is too hgih.
 
 ## Getting started
 If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
