@@ -11,7 +11,7 @@ import org.spekframework.spek2.style.specification.describe
 class LackOfCohesionMethodsRuleSpec : Spek({
 
     // Will always report the LCOM value so that we can verify the correct value for each of the tests.
-    val testConfig = TestConfig(mapOf("threshold" to "0"))
+    val testConfig = TestConfig(mapOf("threshold" to "-1"))
 
     val wrapper by memoized(
         factory = { KtTestCompiler.createEnvironment() },
@@ -29,7 +29,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                         private var num3 = 0
 
                         fun inc1() {
-                            num1++ // 
+                            num1++ 
                             
                             inc2()
                             inc3()
@@ -40,9 +40,14 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                             num2++
                             num1++
                             num3++
+                            inc4()
                         }
                         
                         private fun inc3() {
+                            num3++
+                        }
+                        
+                        private fun inc4() {
                             num3++
                         }
                     }
