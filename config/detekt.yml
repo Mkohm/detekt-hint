@@ -610,5 +610,5 @@ sample:
     yourUniquePackageName: "io.github.mkohm"
   LackOfCohesionOfMethodsRule:
     active: true
-    threshold: 0.8
+    threshold: "0.8"
 
