@@ -56,7 +56,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
     override fun visitProperty(property: KtProperty) {
         super.visitProperty(property)
-        if (property.containingClass() == null) return
+        if (propertyIsDeclaredOutsideClass(property)) return
 
 
 
@@ -69,7 +69,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
             }
 
             // Fetch all methods that is called from this public function, recursively.
-            val allCalleesFromThisPublicMethod = getCallees(publicMethod)
+            val allCalleesFromThisPublicMethod = getCallees(property, publicMethod, arrayListOf(publicMethod))
 
             // We look for references of the property, and as soon as we find it, we increase mf_sum and break so that we can look for references in other public methods.
             for (privateMethod in allCalleesFromThisPublicMethod) {
@@ -84,6 +84,9 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
             }
         }
     }
+
+    private fun propertyIsDeclaredOutsideClass(property: KtProperty) =
+        property.containingClass() == null
 
     private fun getPublicMethods(klass: KtClass): List<KtNamedFunction> {
         return klass.collectDescendantsOfType<KtNamedFunction> { it.isPublic }
@@ -111,31 +114,46 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
     ) =
         reference.getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration?.name.toString() == property.containingClass()?.name
 
-    private fun getCallees(publicMethod: KtNamedFunction, foundCallees: List<KtNamedFunction>): List<KtNamedFunction> {
+    private fun isCalleeInPropertyClass(
+        callee: KtNamedFunction,
+        property: KtProperty
+    ) =
+        callee.containingClass()?.name == property.containingClass()?.name
+
+    private fun getCallees(
+        property: KtProperty,
+        publicMethod: KtNamedFunction,
+        foundCallees: List<KtNamedFunction>
+    ): ArrayList<KtNamedFunction> {
 
         // If we have any call expressions inside the parent function with the same name as the parent function - There are some possibilities;
         // 1. calling another function with the same name, but with different signature
         // 2. calling the supermethod
         // 3. calles itself - we have recursion.
-        // As a quick fix for now we filter out the call expressions with the same name as the parent function. This will make us loose references to properties that are in functions with the same name.
+        // Todo: create good test cases that will cover these different edge-cases
 
-        val callExpressions =
-            publicMethod.collectDescendantsOfType<KtCallExpression>().filter { it.firstChild.text != publicMethod.name }
-        if (callExpressions.isEmpty()) {
-            return arrayListOf()
-        }
+        val callees =
+            ArrayList(publicMethod.collectDescendantsOfType<KtCallExpression>()
+                .mapNotNull {
+                    try {
+                        it.getResolvedCall(bindingContext)?.resultingDescriptor?.findPsi() as KtNamedFunction
+                    } catch (e: java.lang.ClassCastException) {
+                        null
+                    }
+                }.filter {
+                    !foundCallees.contains(it) && isCalleeInPropertyClass(
+                        it,
+                        property
+                    ) // should include test that this function is defined in the property class. For the test, the bindingcontext will not resolve other classes, but that could change in a real context.
+                }.distinct().ifEmpty {
+                    return arrayListOf()
+                })
 
-        val callees = callExpressions.mapNotNull {
-            try {
-                it.getResolvedCall(bindingContext)?.resultingDescriptor?.findPsi() as KtNamedFunction
-            } catch (e: ClassCastException) {
-                null
-            }
-        }
+        callees.addAll(foundCallees)
 
 
         for (callee in callees) {
-            callees + getCallees(callee, callees)
+            callees + getCallees(property, callee, callees)
         }
 
         return callees

@@ -17,6 +17,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
         factory = { KtTestCompiler.createEnvironment() },
         destructor = { it.dispose() }
     )
+
     describe("Using properties outside of class should not count as a property.") {
         it("Should give correct LCOM value") {
 
@@ -42,6 +43,41 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val f = 1
             val m = 1
             val mf = 0
+            val lcom = 1 - (mf.toDouble() / (m * f))
+
+            assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
+        }
+    }
+
+    describe("Using properties outside of class should not count as a property.") {
+        it("Should give correct LCOM value") {
+
+            // language=kotlin
+            val code = """
+                class Foo {
+                    private var number = 0
+                    
+                    fun bar() {
+                        baz()
+                        baz("arg")
+                    }
+                    
+                    fun baz() {
+                        number++
+                    }
+                    
+                    private fun baz(arg: String) {
+                        number++
+                    }
+                }
+                """.trimIndent()
+
+            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+
+            val f = 1
+            val m = 2
+            val mf = 2
+
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
@@ -111,7 +147,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
 
             val f = 2
             val m = 2
-            val mf = 1
+            val mf = 2
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             assertThat(findings.first().message).contains(lcom.toString())
