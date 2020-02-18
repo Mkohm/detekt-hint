@@ -45,6 +45,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
         if (publicMethodsCount == 0 || propertyCount == 0) return
 
+        println("properties: $propertyCount, methods: $publicMethodsCount, mf: $mf_sum")
         val lcom = 1 - (mf_sum.toDouble() / (publicMethodsCount * propertyCount))
         println("Class ${klass.name} has LCOM: $lcom")
         if (lcom > thresholdValue) {
@@ -54,6 +55,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         }
     }
 
+   // todo: include properties from primary constructor
     override fun visitProperty(property: KtProperty) {
         super.visitProperty(property)
         if (propertyIsDeclaredOutsideClass(property)) return
