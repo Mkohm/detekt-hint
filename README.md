@@ -1,7 +1,7 @@
 # detekt-hint
 [![Maintainability](https://api.codeclimate.com/v1/badges/307995daba5f21506f4d/maintainability)](https://codeclimate.com/github/Mkohm/detekt-hint/maintainability) [![codecov](https://codecov.io/gh/Mkohm/detekt-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/Mkohm/detekt-hint) [![Build Status](https://travis-ci.com/Mkohm/detekt-hint.svg?branch=master)](https://travis-ci.com/Mkohm/detekt-hint) [ ![Download](https://api.bintray.com/packages/bintray/jcenter/io.github.mkohm:detekt-hint/images/download.svg?version=0.0.2) ](https://bintray.com/bintray/jcenter/io.github.mkohm:detekt-hint/0.0.2/link) 
 
-![demo](demo.png)
+![ucih](demo.png)
 
 detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that includes detection of violation of programming principles. Since such violations are hard to detect with low false-positive rates, detekt-hint will provide hints during QA, minimizing noise during development. The idea is that a higher false-positive rate can be accepted if the detection could be of high value, and is easy to ignore. Detections on the architectural level of code is therefore most likely to provide value.
 
@@ -12,6 +12,13 @@ Contributions are very much welcome and if you like the project - help me out wi
 ## Currently supported detections
 - Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is followed. Will not report if you inherit from third-party libraries. 
 - (SOON) Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
+
+## Upcoming features 
+![lcom](comment_isp.png)
+![lcom](comment_lackOfCohesion.png)
+![lcom](comment_ocp.png)
+
+Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
 
 ## Getting started
 If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
