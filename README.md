@@ -14,8 +14,13 @@ Contributions are very much welcome and if you like the project - help me out wi
 - (SOON) Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
 
 ## Upcoming features 
+### Interface Segregation Principle
 ![lcom](comment_isp.png)
+
+### Single Responsibility Principle
 ![lcom](comment_lackOfCohesion.png)
+
+### Open-Closed Principle
 ![lcom](comment_ocp.png)
 
 Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
