@@ -16,6 +16,14 @@
 
 
 \newacronym{ast}{AST}{Abstract Syntax Tree}
+\newacronym{solid}{SOLID}{\textbf{S}ingle responsibility, \textbf{O}pen–closed, \textbf{L}iskov substitution, \textbf{I}nterface segregation, \textbf{D}ependency inversion}
+\newacronym{dry}{DRY}{Don't Repeat Yourself}
+\newacronym{srp}{SRP}{Single Responsibility Principle}
+\newacronym{ocp}{OCP}{Open-Closed Principle}
+\newacronym{lsp}{LSP}{Liskov Substitution Principle}
+\newacronym{isp}{ISP}{Interface Segregation Principle}
+\newacronym{dip}{DIP}{Dependency Inversion Principle}
+\newacronym{lcom}{LCOM}{Lack of Cohesion Of Methods}
 
 \begin{document}
 
@@ -44,29 +52,76 @@ The outline of the paper is as follows; Section \ref{background} gives some back
 
 \section{Background}
 \label{background}
-To be able to develop a tool for detection of programming principle violations 
+To be able to develop a tool for detection of programming principle violations using the design science methodology there are a handful of \todo{better word} subjects you need to be familiar with. The following sections will give a brief introduction to them.
 
 
+\subsection{Code analysis}
+\todo{rewrite this to fit programming principles and PSI}
+To help developers of software systems adhere to these concepts and conventions tools for code analysis have been developed. In code analysis we differentiate between two types of code analysis, dynamic code analysis and static code analysis. \textit{Dynamic code analysis} is done by analysing programs being executed on a processor, while \textit{static code analysis} is purely based on analysis of the source code. Since dynamic analysis is based on program execution it has the advantage of being able to measure the actual CPU, memory and energy performance of the application. 
 
-\subsection{Static analysis}
+%It can also gather information about the system that would be hard to detect using static code analysis. Examples include discovery of dynamic dependencies using reflection, or actual application usage. However, that does not mean that static code analysis is not able to target performance or dynamic aspects of source code.
+
+As we search to improve the source code, we have chosen to focus on static code analysis. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing the tree for violations of the aforementioned concepts and conventions. Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis tools could detect that the expression \texttt{x == 1} always evaluates to \texttt{true} and that the variable \texttt{y} is never used. The tool could then suggest that the branching is unnecessary and that the \texttt{y} variable is removed.  
+
+\todo{Exchange this for an example with useCompositionInsteadOfInheritance rule}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth/2]{report/ast.png}
+	\caption{Simple \gls{ast} of x=1; if (x == 1) \{y = 10;\}}
+	\label{fig:ast}
+\end{figure}
+
+
 \subsection{Design science}
-A research methodologogy that focuses on the development of artifacts and that provides specific guidelines for evaluation and iteration in research projects.
+Design science is a research methodology that focuses on getting knowledge through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects.
+\todo{insert image of design science methodology}
 
 \subsection{Prototyping}
 
 horizontal and vertical prototypes. high and low res prototypes.
 
-\subsection{Programming principles}
+\subsection{Design principles}
+Design principles (also called programming principles) are a set of guidelines that programmers should follow to avoid bad design. According to Robert C. Martin \cite{robertcmartinprinciples} there are three characteristics of bad design that the design principles will help reduce:
+
+\begin{enumerate}
+	\item Rigidity - It is hard to change because every change affects too many other parts of the system.
+	\item Fragility - When you make a change, unexpected parts of the system break.
+	\item Immobility - It is hard to reuse in another application because it cannot be disentangled from the current application.
+\end{enumerate}
+
+A common set of design principles that often is referred to is the \gls{solid} principles and \gls{dry} principle. The design principles are often abstract and verification requires knowledge and reasoning about the business domain. They are therefore hard to verify using code analysis. 
+
+\todo{In depth description of SOLID principles as they are important in the tool}
+
+
+One could easily think that \gls{dry} could be verified through looking at similar code, but it turns out that it is not that simple. Two code snippets could be exact copies of each other, but still not violating \gls{dry} if the two snippets would change for different reasons. 
+
+This is the core problem i am facing in this study - helping the developers with these decisions even if the problem could not be verified.
+
+
+\subsection{False positives}
+As stated above, design principles are hard to verify and is the reason why very few tools cover them. Because we could not be 100\% sure if a design principle is followed we would end up with our tool reporting issues, that in reality are not issues. We call these \textit{false-positives}. These create noise and are obtrusive for the developer, so it is important to keep the false-positive rate as low as possible.
+
 
 \subsection{MVP}
 
-
+\section{Related work}
+\label{relatedwork}
+Ndepend. Jarchitect. 
 
 \section{Methodology}
 \label{methodology}
 This study will follow the Design Science methodology which is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}. It is selected because it fits the process of building a innovative software artifact. The software artifact will be created through a series of iterations that include the follow activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication.  An illustration of the design science methodology can be seen in figure \ref{fig:designScience}. As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required.  \todo{Should i create my own figure that includes problem understanding? Or is this not part of design science? I would then argue that i slight modification of the method should be used that includes iterations on the first step.}. I will elaborate on how the different activities is applied to the project below. 
 
 \subsection{Problem understanding, identification and motivation}
+
+The problem is that very few tools for programming principle violations exists. The existing tools analyze the whole codebase and can be used to find where to start reducing technical debt, but is not highly integrated into the development process and asks the questions if the newly developed code is good - while the developer is in the context. The developer can do a consoucious decision to do refactoring before the code is merged in. 
+
+Current tools (linters) have low false-positive rate, but are not able to target important things like the architecture of the application. This tool will be able to target the architecture, but with higher false-positive rate, and through the format of QA hopefully not disturbing the development process too much. 
+
+
+The motivation is that programming principles are important because they create structure and lay the foundations of building and extending the product.
+
 based on the pre study and own needs i decided to build the tool.
 
 Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
@@ -99,15 +154,26 @@ My needs for this solution. Needs a AST to analysis and a framework to help me w
 
 \section{Results}
 
+\subsection{Workshop}
+Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop?
+
+What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
+
+\subsection{}
+
 \subsection{Short recap of the development process}
 Creating a vertical prototype with a simple rule (usecomposition rule) to see if this project it technically possible within the time frame of a masters thesis. 
 
 
 
 \subsection{Prototypes}
+\subsubsection{Vertical prototype}
+Vertical prototype with a few rules implemented.
+
+
+\subsubsection{Horizontal prototype}
 Horizontal prototypes with github PR samples with bot commented. Easily created by pushing code to repo and logging in as the bot. Should create samples that demonstrates possible false positives as well as true positives. Could add much context (helping the developer a lot) or short and concise messages.
 
-Vertical prototype with a few rules implemented.
 
 \subsection{Detekt-hint specification}
 Specification of all the rules.
@@ -116,7 +182,12 @@ Specification of all the rules.
 A diagram of how everything interacts with each other.
 
 \subsubsection{Detekt}
-Detekt is a static analysis tool for kotlin.
+Detekt is a static analysis tool for kotlin. Which provides access to a framework for rule creating for analyzing code and reporting warnings.
+
+Detekt gives us access to IntelliJ PSI for analyzing Kotlin code. The PSI is built on top of the \gls{ast} provided by the kotlin compiler, and provides utility methods for modifying and querying of the underlying \gls{ast}.
+
+Type resolution?
+
 \subsubsection{Detekt-hint}
 
 \subsubsection{Danger}
@@ -127,7 +198,12 @@ Detekt is a static analysis tool for kotlin.
 \label{discussion}
 
 \section{Future work}
+Implement more rules.
+Reducing the amount of false positives.
 
+Providing more context and/or possible solutions in the comments. Images or graphs explaining.
+Increasing the performance.
+Easing the setup process. Github app? Direct integration with the repository with no setup. A tool like code-climate that does not need any configuration. Plus of tool like this: all setup is in source control. Downside: could be tedious to set up or not all team members want to use it.
 
 \section{Conclusion}
 \label{conclusion}
