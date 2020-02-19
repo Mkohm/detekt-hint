@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[acronym]{glossaries}
+\usepackage{biblatex}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{fancyvrb}
+
+\addbibresource{bibliography.bib}
+
+
+\title{Detekt-hint -- Detection of programming principle violations}
+\author{Marius Kohmann}
+\date{June 2020}
+
+
+\newacronym{ast}{AST}{Abstract Syntax Tree}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	%Sample IMRaD abstract: 
+	
+	
+	
+\end{abstract}
+
+
+\clearpage
+\tableofcontents
+\clearpage
+\section{Introduction}
+Writing maintainable and high quality code is an important part of software engineering. Ignoring quality enhancing tasks like refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} and testing will introduce technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}, that will have negative impact on further development. Some consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
+Various people define software maintainability differently, but a commonly
+accepted collection of quality attributes include extensibility, modularity, testability and understandability. To further help developers write code with those attributes, rules, conventions and programming principles have been developed. For developers it is a tough challenge to fulfill all of the mentioned attributes of quality code and therefore tools for code analysis have been created. By using code analysis one is able to detect and resolve problems, before the problems arise in a production environment. In a preliminary study on the state of the art of tools for code analysis one of the main takeaways was that there were no tools focusing on detecting violations of programming principles. 
+
+%Objective
+The objective of this study is to develop knowledge about detection of programming principle violations using the design science methodology. The design science methodology involves development of an innovative product through iterations including prototypes and continuous feedback of the product. The and a detailed evaluation of the final artifact.
+
+The outline of the paper is as follows; Section \ref{background} gives some background information and an introduction to the topics of writing code with high quality and code analysis. Section \ref{methodology} describes the methodology of the research process. Section \ref{relatedwork} gives some insight in related work in the area and section \ref{results} presents the developed artifact, and a detailed evaluation of it. Section \ref{discussion} discusses the results, and lastly in section \ref{conclusion} we conclude the paper.  
+
+\section{Background}
+\label{background}
+To be able to develop a tool for detection of programming principle violations 
+
+
+
+\subsection{Static analysis}
+\subsection{Design science}
+A research methodologogy that focuses on the development of artifacts and that provides specific guidelines for evaluation and iteration in research projects.
+
+\subsection{Prototyping}
+
+horizontal and vertical prototypes. high and low res prototypes.
+
+\subsection{Programming principles}
+
+\subsection{MVP}
+
+
+
+\section{Methodology}
+\label{methodology}
+This study will follow the Design Science methodology which is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}. It is selected because it fits the process of building a innovative software artifact. The software artifact will be created through a series of iterations that include the follow activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication.  An illustration of the design science methodology can be seen in figure \ref{fig:designScience}. As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required.  \todo{Should i create my own figure that includes problem understanding? Or is this not part of design science? I would then argue that i slight modification of the method should be used that includes iterations on the first step.}. I will elaborate on how the different activities is applied to the project below. 
+
+\subsection{Problem understanding, identification and motivation}
+based on the pre study and own needs i decided to build the tool.
+
+Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
+
+\subsection{Define objectives of a solution}
+Involves creating a specification of the solution.
+
+\subsection{Design and development}
+Involves the development of the final software artifact and both horizontal and vertical prototypes. Prototypes is used early in the development phases to quickly be able to evaluate the product. Horizontal prototypes should be created to early demonstrate a broad view of the final artifact. Vertical prototypes will be used to elaborate on technical challenges and the workings of specific features. 
+ 
+\subsection{Demonstration}
+Gather people for an workshop? 
+ 
+\subsection{Evaluation}
+I find that it is super hard to get feedback on something. I think more rules needs to be implemented to be able to get some valueable feedback. Un-structured feedback trough Reddit. Evaluation of github bot as platform for feedback. Evaluation of implemented rules. Evaluate how often the rule gets triggered using a built software system / vs the noise it creates. Evaluate impact on decisions - e.g a commit introduced some inheritance, and later it was found out that inheritance caused trouble. Simulation on other projects to find bugs and false-positives. Used it to further improve the rules and reduce the noise.
+
+Gather a group of Kotlin/Android entusiasts for a workshop where one could order pizza and code using this tool. Focus on feedback. Could for example analyze some code that they know and give some feedback on whether it is useful or not. What would have been useful?
+
+Not that much focus on creating and hitting bullseye with the product, more about the feedback itself and how to respond to it.
+
+Multiple evaluation methods used on different stages of the project: Evaluation running the program on others code, evaluation using a workshop with focus on feedback and usage, evaluation of the initial project using reddit etc.
+
+However, i posted an image of the MVP on Reddit/Kotlin, and it quickly got so many upvotes that it was top this week in under 12 hours. 
+
+\subsection{Communication}
+
+
+My needs for this solution. Needs a AST to analysis and a framework to help me with this. Need a way of creating a report of the analysis and feed it to something else that can post on github. 
+
+
+\section{Results}
+
+\subsection{Short recap of the development process}
+Creating a vertical prototype with a simple rule (usecomposition rule) to see if this project it technically possible within the time frame of a masters thesis. 
+
+
+
+\subsection{Prototypes}
+Horizontal prototypes with github PR samples with bot commented. Easily created by pushing code to repo and logging in as the bot. Should create samples that demonstrates possible false positives as well as true positives. Could add much context (helping the developer a lot) or short and concise messages.
+
+Vertical prototype with a few rules implemented.
+
+\subsection{Detekt-hint specification}
+Specification of all the rules.
+
+\subsection{Architecture}
+A diagram of how everything interacts with each other.
+
+\subsubsection{Detekt}
+Detekt is a static analysis tool for kotlin.
+\subsubsection{Detekt-hint}
+
+\subsubsection{Danger}
+
+\subsubsection{Danger detekt plugin}
+
+\section{Discussion}
+\label{discussion}
+
+\section{Future work}
+
+
+\section{Conclusion}
+\label{conclusion}
+
+\section{Acknowledgements}
+\label{acknowledgements}
+Thanks to supervisor, all participants in workshop and prototype sessions.
+
+\printbibliography
+
+\appendix
+\label{appendix}
+\input{appendix.tex}
+\end{document}
