@@ -24,6 +24,8 @@
 \newacronym{isp}{ISP}{Interface Segregation Principle}
 \newacronym{dip}{DIP}{Dependency Inversion Principle}
 \newacronym{lcom}{LCOM}{Lack of Cohesion Of Methods}
+\newacronym{pr}{PR}{Pull Request}
+\newacronym{ntnu}{NTNU}{Norwegian University of Science and Technology}
 
 \begin{document}
 
@@ -41,12 +43,11 @@
 \tableofcontents
 \clearpage
 \section{Introduction}
-Writing maintainable and high quality code is an important part of software engineering. Ignoring quality enhancing tasks like refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} and testing will introduce technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}, that will have negative impact on further development. Some consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
-Various people define software maintainability differently, but a commonly
-accepted collection of quality attributes include extensibility, modularity, testability and understandability. To further help developers write code with those attributes, rules, conventions and programming principles have been developed. For developers it is a tough challenge to fulfill all of the mentioned attributes of quality code and therefore tools for code analysis have been created. By using code analysis one is able to detect and resolve problems, before the problems arise in a production environment. In a preliminary study on the state of the art of tools for code analysis one of the main takeaways was that there were no tools focusing on detecting violations of programming principles. 
+Writing maintainable and high quality code is an important part of software engineering. Various people define software maintainability differently, but a commonly
+accepted collection of quality attributes include extensibility, modularity, testability and understandability. To help developers write code with those attributes, well defined rules and conventions have been developed. They are often enforced by the use of tools commonly referred to as linters. Design principles is another invention that has been created to help developers write code that adheres to the aforementioned quality attributes. Unfortunately, many of the principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. The absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
 
 %Objective
-The objective of this study is to develop knowledge about detection of programming principle violations using the design science methodology. The design science methodology involves development of an innovative product through iterations including prototypes and continuous feedback of the product. The and a detailed evaluation of the final artifact.
+The objective of this study is to develop knowledge about detecting violations of programming principles using the design science methodology. The design science methodology involves development of an innovative product through short iterations that includes the use of prototypes and continuous feedback. The study will present the inner workings of the product as well as a detailed evaluation of the final artifact.
 
 The outline of the paper is as follows; Section \ref{background} gives some background information and an introduction to the topics of writing code with high quality and code analysis. Section \ref{methodology} describes the methodology of the research process. Section \ref{relatedwork} gives some insight in related work in the area and section \ref{results} presents the developed artifact, and a detailed evaluation of it. Section \ref{discussion} discusses the results, and lastly in section \ref{conclusion} we conclude the paper.  
 
@@ -113,9 +114,33 @@ Ndepend. Jarchitect.
 \label{methodology}
 This study will follow the Design Science methodology which is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}. It is selected because it fits the process of building a innovative software artifact. The software artifact will be created through a series of iterations that include the follow activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication.  An illustration of the design science methodology can be seen in figure \ref{fig:designScience}. As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required.  \todo{Should i create my own figure that includes problem understanding? Or is this not part of design science? I would then argue that i slight modification of the method should be used that includes iterations on the first step.}. I will elaborate on how the different activities is applied to the project below. 
 
-\subsection{Problem understanding, identification and motivation}
+\subsection{Problem identification}
+The problem is that important design decisions are'nt considered before it is too late, so that bad design end up in production code, creating maintainability problems.
 
-The problem is that very few tools for programming principle violations exists. The existing tools analyze the whole codebase and can be used to find where to start reducing technical debt, but is not highly integrated into the development process and asks the questions if the newly developed code is good - while the developer is in the context. The developer can do a consoucious decision to do refactoring before the code is merged in. 
+
+The problem is that very few tools for detecting design principle violations exists. As mentioned in \ref{relatedwork}, the existing tools analyze the whole codebase and is not integrated with the development process. Using the existing tools can be good for project level analysis activities, and finding areas of improvement. The tools also lack support for many import design principles.
+
+
+What Detekt-hint is looking to improve is the tight integration with the development process and helping the developer taking good decisions while the developer is in the context.
+
+
+\hfill \newline
+These two goals can be summarized as two research questions:
+\hfill \newline
+\hfill \newline
+\textbf{RQ1}: How can violations of design principles be identified? \newline
+\textbf{RQ2}: Can we accept a higher rate of false-positives? \newline
+Is the value of a true-positive worth more than the sum of all the false-positives? It all boils down to time=money. Time to overlook times the amount of false-positives vs time that was saved because an important design decision was made as a result of the true-positive identification.
+
+
+% Motivation - justyfing the value of a solution
+Get some sources that design principles are important and would cost much less to fix now than later. Also some sources on developer context-change that is beneficial.
+
+
+before the code is merged into 
+
+
+can be used to find where to start reducing technical debt, but is not highly integrated into the development process and asks the questions if the newly developed code is good - while the developer is in the context. The developer can do a consoucious decision to do refactoring before the code is merged in. 
 
 Current tools (linters) have low false-positive rate, but are not able to target important things like the architecture of the application. This tool will be able to target the architecture, but with higher false-positive rate, and through the format of QA hopefully not disturbing the development process too much. 
 
@@ -133,7 +158,7 @@ Involves creating a specification of the solution.
 Involves the development of the final software artifact and both horizontal and vertical prototypes. Prototypes is used early in the development phases to quickly be able to evaluate the product. Horizontal prototypes should be created to early demonstrate a broad view of the final artifact. Vertical prototypes will be used to elaborate on technical challenges and the workings of specific features. 
  
 \subsection{Demonstration}
-Gather people for an workshop? 
+Gather people for an workshop and presentation of horizontal prototypes. Important to create a structured schema with questions and impressions to get feedback in a structured way that can be used to evaluate the different features.
  
 \subsection{Evaluation}
 I find that it is super hard to get feedback on something. I think more rules needs to be implemented to be able to get some valueable feedback. Un-structured feedback trough Reddit. Evaluation of github bot as platform for feedback. Evaluation of implemented rules. Evaluate how often the rule gets triggered using a built software system / vs the noise it creates. Evaluate impact on decisions - e.g a commit introduced some inheritance, and later it was found out that inheritance caused trouble. Simulation on other projects to find bugs and false-positives. Used it to further improve the rules and reduce the noise.
@@ -153,8 +178,27 @@ My needs for this solution. Needs a AST to analysis and a framework to help me w
 
 
 \section{Results}
+\subsection{Prototypes}
+\subsubsection{Horizontal prototype}
+The horizontal prototype was built by creating sample \gls{pr} in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../demo.png}
+    \caption{Prototype of the composition over inheritance / \gls{lsp} rule}
+    \label{fig:liskov}
+\end{figure}
+
+% What did i find when using this prototype? What changes does the product need, or does it confirm that i am on the right path?
+
+The schema used for evaluation of the prototype, the participants answers and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. 
+
+\subsubsection{Vertical prototype}
+To get structured feedback on the prototype it 
+Horizontal prototypes with github PR samples with bot commented. Was easily created by pushing code to repo and logging in as the bot. Should create samples that demonstrates possible false positives as well as true positives. 
 
 \subsection{Workshop}
+Schema:
 Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop?
 
 What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
@@ -164,15 +208,7 @@ What is the goal, how should i reach the goal of the workshop. Keep the workshop
 \subsection{Short recap of the development process}
 Creating a vertical prototype with a simple rule (usecomposition rule) to see if this project it technically possible within the time frame of a masters thesis. 
 
-
-
-\subsection{Prototypes}
-\subsubsection{Vertical prototype}
-Vertical prototype with a few rules implemented.
-
-
-\subsubsection{Horizontal prototype}
-Horizontal prototypes with github PR samples with bot commented. Easily created by pushing code to repo and logging in as the bot. Should create samples that demonstrates possible false positives as well as true positives. Could add much context (helping the developer a lot) or short and concise messages.
+The schema for the workshop can be found in appendix \ref{workshop-schema}.
 
 
 \subsection{Detekt-hint specification}
