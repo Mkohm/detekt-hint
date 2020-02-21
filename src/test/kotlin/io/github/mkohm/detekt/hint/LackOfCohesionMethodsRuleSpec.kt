@@ -18,31 +18,29 @@ class LackOfCohesionMethodsRuleSpec : Spek({
         destructor = { it.dispose() }
     )
 
-    describe("Using properties outside of class should not count as a property.") {
+
+
+    describe("Referencing another class with a property with the same identifier as the property.") {
         it("Should give correct LCOM value") {
 
             // language=kotlin
             val code = """
                 var a = 1
                 
-                class Foo {
-                    private var number = 0
+                class Foo(private var number: Int = 0, private var number2: Int = 0, i : Int = 0) {
+                    private var number3 = 0
                     
                     fun bar() {
-                        Baz().number++
+                        number++
                     }
-                }
-                
-                class Baz {
-                    var number = 0
                 }
                 """.trimIndent()
 
             val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
 
-            val f = 1
+            val f = 3
             val m = 1
-            val mf = 0
+            val mf = 1
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
