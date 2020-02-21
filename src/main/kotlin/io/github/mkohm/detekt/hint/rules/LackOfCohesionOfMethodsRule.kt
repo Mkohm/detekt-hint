@@ -10,9 +10,9 @@ import io.gitlab.arturbosch.detekt.api.Severity
 import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtNamedDeclaration
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtParameter
-import org.jetbrains.kotlin.psi.KtPrimaryConstructor
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
@@ -20,29 +20,42 @@ import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 
-class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(config) {
-    private var propertyCount: Int = 0
-    private lateinit var publicMethods: List<KtNamedFunction>
+class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) {
     override val issue = Issue(
         javaClass.simpleName,
         Severity.CodeSmell,
         "This rule reports a file with low LCOM value.",
         Debt.TWENTY_MINS
     )
-
     private val thresholdValue =
         valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
 
+    /**
+     * The number of properties in the class. Includes both properties that comes
+     */
+    private var propertyCount: Int = 0
+    private lateinit var publicMethods: List<KtNamedFunction>
     // todo: consider starting at 1
     private var mf_sum = 0
+
+    override fun visitNamedDeclaration(declaration: KtNamedDeclaration) {
+        super.visitNamedDeclaration(declaration)
+
+        if ((declaration is KtProperty || isPropertyFromPrimaryConstructor(declaration)) && propertyIsDeclaredInsideClass(declaration)) {
+            propertyCount++
+
+            val containingClass = declaration.containingClass()!!
+            searchForReferencesInPublicMethods(declaration, containingClass)
+        }
+    }
 
     override fun visitClass(klass: KtClass) {
         if (klass.isInterface() || klass.isEnum() || klass.isInner()) return
 
+        propertyCount = 0
         mf_sum = 0
         publicMethods = getPublicMethods(klass)
         val publicMethodsCount = publicMethods.size
-        propertyCount = getPropertyCount(klass)
 
         super.visitClass(klass)
 
@@ -58,34 +71,13 @@ class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(conf
         }
     }
 
-    override fun visitPrimaryConstructor(constructor: KtPrimaryConstructor) {
-        super.visitPrimaryConstructor(constructor)
+    private fun isPropertyFromPrimaryConstructor(declaration: KtNamedDeclaration) =
+        (declaration is KtParameter) && declaration.hasValOrVar()
 
-        val propertyNames =
-            constructor.valueParameterList?.children?.filter { (it as KtParameter).hasValOrVar() }?.map { (it as KtParameter).name }
-                ?: listOf()
-
-        propertyCount += propertyNames.size
-
-        for (propertyName in propertyNames) {
-            if (propertyName == null) break
-            searchForReferencesInPublicMethods(propertyName)
-        }
-    }
-
-
-    override fun visitProperty(property: KtProperty) {
-        super.visitProperty(property)
-        if (propertyIsDeclaredOutsideClass(property)) return
-
-
-
-        searchForReferencesInPublicMethods(property.name!!)
-    }
-
-    private fun searchForReferencesInPublicMethods(propertyName: String) {
+    private fun searchForReferencesInPublicMethods(property: KtNamedDeclaration, containingClass: KtClass) {
+        val publicMethods = getPublicMethods(containingClass)
         for (publicMethod in publicMethods) {
-            val referenceExpression = getReferencesOfProperty(publicMethod, propertyName)
+            val referenceExpression = getReferencesOfProperty(publicMethod, property)
 
             if (referenceExpression.isNotEmpty()) {
                 mf_sum++
@@ -93,13 +85,13 @@ class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(conf
             }
 
             // Fetch all methods that is called from this public function, recursively.
-            val allCalleesFromThisPublicMethod = getCallees(propertyName, publicMethod, arrayListOf(publicMethod))
+            val allCalleesFromThisPublicMethod = getCallees(property, publicMethod, arrayListOf(publicMethod))
 
             // We look for references of the property, and as soon as we find it, we increase mf_sum and break so that we can look for references in other public methods.
             for (privateMethod in allCalleesFromThisPublicMethod) {
 
                 // Get references in this private function
-                val references = getReferencesOfProperty(privateMethod, propertyName)
+                val references = getReferencesOfProperty(privateMethod, property)
 
                 if (references.isNotEmpty()) {
                     mf_sum++
@@ -109,23 +101,19 @@ class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(conf
         }
     }
 
-    private fun propertyIsDeclaredOutsideClass(property: KtProperty) =
-        property.containingClass() == null
+    private fun propertyIsDeclaredInsideClass(property: KtNamedDeclaration) =
+        property.containingClass() != null
 
     private fun getPublicMethods(klass: KtClass): List<KtNamedFunction> {
         return klass.collectDescendantsOfType<KtNamedFunction> { it.isPublic }
     }
 
-    private fun getPropertyCount(klass: KtClass): Int {
-        return klass.getProperties().size
-    }
-
     private fun getReferencesOfProperty(
         privateMethod: KtNamedFunction,
-        propertyName: String
+        property: KtNamedDeclaration
     ): List<KtReferenceExpression> {
         return privateMethod.bodyExpression?.collectDescendantsOfType { reference ->
-            isReferenceOfPropertyClass(reference) && reference.text == propertyName
+            isReferenceOfPropertyClass(reference) && reference.text == property.name
         } ?: arrayListOf()
     }
 
@@ -139,12 +127,12 @@ class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(conf
 
     private fun isCalleeInPropertyClass(
         callee: KtNamedFunction,
-        propertyName: String
+        property: KtNamedDeclaration
     ) =
-        callee.containingClass()?.name == publicMethods[0].containingClass()?.name
+        callee.containingClass()?.name == property.containingClass()?.name
 
     private fun getCallees(
-        propertyName: String,
+        property: KtNamedDeclaration,
         publicMethod: KtNamedFunction,
         foundCallees: List<KtNamedFunction>
     ): ArrayList<KtNamedFunction> {
@@ -166,7 +154,7 @@ class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(conf
                 }.filter {
                     !foundCallees.contains(it) && isCalleeInPropertyClass(
                         it,
-                        propertyName
+                        property
                     ) // should include test that this function is defined in the property class. For the test, the bindingcontext will not resolve other classes, but that could change in a real context.
                 }.distinct().ifEmpty {
                     return arrayListOf()
@@ -176,7 +164,7 @@ class LackOfCohesionOfMethodsRule(val config: Config = Config.empty) : Rule(conf
 
 
         for (callee in callees) {
-            callees + getCallees(propertyName, callee, callees)
+            callees + getCallees(property, callee, callees)
         }
 
         return callees
