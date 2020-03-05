@@ -150,13 +150,11 @@ As we search to improve the source code, we have chosen to focus on static code 
 	\label{fig:ast}
 \end{figure}
 
-In case of detekt-hint, to do analysis of the Kotlin \gls{ast} easier Jetbrains\cite{jetbrains}(Creators of IntelliJ) have created an Open-Source \gls{psi} on top, adding utility methods for \gls{ast} analysis and modification. 
-
-Figure \ref{fig:psi} shows a simple example \gls{psi} that detekt-hint would use to find a sign of violating the \gls{isp}.
+In case of detekt-hint, to do analysis of the Kotlin \gls{ast} easier Jetbrains\cite{jetbrains}(Creators of IntelliJ) have created an Open-Source \gls{psi} on top, adding utility methods for \gls{ast} analysis and modification. Figure \ref{fig:psi} shows a simplified example \gls{psi} that detekt-hint would use to find violations of \gls{isp}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[linewidth/2]{report/images/psi.png}
+    \includegraphics[width=\linewidth]{report/images/psi.png}
     \caption{Simple \gls{psi} showing a sign of violating the \gls{isp}}
     \label{fig:psi}
 \end{figure}
