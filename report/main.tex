@@ -30,6 +30,10 @@
 \newacronym{ntnu}{NTNU}{Norwegian University of Science and Technology}
 \newacronym{mimc}{MIMC}{More Is More Complex}
 \newacronym{kiss}{KISS}{Keep It Simple Stupid}
+\newacronym{psi}{PSI}{Program Structure Interface}
+\newacronym{dsm}{DSM}{Dependency Structure Matrix}
+\newacronym{lod}{LoD}{Law of Demeter}
+\newacronym{qa}{QA}{Quality Assurance}
 
 \begin{document}
 
@@ -37,6 +41,7 @@
 
 \begin{abstract}
 	%Sample IMRaD abstract: 
+	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. A tool for identification of design principle violations were developed using the design science methodology. The product was evaluated by testing on others code, using horizontal prototypes and having a workshop testing the product. 
 	
 	
 	
@@ -127,7 +132,7 @@ As you can see, the design principles are often abstract and verification requir
 
 To make matters worse; \gls{dip} suggests introducing abstractions to decouple software modules, while \gls{mimc} principle and \gls{kiss} principles says that introducing abstractions (e.g interfaces, abstract classes) introduces unwanted complexity.
 
-The design principles are therefore hard to verify using code analysis. However, some principles are easier to verify than others, and possible violations could be detected using code analysis.
+The design principles are therefore hard to verify using code analysis. However, some principles are easier to verify than others, and signs of violation could be detected using code analysis or during code review which is described in section \ref{code-review}.
 
 \subsection{Code analysis}
 \todo{rewrite this to fit programming principles and PSI}
@@ -136,9 +141,8 @@ To help developers of software systems adhere to the aforementioned concepts, pr
 
 %It can also gather information about the system that would be hard to detect using static code analysis. Examples include discovery of dynamic dependencies using reflection, or actual application usage. However, that does not mean that static code analysis is not able to target performance or dynamic aspects of source code.
 
-As we search to improve the source code, we have chosen to focus on static code analysis. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing the tree for violations of the aforementioned concepts and conventions. Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis tools could detect that the expression \texttt{x == 1} always evaluates to \texttt{true} and that the variable \texttt{y} is never used. The tool could then suggest that the branching is unnecessary and that the \texttt{y} variable is removed.  
+As we search to improve the source code, we have chosen to focus on static code analysis. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing the tree for violations of the aforementioned principles, concepts and conventions. Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis tools could detect that the expression \texttt{x == 1} always evaluates to \texttt{true} and that the variable \texttt{y} is never used. The tool could then suggest that the branching is unnecessary and that the \texttt{y} variable is removed.  
 
-\todo{Exchange this for an example with useCompositionInsteadOfInheritance rule}
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth/2]{report/images/ast.png}
@@ -146,18 +150,46 @@ As we search to improve the source code, we have chosen to focus on static code 
 	\label{fig:ast}
 \end{figure}
 
+In case of detekt-hint, to do analysis of the Kotlin \gls{ast} easier Jetbrains\cite{jetbrains}(Creators of IntelliJ) have created an Open-Source \gls{psi} on top, adding utility methods for \gls{ast} analysis and modification. 
+
+Figure \ref{fig:psi} shows a simple example \gls{psi} that detekt-hint would use to find a sign of violating the \gls{isp}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[linewidth/2]{report/images/psi.png}
+    \caption{Simple \gls{psi} showing a sign of violating the \gls{isp}}
+    \label{fig:psi}
+\end{figure}
+
+
 
 
 \subsection{False positives}
-As stated above, some rules are hard to verify and is the reason why very few tools cover them. Because we could not be 100\% sure if a design principle is followed we would end up with our tool reporting issues, that in reality are not issues. We call these \textit{false-positives}. These create noise and are obtrusive for the developer, so it is important to keep the false-positive rate as low as possible. 
+As stated above, most of the design principles are hard to detect violations of. Because we could not be 100\% sure if a design principle is followed we would end up with our tool reporting issues, that in reality are not issues. We call these \textit{false-positives}. These create noise and are obtrusive for the developer, so it is important to keep the false-positive rate as low as possible. 
 
 
 \subsection{Code review}
-What is wrong with manual code review?
+\label{code-review}
+Code review is a manual inspection process of looking through code. It is the most common way of finding design issues in code. Code review works very well if done correctly, but unfortunately it is easy get wrong, and is time consuming. 
+% why it is easy to get wrong
+
+
+Developers are lazy, and doing repetitive tasks is 
+
+
+
+If the most 
+
+Easy to forget to check for all design principles, best practices etc. Tools should help out with this so that the review could be focused against understanding the real problem that is being solved.
+ 
+Error prone
+Overlookings
+Big PR syndrome
+Blind on own work
+Doing too much in a PR pollutes it and makes it impossible to understand why changes were done.
+
 
 ... should detect most issues now, and not wait for later so that context switching is not needed.
-
-What code review is, and its plusses and minuses.
 
 \subsection{Context switching}
 start with something to do.
@@ -191,7 +223,27 @@ develop the least neccesary for having a working product.
 
 \section{Related work}
 \label{relatedwork}
-Ndepend. Jarchitect. 
+To the best of my knowledge, a tool that only focuses on detecting violations of design principles does not exist. However, some tools and linters include functionality for detecting violations on a small amount of the design principles. I will elaborate on how the different tools support design principles below.
+
+\textbf{High Cohesion - Low Coupling} is a metric that has support in multiples tools, including but not limited to JArchitect \cite{jarchitect} and CodeMR \cite{codemr}. JArchitect \cite{jarchitect} includes functionality for visualizing the High Cohesion - Low Coupling metric using a \gls{dsm}. 
+
+\textbf{\gls{srp}}
+JArchitect uses the \gls{dsm} to find violations of \gls{srp} by looking at how many different types a class uses. Ndepend \cite{ndepend} calculates the \gls{lcom} value to find whether the class is cohesive or not, and possibly breaking \gls{srp}. 
+
+\textbf{\gls{lod}}
+IntelliJ \cite{IntelliJ} (for Java) has support for detecting violations of the \gls{lod} principle.
+
+\textbf{\gls{dry}}
+Detecting similar snippets of code to find violations of the \gls{dry} principle is targeted by many tools including, but not limited to IntelliJ, PMD and Code Climate. However, code can violate \gls{dry} without looking similar, and tools that can detect such issues have not been found.  
+
+
+
+
+Problem being that some of the tools only include a small subset of the principles, making developers need to adopt a large suite of tools to only be able to support detection of violation of design principles.
+
+can be used to find where to start reducing technical debt, but is not highly integrated into the development process 
+
+The problem is that very few tools for detecting design principle violations exists. As mentioned in \ref{relatedwork}, the existing tools analyze the whole codebase and is not integrated with the development process. Using the existing tools can be good for project level analysis activities, and finding areas of improvement. The tools also lack support for many import design principles.
 
 \section{Methodology}
 \label{methodology}
@@ -211,75 +263,70 @@ As can be seen in the figure is important to notice that the activities is not d
 
 
 \subsection{Problem identification and motivation}
+Absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring tasks and technical debt. Finding design flaws as soon as possible is a crucial task to limit the amount of rework required. There are mainly two reasons for this: 
 
-% Problem identification
-The problem is that important design decisions are'nt considered before it is too late, so that bad design end up in production code, creating maintainability problems.
+\begin{enumerate}
+    \item Building upon badly designed software further complicates and increases the difficulty of fixing the software.
 
+    \item The developer is in the context of the current code. Fixing design flaws as soon as possible would require less time to do because the developer knows the context and does not need to context switch.
 
-The problem is that very few tools for detecting design principle violations exists. As mentioned in \ref{relatedwork}, the existing tools analyze the whole codebase and is not integrated with the development process. Using the existing tools can be good for project level analysis activities, and finding areas of improvement. The tools also lack support for many import design principles.
+\end{enumerate}
 
-
-What Detekt-hint is looking to improve is the tight integration with the development process and helping the developer taking good decisions while the developer is in the context.
-
+There are mainly two techniques for detecting design issues, code-analys using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
 
 \hfill \newline
-These two goals can be summarized as two research questions:
+This problem identification raises an important question which is my main research question:
 \hfill \newline
 \hfill \newline
-\textbf{RQ1}: How can one use techniques for detecting violation of design principles to improve the maintainablity of code? \newline
+\textbf{RQ1}: How can one use techniques for detecting design principle violations to improve the maintainablity of code? \newline
 \textbf{RQ1.1}: Which design principles can be verified using code analysis? \newline
-\textbf{RQ1.2}: How to deal a higher rate of false-positives? 
+\textbf{RQ1.2}: How to deal with a high rate of false-positives? 
 
-
-Is the value of a true-positive worth more than the sum of all the false-positives? It all boils down to time=money. Time to overlook times the amount of false-positives vs time that was saved because an important design decision was made as a result of the true-positive identification.
-
-
-
-
-% Motivation - justyfing the value of a solution
-Get some sources that design principles are important and would cost much less to fix now than later. Also some sources on developer context-change that is beneficial.
-
-
-before the code is merged into 
-
-can cause important design discussions within the team.
-can be used to find where to start reducing technical debt, but is not highly integrated into the development process and asks the questions if the newly developed code is good - while the developer is in the context. The developer can do a consoucious decision to do refactoring before the code is merged in. 
-
-Current tools (linters) have low false-positive rate, but are not able to target important things like the architecture of the application. This tool will be able to target the architecture, but with higher false-positive rate, and through the format of QA hopefully not disturbing the development process too much. 
-
-
-The motivation is that programming principles are important because they create structure and lay the foundations of building and extending the product.
-
-based on the pre study and own needs i decided to build the tool.
-
-Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
 
 \subsection{Define objectives of a solution}
 \label{objectives-of-solution}
-
-Involves creating a specification of the solution.
-
-General objectives:
+Initially the objectives of a solution had the following chacacteristics:
 \begin{enumerate}
-    \item Helps developer and team take important design decisions
-    \item Does not create too much noise in the developer workflow
-    \item Easy to set up and use
-    \item Ok performance
-    
+    \item It detects violations of important design principles
+    \item False-positives should not create too much noise in the developer workflow. First, the rate of false positives should be reduced as much as possible. Second, reported violations should be easy to ignore. 
+    \item It contributes to detecting design issues at the time of \gls{qa} instead of bad design ending up in production code.
 \end{enumerate}
 
-Rule specific objectives:
+During development it came to mind that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive. 
+\begin{enumerate}
+  \setcounter{enumi}{3}
+    \item Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
+\end{enumerate}
 
+Later on, it was discovered that the performance and ease of setup are crucial objectives to make developers adopt the tool. Therefore, two new objectives for a solution was defined:
+\begin{enumerate}
+\setcounter{enumi}{4}
+     \item It is easy to set up and use for all team members in the project
+    \item Good performance
+\end{enumerate}
+
+%It all boils down to time=\$. The tool will only provide value of we can save development time using it. Then, if the sum of time saved by finding design issues earlier is more than the sum of the negative impact of considering the false-positives, the tool will provide value.
+%As a general objective we can say that, the tool will provide value if the value of detecting true-positives is worth more than the negative impact of all the false-positives. 
+%However, to measure the time spared by detecting issues earlier is an impossible task to measure, but we know that it is quite
+
+
+Rule specific objectives: 
+Comments are understandable, and provides suggestions for solutions.
 
 \subsection{Design and development}
+
 Involves the development of the final software artifact and both horizontal and vertical prototypes. Prototypes is used early in the development phases to quickly be able to evaluate the product. Horizontal prototypes should be created to early demonstrate a broad view of the final artifact. Vertical prototypes will be used to elaborate on technical challenges and the workings of specific features. 
  
 \subsection{Demonstration}
 Gather people for an workshop and presentation of horizontal prototypes. Important to create a structured schema with questions and impressions to get feedback in a structured way that can be used to evaluate the different features.
+
+Posted on social media to get feedback. Having a presentation for Javabin Trondheim to get informants. Direct contact with friends and possible informants. Posted in slack for work.
  
 \subsection{Evaluation}
 
 The evaluation is based on the objectives that was defined in section \ref{objectives-of-solution}.
+
+Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
 
 I find that it is super hard to get feedback on something. I think more rules needs to be implemented to be able to get some valueable feedback. Un-structured feedback trough Reddit. Evaluation of github bot as platform for feedback. Evaluation of implemented rules. Evaluate how often the rule gets triggered using a built software system / vs the noise it creates. Evaluate impact on decisions - e.g a commit introduced some inheritance, and later it was found out that inheritance caused trouble. Simulation on other projects to find bugs and false-positives. Used it to further improve the rules and reduce the noise.
 
@@ -297,6 +344,7 @@ However, i posted an image of the MVP on Reddit/Kotlin, and it quickly got so ma
 My needs for this solution. Needs a AST to analysis and a framework to help me with this. Need a way of creating a report of the analysis and feed it to something else that can post on github. 
 
 
+
 \section{Results}
 \subsection{Prototypes}
 \subsubsection{Horizontal prototype}
@@ -311,11 +359,18 @@ The horizontal prototype was built by creating sample \gls{pr} in a sample repos
 
 % What did i find when using this prototype? What changes does the product need, or does it confirm that i am on the right path?
 
-The schema used for evaluation of the prototype, the participants answers and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. 
+The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. 
 
 \subsubsection{Vertical prototype}
 To get structured feedback on the prototype it 
 Horizontal prototypes with github PR samples with bot commented. Was easily created by pushing code to repo and logging in as the bot. Should create samples that demonstrates possible false positives as well as true positives. 
+
+Main takeaway from feedback: 
+
+People think it is an interesting project.
+Focus on reducing false-positives.
+Does not need a diagram, can use text instead?
+
 
 \subsection{Workshop}
 Schema:
@@ -323,7 +378,6 @@ Who is the participants, some background information on them. What did the parti
 
 What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
 
-\subsection{}
 
 \subsection{Short recap of the development process}
 Creating a vertical prototype with a simple rule (usecomposition rule) to see if this project it technically possible within the time frame of a masters thesis. 
@@ -345,6 +399,7 @@ Detekt gives us access to IntelliJ PSI for analyzing Kotlin code. The PSI is bui
 Type resolution?
 
 \subsubsection{Detekt-hint}
+Final source code can be found on Github\cite{detekt-hint-repository}
 
 \subsubsection{Danger}
 
