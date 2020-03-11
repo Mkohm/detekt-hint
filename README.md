@@ -6,6 +6,7 @@ Detection of design principle violations added as comments on pull requests.
 ## [Getting started](#getting-started) | [Upcoming features](#upcoming-features) | [Documentation](https://mkohm.github.io/detekt-hint/docs/)
 
 
+[![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 [![Maintainability](https://api.codeclimate.com/v1/badges/307995daba5f21506f4d/maintainability)](https://codeclimate.com/github/Mkohm/detekt-hint/maintainability) [![codecov](https://codecov.io/gh/Mkohm/detekt-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/Mkohm/detekt-hint) [![Build Status](https://travis-ci.com/Mkohm/detekt-hint.svg?branch=master)](https://travis-ci.com/Mkohm/detekt-hint) [ ![Download](https://api.bintray.com/packages/bintray/jcenter/io.github.mkohm%3Adetekt-hint/images/download.svg) ](https://bintray.com/bintray/jcenter/io.github.mkohm%3Adetekt-hint/_latestVersion)
 
 ![ucih](images/demo.png)
@@ -19,7 +20,7 @@ Through integration with [Danger](https://github.com/danger/danger) comments are
 Contributions are very much welcome and if you like the project - help me out with a :star:. Especially help in which rules to implement, how to implement them and how to reduce the false-positives.
 
 ## Currently supported detections
-- Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is followed. Will not report if you inherit from third-party libraries. 
+:white_check_mark: Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is not violated. Will not report if you inherit from third-party libraries. 
 - (SOON) Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
 
 ## Upcoming features 
