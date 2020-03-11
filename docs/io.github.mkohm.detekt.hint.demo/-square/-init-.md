@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.demo](../index.md) / [Square](index.md) / [&lt;init&gt;](./-init-.md)
+---
+title: Square.<init> - 
+---
+
+[io.github.mkohm.detekt.hint.demo](../index.html) / [Square](index.html) / [&lt;init&gt;](./-init-.html)
 
 # &lt;init&gt;
 

@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint](../index.md) / [SampleProvider](index.md) / [instance](./instance.md)
+---
+title: SampleProvider.instance - 
+---
+
+[io.github.mkohm.detekt.hint](../index.html) / [SampleProvider](index.html) / [instance](./instance.html)
 
 # instance
 

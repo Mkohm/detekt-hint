@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.demo](../index.md) / [Rectangle](index.md) / [&lt;init&gt;](./-init-.md)
+---
+title: Rectangle.<init> - 
+---
+
+[io.github.mkohm.detekt.hint.demo](../index.html) / [Rectangle](index.html) / [&lt;init&gt;](./-init-.html)
 
 # &lt;init&gt;
 

@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint](../index.md) / [SampleProvider](index.md) / [&lt;init&gt;](./-init-.md)
+---
+title: SampleProvider.<init> - 
+---
+
+[io.github.mkohm.detekt.hint](../index.html) / [SampleProvider](index.html) / [&lt;init&gt;](./-init-.html)
 
 # &lt;init&gt;
 

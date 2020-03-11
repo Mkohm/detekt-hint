@@ -73,6 +73,6 @@ jacocoTestReport {
 
 // A new dokka task for generating github flavoured markdown to the docs directory
 task customDokkaTask(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "gfm"
+    outputFormat = "jekyll"
     outputDirectory = "$projectDir/docs"
 }

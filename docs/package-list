@@ -1,5 +1,5 @@
-$dokka.format:gfm
-$dokka.linkExtension:md
+$dokka.format:jekyll
+$dokka.linkExtension:html
 
 io.github.mkohm.detekt.hint
 io.github.mkohm.detekt.hint.demo

@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.rules](../index.md) / [UseCompositionInsteadOfInheritance](./index.md)
+---
+title: UseCompositionInsteadOfInheritance - 
+---
+
+[io.github.mkohm.detekt.hint.rules](../index.html) / [UseCompositionInsteadOfInheritance](./index.html)
 
 # UseCompositionInsteadOfInheritance
 
@@ -15,18 +19,13 @@ replacing "io.github.com" with your unique package name.
 
 ### Constructors
 
-| Name | Summary |
-|---|---|
-| [&lt;init&gt;](-init-.md) | `UseCompositionInsteadOfInheritance(config: Config = Config.empty)`<br>A rule suggesting the use of composition instead of inheritance. It will help you test for Liskov Substitution and make sure that correct |
+| [&lt;init&gt;](-init-.html) | `UseCompositionInsteadOfInheritance(config: Config = Config.empty)`<br>A rule suggesting the use of composition instead of inheritance. It will help you test for Liskov Substitution and make sure that correct |
 
 ### Properties
 
-| Name | Summary |
-|---|---|
-| [issue](issue.md) | `val issue: Issue` |
+| [issue](issue.html) | `val issue: Issue` |
 
 ### Functions
 
-| Name | Summary |
-|---|---|
-| [visitClass](visit-class.md) | `fun visitClass(klass: KtClass): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [visitClass](visit-class.html) | `fun visitClass(klass: KtClass): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+

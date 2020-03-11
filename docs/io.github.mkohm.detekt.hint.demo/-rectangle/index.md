@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.demo](../index.md) / [Rectangle](./index.md)
+---
+title: Rectangle - 
+---
+
+[io.github.mkohm.detekt.hint.demo](../index.html) / [Rectangle](./index.html)
 
 # Rectangle
 
@@ -6,19 +10,14 @@
 
 ### Constructors
 
-| Name | Summary |
-|---|---|
-| [&lt;init&gt;](-init-.md) | `Rectangle(width: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, height: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)` |
+| [&lt;init&gt;](-init-.html) | `Rectangle(width: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`, height: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`)` |
 
 ### Functions
 
-| Name | Summary |
-|---|---|
-| [setHeight](set-height.md) | `fun setHeight(newHeight: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [setWidth](set-width.md) | `fun setWidth(newWidth: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [setHeight](set-height.html) | `fun setHeight(newHeight: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
+| [setWidth](set-width.html) | `fun setWidth(newWidth: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
 
 ### Inheritors
 
-| Name | Summary |
-|---|---|
-| [Square](../-square/index.md) | `class Square : `[`Rectangle`](./index.md) |
+| [Square](../-square/index.html) | `class Square : `[`Rectangle`](./index.html) |
+

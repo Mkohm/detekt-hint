@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.demo](../index.md) / [Rectangle](index.md) / [setWidth](./set-width.md)
+---
+title: Rectangle.setWidth - 
+---
+
+[io.github.mkohm.detekt.hint.demo](../index.html) / [Rectangle](index.html) / [setWidth](./set-width.html)
 
 # setWidth
 

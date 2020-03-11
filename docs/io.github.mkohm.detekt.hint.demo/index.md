@@ -1,10 +1,13 @@
-[io.github.mkohm.detekt.hint.demo](./index.md)
+---
+title: io.github.mkohm.detekt.hint.demo - 
+---
+
+[io.github.mkohm.detekt.hint.demo](./index.html)
 
 ## Package io.github.mkohm.detekt.hint.demo
 
 ### Types
 
-| Name | Summary |
-|---|---|
-| [Rectangle](-rectangle/index.md) | `open class Rectangle` |
-| [Square](-square/index.md) | `class Square : `[`Rectangle`](-rectangle/index.md) |
+| [Rectangle](-rectangle/index.html) | `open class Rectangle` |
+| [Square](-square/index.html) | `class Square : `[`Rectangle`](-rectangle/index.html) |
+

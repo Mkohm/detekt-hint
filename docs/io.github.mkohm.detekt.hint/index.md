@@ -1,9 +1,12 @@
-[io.github.mkohm.detekt.hint](./index.md)
+---
+title: io.github.mkohm.detekt.hint - 
+---
+
+[io.github.mkohm.detekt.hint](./index.html)
 
 ## Package io.github.mkohm.detekt.hint
 
 ### Types
 
-| Name | Summary |
-|---|---|
-| [SampleProvider](-sample-provider/index.md) | `class SampleProvider : RuleSetProvider` |
+| [SampleProvider](-sample-provider/index.html) | `class SampleProvider : RuleSetProvider` |
+

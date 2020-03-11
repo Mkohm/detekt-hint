@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.rules](../index.md) / [UseCompositionInsteadOfInheritance](index.md) / [issue](./issue.md)
+---
+title: UseCompositionInsteadOfInheritance.issue - 
+---
+
+[io.github.mkohm.detekt.hint.rules](../index.html) / [UseCompositionInsteadOfInheritance](index.html) / [issue](./issue.html)
 
 # issue
 

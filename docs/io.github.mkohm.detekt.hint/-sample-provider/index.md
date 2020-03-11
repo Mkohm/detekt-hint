@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint](../index.md) / [SampleProvider](./index.md)
+---
+title: SampleProvider - 
+---
+
+[io.github.mkohm.detekt.hint](../index.html) / [SampleProvider](./index.html)
 
 # SampleProvider
 
@@ -6,18 +10,13 @@
 
 ### Constructors
 
-| Name | Summary |
-|---|---|
-| [&lt;init&gt;](-init-.md) | `SampleProvider()` |
+| [&lt;init&gt;](-init-.html) | `SampleProvider()` |
 
 ### Properties
 
-| Name | Summary |
-|---|---|
-| [ruleSetId](rule-set-id.md) | `val ruleSetId: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
+| [ruleSetId](rule-set-id.html) | `val ruleSetId: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 
 ### Functions
 
-| Name | Summary |
-|---|---|
-| [instance](instance.md) | `fun instance(config: Config): RuleSet` |
+| [instance](instance.html) | `fun instance(config: Config): RuleSet` |
+

@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.demo](../index.md) / [Rectangle](index.md) / [setHeight](./set-height.md)
+---
+title: Rectangle.setHeight - 
+---
+
+[io.github.mkohm.detekt.hint.demo](../index.html) / [Rectangle](index.html) / [setHeight](./set-height.html)
 
 # setHeight
 

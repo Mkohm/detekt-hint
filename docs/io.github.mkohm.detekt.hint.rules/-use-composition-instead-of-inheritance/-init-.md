@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint.rules](../index.md) / [UseCompositionInsteadOfInheritance](index.md) / [&lt;init&gt;](./-init-.md)
+---
+title: UseCompositionInsteadOfInheritance.<init> - 
+---
+
+[io.github.mkohm.detekt.hint.rules](../index.html) / [UseCompositionInsteadOfInheritance](index.html) / [&lt;init&gt;](./-init-.html)
 
 # &lt;init&gt;
 

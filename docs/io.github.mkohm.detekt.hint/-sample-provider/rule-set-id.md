@@ -1,4 +1,8 @@
-[io.github.mkohm.detekt.hint](../index.md) / [SampleProvider](index.md) / [ruleSetId](./rule-set-id.md)
+---
+title: SampleProvider.ruleSetId - 
+---
+
+[io.github.mkohm.detekt.hint](../index.html) / [SampleProvider](index.html) / [ruleSetId](./rule-set-id.html)
 
 # ruleSetId
 
