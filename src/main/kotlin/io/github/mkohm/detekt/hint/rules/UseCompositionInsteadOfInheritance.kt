@@ -16,6 +16,16 @@ import org.jetbrains.kotlin.psi.stubs.elements.KtStubElementTypes.SUPER_TYPE_CAL
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
+/**
+ * A rule suggesting the use of composition instead of inheritance. It will help you test for Liskov Substitution and make sure that correct
+ *
+ * The rule will fire every time inheritance is introduced, unless you derive from a class that exists in another package.
+ * This will reduce the amount of warnings created where the framework or library you are working with are forcing you to introduce inheritance.
+ *
+ * Remember to configure this rule correctly by adding:
+ * "yourUniquePackageName" : "io.github.mkohm"
+ * replacing "io.github.com" with your unique package name.
+ */
 class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(config) {
     override val issue = Issue(
         javaClass.simpleName,
