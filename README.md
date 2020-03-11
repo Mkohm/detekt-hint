@@ -3,7 +3,7 @@
 # detekt-hint
 Detection of design principle violations added as comments on pull requests.
 
-## [Getting started](#getting-started) | [Upcoming features](#upcoming-features) | [Documentation](https://mkohm.github.io/detekt-hint/docs/)
+## [Getting started](#getting-started) | :checkered_flag: [Roadmap](#upcoming-features) | :thought_balloon: [Ask a question](https://github.com/Mkohm/detekt-hint/issues/new) | :book: [Documentation](https://mkohm.github.io/detekt-hint/docs/)
 
 
 [![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
