@@ -1,7 +1,7 @@
 <div align="center">
 
 # detekt-hint
-Detection of design principle violations.
+Detection of design principle violations added as comments on pull requests.
 
 ## [Getting started](#getting-started) | [Upcoming features](#upcoming-features) | [Documentation](https://mkohm.github.io/detekt-hint/docs/)
 
