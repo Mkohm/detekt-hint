@@ -1,4 +1,8 @@
+<div align="center">
+
 # detekt-hint
+Detection of design principle violations.
+
 ## [Getting started](#getting-started) | [Upcoming features](#upcoming-features) | [Documentation](https://mkohm.github.io/detekt-hint/docs/)
 
 
@@ -6,11 +10,13 @@
 
 ![ucih](images/demo.png)
 
+</div>
+
 detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that includes detection of violation of programming principles. Since such violations are hard to detect with low false-positive rates, detekt-hint will provide hints during QA, minimizing noise during development. The idea is that a higher false-positive rate can be accepted if the detection could be of high value, and is easy to ignore. Detections on the architectural level of code is therefore most likely to provide value.
 
 Through integration with [Danger](https://github.com/danger/danger) comments are added to the PR. Getting feedback directly on the PR makes it easy to ignore possible false-positives. Comments also include context and tips, making it easier for the developer to make the correct decisions. 
 
-Contributions are very much welcome and if you like the project - help me out with a star :). Especially help in which rules to implement, how to implement them and how to reduce the false-positives.
+Contributions are very much welcome and if you like the project - help me out with a :star:. Especially help in which rules to implement, how to implement them and how to reduce the false-positives.
 
 ## Currently supported detections
 - Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is followed. Will not report if you inherit from third-party libraries. 
