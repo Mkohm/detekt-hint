@@ -176,10 +176,10 @@ Code review is a manual inspection process of looking through code. It is the mo
 It is a whole lot of things to consider when doing a code review. Naming a few;
 
 \begin{itemize}
-    \item Is the solution well architected?
-    \item Will changes cause unexpected behaviour? 
+    \item Is the solution well architected? Is it following the architectural model of the application? Are all the files in the correct modules?
+    \item Will changes cause unexpected behavior? 
     \item Is the code understandable? Does all variables, method names, classes express its intent?
-    \item Is duplicate code introduced?
+    \item Is duplicate code introduced? Is this way of solving the problem the way we prefer it to be in this project?
 \end{itemize}
 
 When dealing with large amounts of changed code it is easy to forget some of these. Especially when dealing with repetitive tasks its easy to overlook issues. Tools should therefore help us by automating the most repetitive tasks, such that the time used is focused on finding real design issues. If we can find issues at the time of \gls{qa} the issue will be resolved much quicker because the developer does not need to context switch.
@@ -269,26 +269,39 @@ This problem identification raises an important question which is my main resear
 
 \section{Define objectives of a solution}
 \label{objectives-of-solution}
-Initially the objectives of a solution had the following chacacteristics:
-\begin{enumerate}
-    \item It detects violations of important design principles through a set of rules using static code analysis
-    \item False-positives should not create too much noise in the developer workflow. First, the rate of false positives should be reduced as much as possible. Second, reported violations should be easy to ignore. 
-    \item It contributes to detecting design issues at the time of \gls{qa}.
-    \item It should be configurable for defining desired threshold values and turning off unwanted rules
-\end{enumerate}
 
-During development it came to mind that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive. 
-\begin{enumerate}
-  \setcounter{enumi}{4}
-    \item Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
-\end{enumerate}
+
+
+Initially the objectives of a solution had the following characteristics:
+
+\begin{itemize}
+    \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using static code analysis
+    \item [\textbf{OS2:}] False-positives should not create too much noise in the developer workflow. First, the rate of false positives should be reduced as much as possible. Second, reported violations should be easy to ignore. 
+    \item [\textbf{OS3:}] It contributes to detecting design issues at the time of \gls{qa}.
+    \item [\textbf{OS4:}] It should be configurable for defining desired threshold values and turning off unwanted rules
+    \item [\textbf{OS5:}] Focus on building an artifact that can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
+\end{itemize}
+
+The objectives were confirmed by the initial prototype that were posted on social media. 
+
+
+
+During development of the vertical prototype it came to mind that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to help with the solution. It also appeared harder than initially thought to create and develop accurate rules. A new objective and a specification of OS1 was therefore made: 
+
+
+\begin{itemize}
+    \item [\textbf{OS6:}] Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
+    \item [\textbf{OS1.1:}] It detects violations of \textbf{important} design principles through a \textbf{limited} set of rules using static code analysis.
+\end{itemize}
 
 Later on, it was discovered that the performance and ease of setup are crucial objectives to make developers adopt the tool. Therefore, two new objectives for a solution was defined:
-\begin{enumerate}
-\setcounter{enumi}{5}
-     \item It is easy to set up and use for all team members in the project
-    \item Good performance
-\end{enumerate}
+\begin{itemize}
+     \item [\textbf{OS7:}] It is easy to set up and use for all team members in the project
+    \item [\textbf{OS8:}] Good performance
+\end{itemize}
+
+
+
 
 %It all boils down to time=\$. The tool will only provide value of we can save development time using it. Then, if the sum of time saved by finding design issues earlier is more than the sum of the negative impact of considering the false-positives, the tool will provide value.
 %As a general objective we can say that, the tool will provide value if the value of detecting true-positives is worth more than the negative impact of all the false-positives. 
@@ -310,15 +323,7 @@ Posted on social media to get feedback. Having a presentation for Javabin Trondh
 \section{Evaluation}
 Continuous evaluation of the developed artifact is important to adjust the product to the users needs. Multiple evaluation methods were used on different stages of the project, ranging from interest measurement from posts on social media, interviews, semi structured interviews, discussions, presentations and running the program on own and others code.
 
-The following stages of development will be evaluated: 
-\begin{itemize}
-    \item Idea 
-    \item Requirement specification
-    \item Development
-    \item Presentation of horizontal prototype
-    \item Vertical prototype
-    \item Final artifact
-\end{itemize}
+What is important to show what the evaluation showed in the different stages, and what changed BECAUSE of this evaluation. 
 
 
 Not all objectives defined in section \ref{objectives-of-solution} will be applicable for all the evaluations.
@@ -333,34 +338,72 @@ My needs for this solution. Needs a AST to analysis and a framework to help me w
 
 
 \chapter{Results}
+The results include the produced artifacts and the evaluation of those. The results are presented it the order they were achieved, making the next section a result of the previous one.
+
 
 
 \section{Evaluation results}
-% Not that much focus on creating and hitting bullseye with the product, more about the feedback itself and how to respond to it.
+In the next sections you will find the evaluations taken on the different stages of the development process, and how i responded to it.
 
-\subsection{Idea}
-Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
-Un-structured feedback trough Reddit. However, i posted an image of the MVP on Reddit/Kotlin, and it quickly got so many upvotes that it was top this week in under 12 hours. 
+\subsection{Initial prototype}
 
-\subsection{Requirement specification}
+
+An initial prototype was created to see if there was any interest in a tool for detecting design principle violations. A mockup was created and posted on the subforum of Kotlin and SoftwareArchitecture on reddit.
+
+
+Outcome of this: Showed that there is interest in a tool like this, and that it would be worth spending more time on. People think it is an interesting project. Focus on reducing false-positives. Confirmed my initial OS.
+
+
+
+%Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
+%Un-structured feedback trough Reddit. However, i posted an image of the MVP on Reddit/Kotlin, and it quickly got so many upvotes that it was top this week in under 12 hours. 
+
 \subsection{Development}
+Continous evaluation of the rules through running the tool on own and others code. Finding false-positives and adjusting the rules to avoid them.
 
-\subsection{Horizontal prototype}
 \subsection{Vertical prototype}
-\subsection{Final artifact}
-Through a workshop the final artifact was evaluated. Analysis of pull requests and see if we can find some issues.
-Schema:
-Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop?
+Too see if building a tool for detecting design principle violations is a feasible task within the scope of a master thesis, and to verify if the selected solution would satisfy the objectives, a vertical prototype with a simple rule had to be built. Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as language subject for analysis. 
 
-What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
+Several tools/framework was considered to use as the fundament for a tool, including Ktlint and Code Climate, but Detekt was chosen as the best platform to build on because it looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}.
+
+By building upon Detekt the objectives are solved in this way:
+\begin{itemize}
+    \item [\textbf{OS1:}] It enables writing detection-rules by analysis of the Kotlin \gls{ast} and Jetbrains \gls{psi}.
+    
+    \item [\textbf{OS2:}] Writing rules with high accuracy using the detekt-api, the amount of false positives can be held to a minimum. Through the danger-kotlin\_detekt plugin violations can be posted on \gls{pr}, minimizing noise and impact of possible false-positives.
+    
+    \item [\textbf{OS3:}] Through commenting on \gls{pr}'s the design issues is targeted at the time of \gls{qa}.
+    
+    \item [\textbf{OS4:}] Provides configuration options for rules through the use of a configuration file so the rules can be configured to fit developers/teams best.
+    
+    \item [\textbf{OS5:}] Easy to use with detekt, as the developed tool is a detekt plugin.
+    
+    \item [\textbf{OS6:}] Code context can easily be added to comments.
+    
+    \item [\textbf{OS7:}] Is made extensible through the development of detekt plugins and is easily added to any project already using detekt, and does not require any setup from individual developers.
+
+    \item [\textbf{OS8:}] Have good performance and rules can run in parallel. 
+\end{itemize}
+
+Detekt is also open-source, making it easy to get in touch with the developers if any issues or problems occur.
 
 
-Gather a group of Kotlin/Android entusiasts for a workshop where one could order pizza and code using this tool. Focus on feedback. Could for example analyze some code that they know and give some feedback on whether it is useful or not. What would have been useful?
+The prototype therefore solves many of the objectives of a solution. However, because of being a prototype it only supports 1 rule that has too many false positives, and the comment is not helping the developer.
 
-\section{Produced artifacts}
+
+
+Building the prototype confirmed the above, and showed a simple rule in action. It was therefore a successful prototype that was a proof of concept and laid the foundations to further development. What was learned developing the prototype is that creating rules is an time-intensive process because it involves programming in a complex environment with a huge API with lack of documentation. In addition, creating inspections for programming languages involves handling a lot of edge-cases that can take time to cover. Writing test cases for all the different scenarios ensured proper handling of all the edge-cases.
+
+
+The main takeaways from evaluating the prototype:
+\begin{itemize}
+    \item Detekt is a good platform for building such a tool and enables fulfillment of most objectives for a solution
+    \item Further development should focus on a small set of the most important rules, because they can take a long time to implement.
+    \item Run the tool on others code to find possible bugs and false-positives
+\end{itemize}
 
 \subsection{Horizontal prototype}
-The horizontal prototype was built by creating sample \gls{pr} in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}. 
+The horizontal prototype was built by creating sample \gls{pr} in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}. It 
 
 \begin{figure}[h!]
     \centering
@@ -373,27 +416,38 @@ The horizontal prototype was built by creating sample \gls{pr} in a sample repos
 
 The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. 
 
-\subsection{Vertical prototype}
-To get structured feedback on the prototype it 
-Horizontal prototypes with github PR samples with bot commented. Was easily created by pushing code to repo and logging in as the bot. Should create samples that demonstrates possible false positives as well as true positives. 
-
-Main takeaway from feedback: 
-
-People think it is an interesting project.
-Focus on reducing false-positives.
 Does not need a diagram, can use text instead?
 
+Because it was discovered that a small subset of rules only could be developed, it was then a question of finding out which rules should be implemented. Therefore the horizontal prototype was created.
 
 
-Creating a vertical prototype with a simple rule (usecomposition rule) to see if this project it technically possible within the time frame of a masters thesis. 
-
-The schema for the workshop can be found in appendix \ref{workshop-schema}.
+Outcome:
 
 
-\subsection{Detekt-hint specification}
+\subsection{Final artifact}
+The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution.
+
+
+Through a workshop the final artifact was evaluated. Analysis of pull requests and see if we can find some issues.
+Schema:
+Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop? Because of difficulties related to finding informants, i had to focus on evaluating the prototype by myself, and gethering numbers for how many 
+
+\begin{itemize}
+    \item false-positive rate / per rule
+    \item how many comments per PR avg? How obtrusive is the tool
+\end{itemize}
+
+What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
+
+
+Gather a group of Kotlin/Android entusiasts for a workshop where one could order pizza and code using this tool. Focus on feedback. Could for example analyze some code that they know and give some feedback on whether it is useful or not. What would have been useful?
+
+
+
+\subsubsection{Detekt-hint specification}
 Specification of all the rules.
 
-\subsection{Detekt-hint}
+\subsubsection{Detekt-hint}
 
 \subsubsection{Architecture}
 A diagram of how everything interacts with each other.
@@ -415,7 +469,7 @@ Final source code can be found on Github\cite{detekt-hint-repository}
 \chapter{Discussion and conclusion}
 \label{discussion}
 
-\section{Descussion}
+\section{Discussion}
 
 \section{Future work}
 Implement more rules.
@@ -424,6 +478,10 @@ Reducing the amount of false positives.
 Providing more context and/or possible solutions in the comments. Images or graphs explaining.
 Increasing the performance.
 Easing the setup process. Github app? Direct integration with the repository with no setup. A tool like code-climate that does not need any configuration. Plus of tool like this: all setup is in source control. Downside: could be tedious to set up or not all team members want to use it.
+\section{Flaws of the study}
+not enough informants - lack of testing the software
+informants lacking knowldge about design principles
+Should create samples for the horizontal prototype that demonstrates possible false positives as well as true positives. 
 
 \section{Conclusion}
 \label{conclusion}
