@@ -9,6 +9,7 @@ repositories {
     jcenter()
     mavenCentral()
 }
+
 dependencies {
     // When creating a sample extension, change this dependency to the detekt-api version you build against
     // e.g. io.gitlab.arturbosch.detekt:detekt-api:1.x.x
@@ -68,4 +69,10 @@ jacocoTestReport {
         xml.enabled true
         html.enabled false
     }
+}
+
+// A new dokka task for generating github flavoured markdown to the docs directory
+task customDokkaTask(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = "gfm"
+    outputDirectory = "$projectDir/docs"
 }
