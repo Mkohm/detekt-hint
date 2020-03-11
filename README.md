@@ -1,7 +1,7 @@
 # detekt-hint
 [![Maintainability](https://api.codeclimate.com/v1/badges/307995daba5f21506f4d/maintainability)](https://codeclimate.com/github/Mkohm/detekt-hint/maintainability) [![codecov](https://codecov.io/gh/Mkohm/detekt-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/Mkohm/detekt-hint) [![Build Status](https://travis-ci.com/Mkohm/detekt-hint.svg?branch=master)](https://travis-ci.com/Mkohm/detekt-hint) [ ![Download](https://api.bintray.com/packages/bintray/jcenter/io.github.mkohm%3Adetekt-hint/images/download.svg) ](https://bintray.com/bintray/jcenter/io.github.mkohm%3Adetekt-hint/_latestVersion)
 
-![ucih](demo.png)
+![ucih](images/demo.png)
 
 detekt-hint is a plugin for [detekt](https://github.com/arturbosch/detekt) that includes detection of violation of programming principles. Since such violations are hard to detect with low false-positive rates, detekt-hint will provide hints during QA, minimizing noise during development. The idea is that a higher false-positive rate can be accepted if the detection could be of high value, and is easy to ignore. Detections on the architectural level of code is therefore most likely to provide value.
 
@@ -15,13 +15,13 @@ Contributions are very much welcome and if you like the project - help me out wi
 
 ## Upcoming features 
 ### Interface Segregation Principle
-![lcom](comment_isp.png)
+![lcom](images/comment_isp.png)
 
 ### Single Responsibility Principle
-![lcom](comment_lackOfCohesion.png)
+![lcom](images/comment_lackOfCohesion.png)
 
 ### Open-Closed Principle
-![lcom](comment_ocp.png)
+![lcom](images/comment_ocp.png)
 
 Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
 
