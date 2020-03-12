@@ -33,7 +33,10 @@
 \newacronym{psi}{PSI}{Program Structure Interface}
 \newacronym{dsm}{DSM}{Dependency Structure Matrix}
 \newacronym{lod}{LoD}{Law of Demeter}
+\newacronym{ide}{IDE}{Integrated Development Environment}
+\newacronym{cli}{CLI}{Command Line Interface}
 \newacronym{qa}{QA}{Quality Assurance}
+\newacronym{jvm}{JVM}{Java Virtual Machine}
 
 \begin{document}
 
@@ -202,32 +205,29 @@ https://medium.com/@pello/design-science-research-a-summary-bb538a40f669
 \subsubsection{Prototyping}
 
 horizontal and vertical prototypes. high and low res prototypes.
-Used a prototype of the horizontal prototype to verify if i got feedback on what i wanted to. (Test on Eirik)
+Used a prototype of the horizontal prototype to verify if i got feedback on what i wanted to. (Test on Eirik) \todo{write this one}
 
 
 \chapter{Related work}
 \label{relatedwork}
-To the best of my knowledge, a tool that only focuses on detecting violations of design principles does not exist. However, some tools and linters include functionality for detecting violations on a small amount of the design principles. I will elaborate on how the different tools support design principles below.
+\todo{fill inn more stuff here}
 
-\textbf{High Cohesion - Low Coupling} is a metric that has support in multiples tools, including but not limited to JArchitect \cite{jarchitect} and CodeMR \cite{codemr}. JArchitect \cite{jarchitect} includes functionality for visualizing the High Cohesion - Low Coupling metric using a \gls{dsm}. 
+To the best of my knowledge, a tool that only focuses on detecting violations of design principles does not exist. There exists a lot of tools for code analysis, \cite{}, \cite{} to name a few of the most used ones. Most of them support detection of violations of style conventions, best practices and finding possible bugs. However, some tools and linters include functionality for detecting violations on a small subset of the design principles. Therefore, developers need to adopt a large suite of tools to only be able to support detection of a few design principles violations. Also, the tools are fundamentally different and have different purpose and supports integration in the development process differently, both with its advantages and disadvantages. The tools are ranging from separate \gls{cli}s, native applications, online services, \gls{ide}s and \gls{ide} plugins. The purpose varies. Some are used for project level analysis activities, for finding areas in the codebase with issues, while other tools are focused at reporting issues at the time of writing or in the \gls{qa} process. I will elaborate on how the different tools support the different design design principles below.
 
-\textbf{\gls{srp}}
-JArchitect uses the \gls{dsm} to find violations of \gls{srp} by looking at how many different types a class uses. Ndepend \cite{ndepend} calculates the \gls{lcom} value to find whether the class is cohesive or not, and possibly breaking \gls{srp}. 
+The principle of \textbf{High Cohesion - Low Coupling} is a principle that has support in multiples tools, in the form of calculating a metric\footnote{A measurement of a particular characteristic of a program.}, including but not limited to JArchitect \cite{jarchitect} and CodeMR \cite{codemr}. JArchitect \cite{jarchitect} also includes functionality for visualizing  High Cohesion - Low Coupling using a \gls{dsm}. 
 
-\textbf{\gls{lod}}
-IntelliJ \cite{IntelliJ} (for Java) has support for detecting violations of the \gls{lod} principle.
+JArchitect uses the \gls{dsm} to find violations of \textbf{\gls{srp}} by looking at how many different types a class uses. Ndepend \cite{ndepend} calculates the \gls{lcom} value to find whether the class is cohesive or not, and therefore possibly breaking \gls{srp}. 
 
-\textbf{\gls{dry}}
-Detecting similar snippets of code to find violations of the \gls{dry} principle is targeted by many tools including, but not limited to IntelliJ, PMD and Code Climate. However, code can violate \gls{dry} without looking similar, and tools that can detect such issues have not been found.  
+IntelliJ \cite{IntelliJ} (for Java) has support for detecting violations of the \textbf{\gls{lod}} principle.
+
+Detecting similar snippets of code to find violations of the \textbf{\gls{dry}} principle is targeted by many tools including, but not limited to IntelliJ, PMD and Code Climate. However, code can violate \gls{dry} without looking similar, and tools that can detect such issues have not been found.  
+
+% How i can use this information to my advantage , how is this useful?
+By looking into which principles that currently are supported and how the different tools supports them,  selecting which design principles to support, and how to implement them has been easier.
 
 
 
 
-Problem being that some of the tools only include a small subset of the principles, making developers need to adopt a large suite of tools to only be able to support detection of violation of design principles.
-
-can be used to find where to start reducing technical debt, but is not highly integrated into the development process 
-
-The problem is that very few tools for detecting design principle violations exists. As mentioned in \ref{relatedwork}, the existing tools analyze the whole codebase and is not integrated with the development process. Using the existing tools can be good for project level analysis activities, and finding areas of improvement. The tools also lack support for many import design principles.
 
 \chapter{Methodology}
 \label{methodology}
@@ -275,10 +275,10 @@ This problem identification raises an important question which is my main resear
 Initially the objectives of a solution had the following characteristics:
 
 \begin{itemize}
-    \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using static code analysis
+    \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using static code analysis.
     \item [\textbf{OS2:}] False-positives should not create too much noise in the developer workflow. First, the rate of false positives should be reduced as much as possible. Second, reported violations should be easy to ignore. 
     \item [\textbf{OS3:}] It contributes to detecting design issues at the time of \gls{qa}.
-    \item [\textbf{OS4:}] It should be configurable for defining desired threshold values and turning off unwanted rules
+    \item [\textbf{OS4:}] It should be configurable for defining desired threshold values and turning off unwanted rules.
     \item [\textbf{OS5:}] Focus on building an artifact that can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
 \end{itemize}
 
@@ -313,9 +313,20 @@ Comments are understandable, and provides suggestions for solutions.
 
 \section{Design and development}
 
-Involves the development of the final software artifact and both horizontal and vertical prototypes. Prototypes is used early in the development phases to quickly be able to evaluate the product. Horizontal prototypes should be created to early demonstrate a broad view of the final artifact. Vertical prototypes will be used to elaborate on technical challenges and the workings of specific features. 
+The design and development phase involves the development of both vertical and horizontal prototypes with high and low resolution, as well as development of the final artifact. First, low resolution prototypes will be created, and then more high resolution prototypes. The vertical prototypes will be used to elaborate on technical challenges and the workings of specific rules and features. Horizontal prototypes will be used to demonstrate, and to get feedback on a more feature rich, but functionally limited view of the final artifact. 
+
  
 \section{Demonstration}
+
+The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. The most important aspect of demonstrating the prototypes, is to put them in a environment that is as similar as possible to the environment that the final product will be used in. This involves getting users to test the product. However, solutions that does not involve explicit testing must also be considered as gathering participants for testing could be time consuming and require more resources.  
+
+The prototype demonstration takes different forms:
+Presentation of the system (javabin). 
+Vertical prototypes for me to test to see whether the objectives is fulfilled or not.
+Presentation of prototype on social media to check for interest.
+Having a workshop with users testing the end product.
+Showing prototype to friends.
+
 Gather people for an workshop and presentation of horizontal prototypes. Important to create a structured schema with questions and impressions to get feedback in a structured way that can be used to evaluate the different features.
 
 Posted on social media to get feedback. Having a presentation for Javabin Trondheim to get informants. Direct contact with friends and possible informants. Posted in slack for work.
@@ -334,37 +345,49 @@ The results from the evaluations is presented in the result chapter.
 \section{Communication}
 
 
-My needs for this solution. Needs a AST to analysis and a framework to help me with this. Need a way of creating a report of the analysis and feed it to something else that can post on github. 
-
-
 \chapter{Results}
-The results include the produced artifacts and the evaluation of those. The results are presented it the order they were achieved, making the next section a result of the previous one.
+Describing the exact number of iterations and the iteration steps is not possible as one continuously evaluates the product and adjusts the product under development. But seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
 
+The 4 iterations were focused on 4 different stages of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one.
 
+\section{Initial prototype}
 
-\section{Evaluation results}
-In the next sections you will find the evaluations taken on the different stages of the development process, and how i responded to it.
+\subsection*{Why and how it was created}
+An initial prototype was created to see if there was any interest in a tool for detecting design principle violations. The mockup can be seen in figure \ref{fig:mockup}.
 
-\subsection{Initial prototype}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{../images/demo.png}
+    \caption{Initial prototype that was presented on social media}
+    \label{fig:mockup}
+\end{figure}
 
+\subsection*{Demonstration}
+A mockup was created and posted on the subforum of Kotlin\cite{kotlin-reddit} and SoftwareArchitecture\cite{softwarearch-reddit} on reddit. 
 
-An initial prototype was created to see if there was any interest in a tool for detecting design principle violations. A mockup was created and posted on the subforum of Kotlin and SoftwareArchitecture on reddit.
+\subsection*{Evaluation}
+The general feedback was that there was an interest in a tool like this, and that it would be worth spending more time on. This is only based on a few comments and a fair amount of upvotes on the post, so the actual value of that evaluation will be limited. Read more about this in \ref{flaws-of-study}. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. \\
 
+Suggestions for improvement included: 
+\begin{itemize}
+    \item Do not claim that the developer is wrong when there can be a lot of false-positives, instead present it as this \textbf{might} be a violation of a design principle.
+    \item Identifications could create useful discussions within the developer team.
+    \item Focus on removing the amount of false-positives as much as possible and making it configurable to fit different needs.
+\end{itemize}
 
-Outcome of this: Showed that there is interest in a tool like this, and that it would be worth spending more time on. People think it is an interesting project. Focus on reducing false-positives. Confirmed my initial OS.
+In general the feedback confirmed my initial objectives for a solution.
 
+\section{Vertical prototype}
 
-
-%Ok to reference popularity on github/reddit, but can be misvisende and it is important to not take the response there for god fisk.
-%Un-structured feedback trough Reddit. However, i posted an image of the MVP on Reddit/Kotlin, and it quickly got so many upvotes that it was top this week in under 12 hours. 
-
-\subsection{Development}
-Continous evaluation of the rules through running the tool on own and others code. Finding false-positives and adjusting the rules to avoid them.
-
-\subsection{Vertical prototype}
-Too see if building a tool for detecting design principle violations is a feasible task within the scope of a master thesis, and to verify if the selected solution would satisfy the objectives, a vertical prototype with a simple rule had to be built. Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as language subject for analysis. 
+\subsection*{Why and how it was created}
+The initial prototype proposed more work into creating a tool for detecting design principle violations. Too see if building a tool for detecting design principle violations is a feasible task within the scope of a master thesis, and to verify if the selected solution would satisfy the objectives, a vertical prototype with a simple rule had to be built. Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as language subject for analysis. 
 
 Several tools/framework was considered to use as the fundament for a tool, including Ktlint and Code Climate, but Detekt was chosen as the best platform to build on because it looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}.
+
+\subsection*{Demonstration}
+The prototype was demonstrated continuously during development to the developer...
+
+\subsection*{Evaluation}
 
 By building upon Detekt the objectives are solved in this way:
 \begin{itemize}
@@ -391,7 +414,6 @@ Detekt is also open-source, making it easy to get in touch with the developers i
 The prototype therefore solves many of the objectives of a solution. However, because of being a prototype it only supports 1 rule that has too many false positives, and the comment is not helping the developer.
 
 
-
 Building the prototype confirmed the above, and showed a simple rule in action. It was therefore a successful prototype that was a proof of concept and laid the foundations to further development. What was learned developing the prototype is that creating rules is an time-intensive process because it involves programming in a complex environment with a huge API with lack of documentation. In addition, creating inspections for programming languages involves handling a lot of edge-cases that can take time to cover. Writing test cases for all the different scenarios ensured proper handling of all the edge-cases.
 
 
@@ -402,17 +424,28 @@ The main takeaways from evaluating the prototype:
     \item Run the tool on others code to find possible bugs and false-positives
 \end{itemize}
 
-\subsection{Horizontal prototype}
-The horizontal prototype was built by creating sample \gls{pr} in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}. It 
+\section{Horizontal prototype}
+\subsection*{Why and how it was created}
+As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement. Looking through a lot of principles, i tried to determine which rules that would be useful. Since \gls{solid} is considered by many to be the most important design principles, the focus was put on those. The process ended by creating the horizontal prototype that included the rules that i had the most value. 
+
+
+The horizontal prototype was built by creating sample \gls{pr} in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}.
+
+\subsection*{Demonstration}
+The horizontal prototype was then presented for a group of x number of people using a semi structured interview. The interview followed the semi-structured interview schema that can be found in the appendix \cite{}. The horizontal prototype was also presented for approximately 20 participants of Javabin Trondheim\footnote{A usergroup for persons interested in sofware development on the Java and \gls{jvm} platform, and related technologies.} to gather additional informants and feedback. the system (javabin). 
+
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{../demo.png}
-    \caption{Prototype of the composition over inheritance / \gls{lsp} rule}
+    \includegraphics[width=\textwidth]{../images/demo.png}
+    \caption{Screenshot of horizontal prototype - Showing the composition over inheritance / \gls{lsp} rule}
     \label{fig:liskov}
 \end{figure}
 
+
 % What did i find when using this prototype? What changes does the product need, or does it confirm that i am on the right path?
+
+\subsection*{Evaluation}
 
 The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. 
 
@@ -424,14 +457,17 @@ Because it was discovered that a small subset of rules only could be developed, 
 Outcome:
 
 
-\subsection{Final artifact}
-The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution.
+\section{Final artifact}
+\subsection*{Why and how it was created}
+The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. 
 
 
+\subsection*{Demonstration}
 Through a workshop the final artifact was evaluated. Analysis of pull requests and see if we can find some issues.
 Schema:
 Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop? Because of difficulties related to finding informants, i had to focus on evaluating the prototype by myself, and gethering numbers for how many 
 
+\subsection*{Evaluation}
 \begin{itemize}
     \item false-positive rate / per rule
     \item how many comments per PR avg? How obtrusive is the tool
@@ -443,7 +479,8 @@ What is the goal, how should i reach the goal of the workshop. Keep the workshop
 Gather a group of Kotlin/Android entusiasts for a workshop where one could order pizza and code using this tool. Focus on feedback. Could for example analyze some code that they know and give some feedback on whether it is useful or not. What would have been useful?
 
 
-
+\section{Technical solution}
+\label{technical-solution}
 \subsubsection{Detekt-hint specification}
 Specification of all the rules.
 
@@ -479,9 +516,10 @@ Providing more context and/or possible solutions in the comments. Images or grap
 Increasing the performance.
 Easing the setup process. Github app? Direct integration with the repository with no setup. A tool like code-climate that does not need any configuration. Plus of tool like this: all setup is in source control. Downside: could be tedious to set up or not all team members want to use it.
 \section{Flaws of the study}
+\label{flaws-of-study}
 not enough informants - lack of testing the software
 informants lacking knowldge about design principles
-Should create samples for the horizontal prototype that demonstrates possible false positives as well as true positives. 
+Should create samples for the horizontal prototype that demonstrates possible false positives as well as true positives. Kan gi inntrykk av at programmet er lurere enn det egentlig er siden jeg bare presenterte de positive identifikasjonene. Inntrykk av interesse på reddit kan være feil pga dette.
 
 \section{Conclusion}
 \label{conclusion}
