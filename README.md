@@ -1,7 +1,7 @@
 <div align="center">
 
 # detekt-hint
-Detection of design principle violations added as comments on pull requests.
+Detection of design principle violations in Kotlin added as comments on pull requests.
 
 ## [Getting started](#getting-started) | :checkered_flag: [Roadmap](#upcoming-features) | :thought_balloon: [Ask a question](https://github.com/Mkohm/detekt-hint/issues/new) | :book: [Documentation](https://mkohm.github.io/detekt-hint/docs/)
 
