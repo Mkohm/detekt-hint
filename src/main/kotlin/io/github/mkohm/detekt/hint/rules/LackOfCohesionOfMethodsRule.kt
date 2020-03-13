@@ -41,11 +41,21 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
     override fun visitNamedDeclaration(declaration: KtNamedDeclaration) {
         super.visitNamedDeclaration(declaration)
 
-        if ((declaration is KtProperty || isPropertyFromPrimaryConstructor(declaration)) && propertyIsDeclaredInsideClass(declaration)) {
+        if (propertyIsMember(declaration) || isPropertyFromPrimaryConstructor(declaration)) {
             propertyCount++
 
             val containingClass = declaration.containingClass()!!
             searchForReferencesInPublicMethods(declaration, containingClass)
+        }
+    }
+
+    private fun propertyIsMember(declaration: KtNamedDeclaration): Boolean {
+        return try {
+            // We only want to return true if the declaration is a true member of the class.
+            // If a property is declared inside an anonymous class, it is a member, but the fqname will be null, and we can therefore discard it.
+            return (declaration as KtProperty).isMember && declaration.fqName != null
+        } catch (e: ClassCastException) {
+            false
         }
     }
 
@@ -61,9 +71,8 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
         if (publicMethodsCount == 0 || propertyCount == 0) return
 
-        println("properties: $propertyCount, methods: $publicMethodsCount, mf: $mf_sum")
         val lcom = 1 - (mf_sum.toDouble() / (publicMethodsCount * propertyCount))
-        println("Class ${klass.name} has LCOM: $lcom")
+        println("Class ${klass.name} has LCOM: $lcom, properties: $propertyCount, methods: $publicMethodsCount, mf: $mf_sum")
         if (lcom > thresholdValue) {
             report(
                 CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
@@ -101,19 +110,16 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         }
     }
 
-    private fun propertyIsDeclaredInsideClass(property: KtNamedDeclaration) =
-        property.containingClass() != null
-
     private fun getPublicMethods(klass: KtClass): List<KtNamedFunction> {
         return klass.collectDescendantsOfType<KtNamedFunction> { it.isPublic }
     }
 
     private fun getReferencesOfProperty(
-        privateMethod: KtNamedFunction,
+        method: KtNamedFunction,
         property: KtNamedDeclaration
     ): List<KtReferenceExpression> {
-        return privateMethod.bodyExpression?.collectDescendantsOfType { reference ->
-            isReferenceOfPropertyClass(reference) && reference.text == property.name
+        return method.bodyExpression?.collectDescendantsOfType { reference ->
+            isReferenceOfPropertyClass(reference, method) && reference.text == property.name
         } ?: arrayListOf()
     }
 
@@ -121,9 +127,10 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
      * We need to ensure that the found reference not only have the same name as the property, but if it is a member of the correct class as well.
      */
     private fun isReferenceOfPropertyClass(
-        reference: KtReferenceExpression
+        reference: KtReferenceExpression,
+        method: KtNamedFunction
     ) =
-        reference.getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration?.name.toString() == publicMethods[0].containingClass()?.name
+        reference.getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration?.name.toString() == method.containingClass()?.name
 
     private fun isCalleeInPropertyClass(
         callee: KtNamedFunction,
