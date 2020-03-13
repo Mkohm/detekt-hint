@@ -17,5 +17,3 @@ open class Rectangle(width: Int, height: Int) {
         this.height = newHeight
     }
 }
-
-class Square(width: Int, height: Int) : Rectangle(width, height)

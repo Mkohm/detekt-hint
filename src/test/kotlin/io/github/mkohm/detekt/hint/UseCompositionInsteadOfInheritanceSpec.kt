@@ -45,7 +45,7 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
 
     describe("Public interface of class A") {
         it("Should find all public methods and put in the report") {
-            val code = compileForTest(path.resolve("Square.kt"))
+            val code = compileForTest(path.resolve("SquareRectangle.kt"))
 
             val findings = subject.compileAndLintWithContext(wrapper.env, code.text)
 
