@@ -23,5 +23,3 @@ open class Rectangle(width: Int, height: Int) {
 
     }
 }
-
-class Square(width: Int, height: Int) : Rectangle(width, height)
