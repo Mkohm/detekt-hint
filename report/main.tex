@@ -56,21 +56,44 @@
 \clearpage
 \chapter{Introduction}
 
-% Why maintainable code is important
-Writing maintainable and high quality code is an important part of software engineering. Various people define software maintainability differently, but a commonly accepted collection of quality attributes include extensibility, modularity, testability and understandability. To help developers write code with those attributes, well defined rules and conventions have been developed. They are often enforced by the use of tools commonly referred to as linters. Design principles is another invention that has been created to help developers write code that adheres to the aforementioned quality attributes. Unfortunately, many of the principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. The absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
+\todo{Ikke bruk for spesifikke begreper som ikke er definert i introduksjonen. Kan heller si litt mer generelt og om viktigheten, og så utdype mer i bakgrunnskapittelet.}
 
-Code analysis using tools, and code review are two techniques used for detecting design issues or design principle violations in code. According to a pre-study on the current state on tools for improvement of code quality-study \cite{prestudy}, current tools are giving limited options for detecting design issues in code, and manual code reviews suffers from human failure.  \todo{sources that can help me argue that code review don't pick up everything.} By combining code analysis and manual code review the primary objective of the study is to see whether we can detect more design issues. Using the design science methodology an innovative product will be developed through short iterations that includes the use of prototypes and continuous feedback. The study will present the inner workings of the product as well as a detailed evaluation of the final artifact.
+% https://student.unsw.edu.au/introductions - Nice resource for seeing what should be in the introdcution!
+
+% State the general topic and give some background about its importance
+Writing software that is easy to modify and extend is an important part of software engineering. Software that have this attribute (quality) is often referred to as maintainable. Non-maintainable software is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
+
+% Introduserer best practices etc. Low level code hjelp.
+To help developers write code that is maintainable, well defined rules, best practices and conventions for writing code have been developed. The rules targets low-level code constructs, only covering small amounts of code. I will hereby, refer to these as \textit{rules}. % I will call these rules.
+
+% Introduserer høyere nivås prinsipper som angriper på et høyere nivå
+Less formal design principles that targets the structure or design of code at an architectural level have also been developed. The design principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. % I will refer to these as principles
+
+% Outline the current situation
+Currently the rules are adopted by the programmers and can be enforced by the use of code-analysis. Tools for code-analysis have been developed and provides an effective way of checking rules, and can often auto-correct or provide solutions to detected problems.  
+
+The design principles, on the other hand are mostly informal and therefore have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are very limited and suffer from false-positives that will create noise during development. Current approaches for detecting violations mostly involve manual code review, which is a time consuming and error-prone task.
+
+% Identity the importance of the proposed research
+Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. Restructuring badly designed code is a very time consuming task. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and possibly save large amounts of time.  
+
+% Present the hypotheses and research questions
+The hypotheses for this study are that there exists a way of using code review and code-analysis in new ways such that we can reduce the impact and disturbance of possible false-positives by presenting it in new ways and providing guidance or solutions to design issues. By following the design science methodology, a tool for detecting design principle violations will be developed and evaluated. 
+
+
+%Writing maintainable and high quality code is an important part of software engineering. Various people define software maintainability differently, but a commonly accepted collection of quality attributes include extensibility, modularity, testability and understandability. To help developers write code with those attributes, well defined rules, best practices and conventions have been developed. They are often enforced by the use of tools commonly referred to as linters. Design principles is another invention that has been created to help developers write code that adheres to the aforementioned quality attributes. Unfortunately, many of the principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. The absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
+
+
+
+%Code analysis using tools, and code review are two techniques used that is used for detecting design issues or design principle violations in code. According to a pre-study on the current state on tools for improvement of code quality-study \cite{prestudy}, current tools are giving limited options for detecting design issues in code, and manual code reviews suffers from human failure.  \todo{sources that can help me argue that code review don't pick up everything.} By combining code analysis and manual code review the primary objective of the study is to see whether we can detect more design issues. Using the design science methodology an innovative product will be developed through short iterations that includes the use of prototypes and continuous feedback. The study will present the inner workings of the product as well as a detailed evaluation of the final artifact.
 
  %More specifically we will study which design principles that are eligible for code analysis and code review, how to reduce the amount of false-positives and how violations can be reported back to the developer.  
 
 
 %Some tools offer analysis for detection of some design principle violations, but they suffer from false-positives and not being integrated into the development process - resulting in a high degree of context switching. 
 
-% Code review
-%Manual process of inspecting code are error-prone, suffers from "large pr syndrome" and the fact that different developers apply the design principles differently.
 
-
-The outline of the paper is as follows; Section \ref{background} gives some background information and an introduction to the topics of writing code with high quality and code analysis. Section \ref{methodology} describes the methodology of the research process. Section \ref{relatedwork} gives some insight in related work in the area and section \ref{results} presents the developed artifact, and a detailed evaluation of it. Section \ref{discussion} discusses the results, and lastly in section \ref{conclusion} we conclude the study.  
+The outline of the paper is as follows; Chapter \ref{background} gives some background information and an introduction to the topics maintainable code and code analysis. Chapter \ref{relatedwork} gives some insight in related work in the area. Chapter \ref{methodology} describes the methodology of the research process, and chapter \ref{results} presents the results, including the prototypes and the final artifact. Chapter \ref{discussion} discusses the results ending with the conclusion of the study.  
 
 \chapter{Background}
 \todo{watch out for self-plagiat. Diff with the pre-study when things starting to get fininished - smooth checker: https://copyleaks.com/compare .}
@@ -170,6 +193,8 @@ As stated above, most of the design principles are hard to detect violations of.
 
 A \textit{false-negative} is when actual violation goes undetected. \todo{add sample?}
 
+\todo{Should maybe use the wording "wrong guidelines" instead of false-positives in a way. }
+
 
 \section{Code review}
 \label{code-review}
@@ -188,24 +213,13 @@ It is a whole lot of things to consider when doing a code review. Naming a few;
 When dealing with large amounts of changed code it is easy to forget some of these. Especially when dealing with repetitive tasks its easy to overlook issues. Tools should therefore help us by automating the most repetitive tasks, such that the time used is focused on finding real design issues. If we can find issues at the time of \gls{qa} the issue will be resolved much quicker because the developer does not need to context switch.
 
 \section{Context switching}
+\todo{Endre dette - context switching blir noe feil begrep. Disruptive refactoring? }
 When developing, switching tasks is time consuming. 
 
 \begin{quote}
     ``The trick here is that when you manage programmers, specifically, task switches take a really, really, really long time. That’s because programming is the kind of task where you have to keep a lot of things in your head at once. The more things you remember at once, the more productive you are at programming. A programmer coding at full throttle is keeping zillions of things in their head at once: everything from names of variables, data structures, important APIs, the names of utility functions that they wrote and call a lot, even the name of the subdirectory where they store their source code. If you send that programmer to Crete for a three week vacation, they will forget it all. The human brain seems to move it out of short-term RAM and swaps it out onto a backup tape where it takes forever to retrieve.'' \cite{human-context-switching}
 \end{quote} 
 If you exchange send to "Crete for three weeks" by fixing design issue (that needs to be resolved for further development) that was introduced one year ago, we can imagine the time to get into that context and resolving the issue. Or imagine maintaining a badly built software project that another group of developers built.
-
-
-\section{Design science}
-Design science is a research methodology that focuses on getting knowledge through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects.
-
-https://medium.com/@pello/design-science-research-a-summary-bb538a40f669
-\todo{insert image of design science methodology}
-
-\subsubsection{Prototyping}
-
-horizontal and vertical prototypes. high and low res prototypes.
-Used a prototype of the horizontal prototype to verify if i got feedback on what i wanted to. (Test on Eirik) \todo{write this one}
 
 
 \chapter{Related work}
@@ -228,10 +242,28 @@ By looking into which principles that currently are supported and how the differ
 
 
 
+\todo{Si mer om hvorfor jeg har valgt design science - 
+legge struktur på vanlig utvikling. mer ordentlig enn utvikling med fokus på bruker. hvorfor design science: generelt bidrag ; ikke bare om produktet løser problemet for kotlin utviklere. mer evaluering, og om "hinting" er interessant for alle utviklere. }
+
+\todo{diff between design science and development - google dette}
+
+
+
 
 \chapter{Methodology}
 \label{methodology}
-This study will follow the Design Science methodology which is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}. It is selected because it fits the process of building a innovative software artifact. The software artifact will be created through a series of iterations that include the follow activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
+\todo{rephrase}
+The development of a system for detecting design principle violation may look as any user-centred design process. However, there are two general goals of this study. The first is to build an innovative software product. The second goal is to develop knowledge about giving guidelines on following design principles, in a developer workflow. To reach the second goal  Such that this knowledge can be used to develop similar tools, or be further built upon. To develop such knowledge, a methodology presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302} will be utilized. The methodology provides specific guidelines for evaluation and iteration in research projects. 
+
+The knowledge is presented in the form of this whole thesis, while the actual product. 
+
+Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. 
+
+For this thesis it is selected because it 
+
+
+
+It is selected because it fits the process of building a innovative software artifact. The software artifact will be created through a series of iterations that include the follow activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
 
 \begin{figure}[h!]
     \centering
@@ -256,8 +288,12 @@ Absence of correctly applied design principles triggers maintainability problems
 
 \end{enumerate}
 
-There are mainly two techniques for detecting design issues, code-analys using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
+\todo{Definere hva jeg mener med "detection of violations". Det er mer "steder å hinte på" eller guidelines for å følge designprinsipper. }
 
+There are mainly two techniques for detecting design issues, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
+
+\todo{litt for teknisk problem, hvordan presentere det for brukeren uten å gjøre utvikleren irritert? Hvordan presentere dette for brukeren i en utviklingsprosess?}
+\todo{savner hvordan skal dette passe inn i en utviklings prossess?}
 \hfill \newline
 This problem identification raises an important question which is my main research question:
 \hfill \newline
@@ -271,13 +307,17 @@ This problem identification raises an important question which is my main resear
 \label{objectives-of-solution}
 
 
-
+\todo{Write some more details about the OS?, mer generelt. Ikke si noe om løsning. }
+\todo{Trenger en ide om hvor sikker analysen er. }
 Initially the objectives of a solution had the following characteristics:
 
 \begin{itemize}
     \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using static code analysis.
     \item [\textbf{OS2:}] False-positives should not create too much noise in the developer workflow. First, the rate of false positives should be reduced as much as possible. Second, reported violations should be easy to ignore. 
     \item [\textbf{OS3:}] It contributes to detecting design issues at the time of \gls{qa}.
+    
+    \todo{hvor kommer de spesifikke løsningene fra, kan få det fra background, eller så må det være mer generelle objectives.}
+    \todo{fjerne mekanismen og hvordan det er løst}
     \item [\textbf{OS4:}] It should be configurable for defining desired threshold values and turning off unwanted rules.
     \item [\textbf{OS5:}] Focus on building an artifact that can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
 \end{itemize}
@@ -312,48 +352,54 @@ Rule specific objectives:
 Comments are understandable, and provides suggestions for solutions.
 
 \section{Design and development}
+\todo{krevende brukergrupee, som kan kreve funksjonalitet, og ikke en fasade og se at dette kan bli et virkelig produkt. Derfor ble vertikal prototype utviklet først. }
+\todo{Si at en horizontal prototype kan være vanlig å utvikle først, men at dette ble gjort annerledes i dette prosjektet pga pga.}
 
-The design and development phase involves the development of both vertical and horizontal prototypes with high and low resolution, as well as development of the final artifact. First, low resolution prototypes will be created, and then more high resolution prototypes. The vertical prototypes will be used to elaborate on technical challenges and the workings of specific rules and features. Horizontal prototypes will be used to demonstrate, and to get feedback on a more feature rich, but functionally limited view of the final artifact. 
+% Generally about design and development
+The design and development phase involves the development of vertical- and horizontal prototypes, with high and low resolution, as well as the final artifact. 
 
+% Theory about prototypes
+\textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{vertical prototypes} on the other hand focuses on the technical challenges and a single functionality of the system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low resolution} or \textit{high resolution prototype}. 
+
+First, low resolution prototypes will be created, and then more high resolution prototypes. The reason is that we want to get feedback on the initial idea as quick as possible and to adjust the product accordingly.
+
+% About the design and development phase in this project?
+
+
+
+
+%Used a prototype of the horizontal prototype to verify if i got feedback on what i wanted to. (Test on Eirik) \todo{write this one}
+
+ 
  
 \section{Demonstration}
+\todo{Because hard to get informants & corona: Shifted focus on getting feedback trough creating PR on github, to get real projects to test the tool.?}
 
-The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. The most important aspect of demonstrating the prototypes, is to put them in a environment that is as similar as possible to the environment that the final product will be used in. This involves getting users to test the product. However, solutions that does not involve explicit testing must also be considered as gathering participants for testing could be time consuming and require more resources.  
-
-The prototype demonstration takes different forms:
-Presentation of the system (javabin). 
-Vertical prototypes for me to test to see whether the objectives is fulfilled or not.
-Presentation of prototype on social media to check for interest.
-Having a workshop with users testing the end product.
-Showing prototype to friends.
-
-Gather people for an workshop and presentation of horizontal prototypes. Important to create a structured schema with questions and impressions to get feedback in a structured way that can be used to evaluate the different features.
-
-Posted on social media to get feedback. Having a presentation for Javabin Trondheim to get informants. Direct contact with friends and possible informants. Posted in slack for work.
+The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. The most important aspect of demonstrating the prototypes, is to put them in a environment that is as similar as possible to the environment that the final product will be used in, a so called field test. This involves getting users to test the product. However, solutions that does not involve explicit testing and field testing must also be considered as gathering participants for testing could be time consuming and require more resources.  
  
 \section{Evaluation}
-Continuous evaluation of the developed artifact is important to adjust the product to the users needs. Multiple evaluation methods were used on different stages of the project, ranging from interest measurement from posts on social media, interviews, semi structured interviews, discussions, presentations and running the program on own and others code.
-
-What is important to show what the evaluation showed in the different stages, and what changed BECAUSE of this evaluation. 
-
-
-Not all objectives defined in section \ref{objectives-of-solution} will be applicable for all the evaluations.
-
-The results from the evaluations is presented in the result chapter.
-
+Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. Different types of evaluation methods includes qualitative methods and quantitative methods, both formal and informal. More specifically, interest measurement, unstructured and informal discussions with other developers, colleges, professors and friends, semi structured interviews, presentations, prototype testing and workshops. Informal methods and events are easier to organize and can inspire to useful discussions, possible features and useful feedback. Formal demonstrations are better for structured feedback and to find the overall results instead of single users perspective. By using both of the strategies we can get the best of both worlds. The results from the evaluations is presented in the results.
 
 \section{Communication}
-
+The end result is communicated through this master thesis. Product is also available is for use and further development at https://github.com/Mkohm/detekt-hint/.
 
 \chapter{Results}
+\label{results}
 Describing the exact number of iterations and the iteration steps is not possible as one continuously evaluates the product and adjusts the product under development. But seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
 
-The 4 iterations were focused on 4 different stages of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{../images/workflow.png}
+    \caption{The general process of developing the final artifact}
+    \label{fig:workflow}
+\end{figure}
+
+The 4 iterations were focused on 4 different versions of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one.
 
 \section{Initial prototype}
 
 \subsection*{Why and how it was created}
-An initial prototype was created to see if there was any interest in a tool for detecting design principle violations. The mockup can be seen in figure \ref{fig:mockup}.
+An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The prototype can be seen in figure \ref{fig:mockup}.
 
 \begin{figure}[h!]
     \centering
@@ -363,7 +409,7 @@ An initial prototype was created to see if there was any interest in a tool for 
 \end{figure}
 
 \subsection*{Demonstration}
-A mockup was created and posted on the subforum of Kotlin\cite{kotlin-reddit} and SoftwareArchitecture\cite{softwarearch-reddit} on reddit. 
+The initial prototype was posted on the subforum of Kotlin\cite{kotlin-reddit} and SoftwareArchitecture\cite{softwarearch-reddit} on Reddit. Additionally, the prototype was presented and discussed with friends. 
 
 \subsection*{Evaluation}
 The general feedback was that there was an interest in a tool like this, and that it would be worth spending more time on. This is only based on a few comments and a fair amount of upvotes on the post, so the actual value of that evaluation will be limited. Read more about this in \ref{flaws-of-study}. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. \\
@@ -380,12 +426,19 @@ In general the feedback confirmed my initial objectives for a solution.
 \section{Vertical prototype}
 
 \subsection*{Why and how it was created}
-The initial prototype proposed more work into creating a tool for detecting design principle violations. Too see if building a tool for detecting design principle violations is a feasible task within the scope of a master thesis, and to verify if the selected solution would satisfy the objectives, a vertical prototype with a simple rule had to be built. Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as language subject for analysis. 
+The initial prototype proposed more work into creating a tool for detecting design principle violations. Normally, a vertical prototype is built first, with the intention of getting an idea of which features that needs to be implemented and the priority of those. In this case a vertical prototype was built first for three reasons:
 
-Several tools/framework was considered to use as the fundament for a tool, including Ktlint and Code Climate, but Detekt was chosen as the best platform to build on because it looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}.
+\begin{enumerate}
+    \item The prioritization is somewhat known up front. Being a product focusing on detection of design principle violations, it is quite natural that the product should prioritize principles that are not covered by other tools and that the most significant principles are considered first.
+    \item Too see if building a tool for detecting design principle violations is a feasible task within the scope of a master thesis.
+    \item Developers tend to be more interested in technical solutions that is working than non-interactive prototypes. Getting feedback on the following horizontal prototype would be easier if actual solutions to technical problems could be presented.
+\end{enumerate}
+
+% How the prototype was created
+Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as the language subject for analysis. Several tools/framework was considered to use as the fundament for a tool, including Ktlint and Code Climate, but Detekt was chosen as the best platform to build on because it looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}.
 
 \subsection*{Demonstration}
-The prototype was demonstrated continuously during development to the developer...
+The prototype was mainly demonstrated continuously during development to the developer. It was also partly presented to the participants at the detekt-hint presentation.
 
 \subsection*{Evaluation}
 
@@ -509,8 +562,10 @@ Final source code can be found on Github\cite{detekt-hint-repository}
 \section{Discussion}
 
 \section{Future work}
-Implement more rules.
+Look at the evaluation results and fix/work on all of those! 
+Implement more rules. More accuraty calculations of LCOM. Considering the different types of LCOM values and choose the best one.
 Reducing the amount of false positives.
+Announce the tool so more developers would use it.
 
 Providing more context and/or possible solutions in the comments. Images or graphs explaining.
 Increasing the performance.
