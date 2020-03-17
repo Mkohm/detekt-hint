@@ -18,99 +18,39 @@ class LackOfCohesionMethodsRuleSpec : Spek({
         destructor = { it.dispose() }
     )
 
-    describe("Having an anonymous class within a function with declared properties") {
-        it("Should not count as properties") {
+    describe("Having a class defined within a function with fields") {
+        it("The defined fields inside the class that is declared inside the furnction should not count as properties") {
 
             // language=kotlin
             val code = """
-                package com.airthings.airthings.activities.about
-
-                import android.app.ProgressDialog
-                import android.os.Bundle
-                import android.view.LayoutInflater
-                import android.view.View
-                import android.view.ViewGroup
-                import android.widget.TextView
-                import android.widget.Toast
-                import androidx.fragment.app.Fragment
-                import androidx.lifecycle.ViewModelProviders
-                import com.airthings.airthings.AirthingsApp.Companion.appComponent
-                import com.airthings.airthings.BuildConfig
-                import com.airthings.airthings.R
-                import com.airthings.airthings.models.ApiAppError
-                import com.airthings.airthings.models.StateAppError
-                import com.airthings.airthings.utils.uiDispatch
-
-                class AboutMenuFragment : Fragment() {
-
-                    private lateinit var appVersionLabel: TextView
-                    private lateinit var buildMetaData: TextView
-
-                    private val viewModel: AboutViewModel by lazy {
-                        ViewModelProviders.of(this, appComponent.providesAirthingsViewModelFactory())
-                            .get(AboutViewModel::class.java)
-                    }
-
-                    override fun onCreateView(
-                        inflater: LayoutInflater,
-                        container: ViewGroup?,
-                        savedInstanceState: Bundle?
-                    ): View? {
-                        val view = inflater.inflate(R.layout.fragment_about_menu, container, false)
-
-                        appVersionLabel = view.findViewById(R.id.version_label)
-                        buildMetaData = view.findViewById(R.id.build_meta_data)
-
-                        val versionInfo = BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")"
-                        val buildMetaDataText =
-                            BuildConfig.BUILD_TYPE + "-" + BuildConfig.COMMIT_HASH + "-" + BuildConfig.BUILD_DATE
-
-                        appVersionLabel.text = getString(R.string.about_version, versionInfo)
-                        this.buildMetaData.text = getString(R.string.about_build, buildMetaDataText)
-
-                        appVersionLabel.setOnClickListener(object : View.OnClickListener {
+                
+                class A {
+                    val number = 0
+                    val number2 = 0
+                    
+                    fun inc() {
+                        number++
+                        
+                        val impl = object : View.OnClickListener {
+                            // This should not count as a field because it is not a field of the class A.
                             private var count = 0
-
-                            override fun onClick(v: View) {
-                                if (++count % 4 == 0) {
-                                    uploadLogs()
-                                }
+                            
+                            override fun onClick(v: View) { 
+                                count++
                             }
-                        })
-                        return view
-                    }
-
-                    @Suppress("DEPRECATION")
-                    private fun uploadLogs() = uiDispatch {
-                        val progressDialog = ProgressDialog(requireContext())
-                        progressDialog.setTitle(R.string.about_log_update_please_wait)
-                        progressDialog.show()
-                        val toastText = when (val error = viewModel.uploadDiagnosticLog().appError) {
-                            is ApiAppError -> getString(
-                                R.string.about_menu_log_upload_failed,
-                                error.errorCode.toString()
-                            )
-                            is StateAppError -> getString(
-                                R.string.about_menu_log_upload_failed,
-                                error.errorCode.toString()
-                            )
-                            null -> getString(R.string.about_menu_log_upload_successful)
                         }
-                        progressDialog.hide()
-                        Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
                     }
                 }
-
                 """.trimIndent()
 
             val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
 
-            val f = 3
+            val f = 2
             val m = 1
-            val mf = 3
+            val mf =1
             val lcom = 1 - (mf.toDouble() / (m * f))
 
-            assertThat(findings.first().message).contains("AboutMenuFragment have a too high LCOM value: $lcom")
+            assertThat(findings.first().message).contains("A have a too high LCOM value: $lcom")
         }
     }
 
