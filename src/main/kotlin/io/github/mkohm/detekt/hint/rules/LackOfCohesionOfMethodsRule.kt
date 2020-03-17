@@ -21,6 +21,9 @@ import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 
 class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) {
+
+    val cachedResult = mutableMapOf<KtNamedFunction, List<KtNamedFunction>>()
+
     override val issue = Issue(
         javaClass.simpleName,
         Severity.CodeSmell,
@@ -41,13 +44,15 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
     override fun visitNamedDeclaration(declaration: KtNamedDeclaration) {
         super.visitNamedDeclaration(declaration)
 
-        if (propertyIsMember(declaration) || isPropertyFromPrimaryConstructor(declaration)) {
+        if ((propertyIsMember(declaration) || isPropertyFromPrimaryConstructor(declaration)) && hasContainingClass(declaration)) {
             propertyCount++
 
             val containingClass = declaration.containingClass()!!
             searchForReferencesInPublicMethods(declaration, containingClass)
         }
     }
+
+    private fun hasContainingClass(declaration: KtNamedDeclaration) = declaration.containingClass() != null
 
     private fun propertyIsMember(declaration: KtNamedDeclaration): Boolean {
         return try {
@@ -73,6 +78,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
         val lcom = 1 - (mf_sum.toDouble() / (publicMethodsCount * propertyCount))
         println("Class ${klass.name} has LCOM: $lcom, properties: $propertyCount, methods: $publicMethodsCount, mf: $mf_sum")
+        publicMethods.forEach { println(it.name) }
         if (lcom > thresholdValue) {
             report(
                 CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
@@ -86,15 +92,19 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
     private fun searchForReferencesInPublicMethods(property: KtNamedDeclaration, containingClass: KtClass) {
         val publicMethods = getPublicMethods(containingClass)
         for (publicMethod in publicMethods) {
+            println("\nLooking for references in ${publicMethod.name}:")
             val referenceExpression = getReferencesOfProperty(publicMethod, property)
 
             if (referenceExpression.isNotEmpty()) {
                 mf_sum++
+                println("Found reference of ${property.name} in method ${publicMethod.name}, continuing with next public method.")
                 continue
             }
 
             // Fetch all methods that is called from this public function, recursively.
             val allCalleesFromThisPublicMethod = getCallees(property, publicMethod, arrayListOf(publicMethod))
+            println("Callees of ${publicMethod.name}: (size: ${allCalleesFromThisPublicMethod.size})")
+            allCalleesFromThisPublicMethod.forEach { println(it.name) }
 
             // We look for references of the property, and as soon as we find it, we increase mf_sum and break so that we can look for references in other public methods.
             for (privateMethod in allCalleesFromThisPublicMethod) {
@@ -104,6 +114,8 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
                 if (references.isNotEmpty()) {
                     mf_sum++
+                    println("Found reference of ${property.name} in private method ${privateMethod.name} called from ${publicMethod.name}")
+
                     break
                 }
             }
@@ -152,6 +164,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
         val callees =
             ArrayList(publicMethod.collectDescendantsOfType<KtCallExpression>()
+
                 .mapNotNull {
                     try {
                         it.getResolvedCall(bindingContext)?.resultingDescriptor?.findPsi() as KtNamedFunction
@@ -166,12 +179,23 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
                 }.distinct().ifEmpty {
                     return arrayListOf()
                 })
+        println("\nCallees of ${publicMethod.name}:")
+        callees.forEach { println(it.name) }
 
         callees.addAll(foundCallees)
 
-
         for (callee in callees) {
-            callees + getCallees(property, callee, callees)
+
+            // Memoize the results of the calculation to speed things up
+            var newResult = listOf<KtNamedFunction>()
+            if (cachedResult.containsKey(callee)) {
+                newResult = cachedResult[callee]!!
+            } else {
+                newResult = getCallees(property, callee, callees)
+                cachedResult[callee] = newResult
+            }
+
+            callees + newResult
         }
 
         return callees

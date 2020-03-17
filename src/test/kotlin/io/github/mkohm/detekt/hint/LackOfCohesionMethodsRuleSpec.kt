@@ -18,6 +18,41 @@ class LackOfCohesionMethodsRuleSpec : Spek({
         destructor = { it.dispose() }
     )
 
+    describe("Referencing a field in a private method with equal names") {
+        it("Should count the reference") {
+
+            // language=kotlin
+            val code = """
+                class A : B(){
+                    var number = 0
+
+                    fun inc() {
+                        super.inc()
+                        inc(1)
+                    }
+                    
+                    private fun inc(arg: Int) {
+                        number++
+                    }
+                }
+                
+                class B {
+                    fun inc() {}
+                }
+                """.trimIndent()
+
+            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+
+            val f = 1
+            val m = 1
+            val mf = 1
+            val lcom = 1 - (mf.toDouble() / (m * f))
+
+            assertThat(findings.first().message).contains("A have a too high LCOM value: $lcom")
+        }
+    }
+
+
     describe("Having a class defined within a function with fields") {
         it("The defined fields inside the class that is declared inside the furnction should not count as properties") {
 
