@@ -20,6 +20,9 @@ import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 
+/**
+ * A rule that notifies if there is too much lack of cohesion.
+ */
 class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) {
 
     val cachedResult = mutableMapOf<KtNamedFunction, List<KtNamedFunction>>()
