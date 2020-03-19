@@ -155,13 +155,6 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         publicMethod: KtNamedFunction,
         foundCallees: List<KtNamedFunction>
     ): ArrayList<KtNamedFunction> {
-
-        // If we have any call expressions inside the parent function with the same name as the parent function - There are some possibilities;
-        // 1. calling another function with the same name, but with different signature
-        // 2. calling the supermethod
-        // 3. calles itself - we have recursion.
-        // Todo: create good test cases that will cover these different edge-cases
-
         val callees =
             ArrayList(publicMethod.collectDescendantsOfType<KtCallExpression>()
 
@@ -179,8 +172,6 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
                 }.distinct().ifEmpty {
                     return arrayListOf()
                 })
-        println("\nCallees of ${publicMethod.name}:")
-        callees.forEach { println(it.name) }
 
         callees.addAll(foundCallees)
 
