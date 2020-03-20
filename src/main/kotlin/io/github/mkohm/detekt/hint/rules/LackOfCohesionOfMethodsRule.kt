@@ -87,7 +87,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
             return
         }
 
-        val lcom = calculateLCOMvalue(methodsCount)
+        val lcom = calculateLCOMvalue(methodsCount, propertyCount, referencesCount)
         if (lcom > thresholdValue) {
             report(
                 CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
@@ -107,7 +107,11 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         }
     }
 
-    private fun calculateLCOMvalue(methodsCount: Int) = 1 - (referencesCount.toDouble() / (methodsCount * propertyCount))
+    private fun calculateLCOMvalue(
+        methodsCount: Int,
+        propertyCount: Int,
+        referencesCount: Int
+    ) = 1 - (referencesCount.toDouble() / (methodsCount * propertyCount))
 
     private fun initializesPropertiesFromPrimaryConstructor(klass: KtClass): Boolean {
         return klass.primaryConstructorParameters.any { it.hasValOrVar() }
@@ -117,7 +121,7 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         (declaration is KtParameter) && declaration.hasValOrVar()
 
     private fun searchForReferences(property: KtNamedDeclaration, containingClass: KtClass) {
-        // Properties can be referenced from public methods, protected methods?, initializer blocks and in secondary constructors. Referencing of properties in primary constructors will not be counted.
+        // Properties can be referenced from public methods, protected methods?, initializer blocks and in secondary constructors.
         val expressionsToLookForReferences =
             getPublicAndProtectedMethods(containingClass).mapNotNull { it.bodyExpression } +
                 containingClass.getAnonymousInitializers().mapNotNull { it.body } +
@@ -128,7 +132,6 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
             referencesCount++
         }
 
-
         for (expression in expressionsToLookForReferences) {
             val referenceExpression = getReferencesOfProperty(expression, property)
 
@@ -137,14 +140,14 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
                 continue
             }
 
-            // Fetch all methods that is called from this public function, recursively.
-            val allCalleesFromThisPublicMethod = getCallees(property, expression, arrayListOf(expression))
+            // Fetch all expressions that is reachable from the current expression (public method), recursively.
+            val allReachableExpressionsFromPublicMethod = getReachableExpressions(property, expression, arrayListOf(expression))
 
             // We look for references of the property, and as soon as we find it, we increase mf_sum and break so that we can look for references in other public methods.
-            for (privateMethod in allCalleesFromThisPublicMethod) {
+            for (subExpression in allReachableExpressionsFromPublicMethod) {
 
                 // Get references in this private function
-                val references = getReferencesOfProperty(privateMethod, property)
+                val references = getReferencesOfProperty(subExpression, property)
 
                 if (references.isNotEmpty()) {
                     referencesCount++
@@ -172,9 +175,9 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
      */
     private fun isReferenceOfPropertyClass(
         reference: KtReferenceExpression,
-        method: KtExpression
+        expression: KtExpression
     ) =
-        reference.getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration?.name.toString() == method.containingClass()?.name
+        reference.getResolvedCall(bindingContext)?.resultingDescriptor?.containingDeclaration?.name.toString() == expression.containingClass()?.name
 
     private fun isCalleeInPropertyClass(
         callee: KtExpression,
@@ -182,13 +185,17 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
     ) =
         callee.containingClass()?.name == property.containingClass()?.name
 
-    private fun getCallees(
+    /*
+    * From public, protected, initializer methods etc. Calls to private methods can exist.
+    * We need to find all such calls and look for references there as well.
+    */
+    private fun getReachableExpressions(
         property: KtNamedDeclaration,
-        publicMethod: KtExpression,
-        foundCallees: List<KtExpression>
+        expression: KtExpression,
+        foundExpressions: List<KtExpression>
     ): ArrayList<KtExpression> {
-        val callees =
-            ArrayList(publicMethod.collectDescendantsOfType<KtCallExpression>()
+        val reachableExpressionsFromThisExpressions =
+            ArrayList(expression.collectDescendantsOfType<KtCallExpression>()
                 .mapNotNull {
                     try {
                         (it.getResolvedCall(bindingContext)?.resultingDescriptor?.findPsi() as KtNamedFunction).bodyExpression
@@ -196,30 +203,36 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
                         null
                     }
                 }.filter {
-                    !foundCallees.contains(it) && isCalleeInPropertyClass(
+                    !foundExpressions.contains(it) && isCalleeInPropertyClass(
                         it,
                         property
-                    ) // should include test that this function is defined in the property class. For the test, the bindingcontext will not resolve other classes, but that could change in a real context.
+                    )
                 }.distinct().ifEmpty {
                     return arrayListOf()
                 })
 
-        callees.addAll(foundCallees)
+        reachableExpressionsFromThisExpressions.addAll(foundExpressions)
 
-        for (callee in callees) {
+        // We need to dig further down into all the found expressions.
+        // There may be an unlimited amount of reachable expressions inside found expression.
+        // For performance reasons, the results are memoized.
+        for (reachableExpression in reachableExpressionsFromThisExpressions) {
 
             // Memoize the results of the calculation to speed things up
             var newResult = listOf<KtExpression>()
-            if (memoizedResults.containsKey(callee)) {
-                newResult = memoizedResults[callee]!!
+            if (memoizedResults.containsKey(reachableExpression)) {
+
+                // After each call we put the result into the map, we therefore know that the key exists.
+                // Landmine operator is therefore okay in this case.
+                newResult = memoizedResults[reachableExpression]!!
             } else {
-                newResult = getCallees(property, callee, callees)
-                memoizedResults[callee] = newResult
+                newResult = getReachableExpressions(property, reachableExpression, reachableExpressionsFromThisExpressions)
+                memoizedResults[reachableExpression] = newResult
             }
 
-            callees + newResult
+            reachableExpressionsFromThisExpressions + newResult
         }
 
-        return callees
+        return reachableExpressionsFromThisExpressions
     }
 }
