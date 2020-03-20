@@ -107,7 +107,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
-            val m = 1
+            val m = 2
             val mf = 1
             val lcom = 1 - (mf.toDouble() / (m * f))
 
@@ -138,7 +138,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
-            val m = 1
+            val m = 2
             val mf = 1
             val lcom = 1 - (mf.toDouble() / (m * f))
 
@@ -468,6 +468,82 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val mf2 = 3
             val lcom2 = 1 - (mf2.toDouble() / (m2 * f2))
             assertThat(findings[1].message).contains(lcom2.toString())
+        }
+    }
+
+    describe("Constructors") {
+        it("Should also be considered for counting of references of property") {
+
+            // language=kotlin
+            val code = """
+                    class Foo {
+                        private var num1: Int? = null
+                        
+                        init {
+                            num1 = 1    
+                        }
+                    }
+                """.trimIndent()
+            val f = 1
+            val m = 1
+            val mf = 1
+            val lcom = 1 - (mf.toDouble() / (m * f))
+
+            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
+        }
+    }
+
+    describe("Constructors and initializer blocks") {
+        it("Should also be considered for counting of references of property") {
+
+            // language=kotlin
+            val code = """
+                    class Foo(var num1 : Int = 0, var num2:Int = num1) {
+                        private var num3: Int? = 0
+                        
+                        init {
+                            num1 = 2
+                            num3 = 1
+                        }
+                        
+                        init {
+                            num1 = 2
+                        }
+                    }
+                """.trimIndent()
+            val f = 3
+            val m = 3
+            val mf = 3
+            val lcom = 1 - (mf.toDouble() / (m * f))
+
+            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
+        }
+    }
+
+    describe("Protected methods") {
+        it("Should also be considered for counting of references of property") {
+
+            // language=kotlin
+            val code = """
+                    class Foo(var num1 : Int = 0, var num2:Int = num1) {
+                        protected fun inc() {
+                            num1++
+                        }
+                        
+                        fun inc2() {
+                            num1++
+                        }
+                    }
+                """.trimIndent()
+            val f = 2
+            val m = 3
+            val mf = 2
+            val lcom = 1 - (mf.toDouble() / (m * f))
+
+            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
         }
     }
 
