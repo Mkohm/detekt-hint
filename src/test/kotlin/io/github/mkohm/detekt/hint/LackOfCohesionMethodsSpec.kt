@@ -1,6 +1,6 @@
 package io.github.mkohm.detekt.hint
 
-import io.github.mkohm.detekt.hint.rules.LackOfCohesionOfMethodsRule
+import io.github.mkohm.detekt.hint.rules.LackOfCohesionOfMethods
 import io.gitlab.arturbosch.detekt.test.KtTestCompiler
 import io.gitlab.arturbosch.detekt.test.TestConfig
 import io.gitlab.arturbosch.detekt.test.compileAndLintWithContext
@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
-class LackOfCohesionMethodsRuleSpec : Spek({
+class LackOfCohesionMethodsSpec : Spek({
 
     // Will always report the LCOM value so that we can verify the correct value for each of the tests.
     val testConfig = TestConfig(mapOf("threshold" to "-1"))
@@ -41,7 +41,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 1
             val m = 1
@@ -78,7 +78,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 2
             val m = 1
@@ -104,7 +104,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
             val m = 2
@@ -135,7 +135,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
             val m = 2
@@ -169,7 +169,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 1
             val m = 2
@@ -199,7 +199,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 1
             val m = 1
@@ -240,7 +240,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 2
             val m = 2
@@ -271,7 +271,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                     }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 2
             val m = 2
@@ -317,7 +317,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                     }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
             val m = 1
@@ -356,7 +356,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                     }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
             val m = 1
@@ -386,7 +386,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                     }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 1
             val m = 2
@@ -415,7 +415,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                     }
                 """.trimIndent()
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
 
             val f = 3
             val m = 3
@@ -460,7 +460,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val mf = 3
             val lcom = 1 - (mf.toDouble() / (m * f))
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
             assertThat(findings.first().message).contains(lcom.toString())
 
             val f2 = 2
@@ -489,7 +489,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val mf = 1
             val lcom = 1 - (mf.toDouble() / (m * f))
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
         }
     }
@@ -517,7 +517,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val mf = 5
             val lcom = 1 - (mf.toDouble() / (m * f))
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
         }
     }
@@ -542,7 +542,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
             val mf = 4
             val lcom = 1 - (mf.toDouble() / (m * f))
 
-            val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
+            val findings = LackOfCohesionOfMethods(testConfig).compileAndLintWithContext(wrapper.env, code)
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
         }
     }
