@@ -54,7 +54,10 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         if ((propertyIsMember(declaration) || isPropertyInitializedInPrimaryConstructor(declaration)) && hasContainingClass(declaration)) {
             propertyCount++
 
+            // We know that the containing class exist, because of the above check hasContainingClass().
+            // Landmine operator is therefore okay.
             val containingClass = declaration.containingClass()!!
+
             searchForReferences(declaration, containingClass)
         }
     }
