@@ -11,3 +11,5 @@ sample:
   LackOfCohesionMethodsRule:
     active: true
     threshold: 0
+  InterfaceSegregationPrinciple:
+    active: true

@@ -43,7 +43,6 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
     )
 
     private val memoizedResults = mutableMapOf<KtExpression, List<KtExpression>>()
-    private val thresholdValue = valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
 
     private var propertyCount: Int = 0
     private var referencesCount = 0
@@ -91,6 +90,7 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
         }
 
         val lcom = calculateLCOMvalue(methodsCount, propertyCount, referencesCount)
+        val thresholdValue = valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
         if (lcom > thresholdValue) {
             report(
                 CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
