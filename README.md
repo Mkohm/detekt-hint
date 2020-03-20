@@ -33,7 +33,7 @@ Contributions are very much welcome and if you like the project - help me out wi
 ![lcom](images/comment_lackOfCohesion.png)
 
 ### Open-Closed Principle
-![lcom](images/comment_ocp.png)
+![lcom](images/comment_ocp2.png)
 
 Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
 
