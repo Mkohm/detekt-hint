@@ -15,5 +15,11 @@ open class Rectangle(width: Int, height: Int) {
 
     fun setHeight(newHeight: Int) {
         this.height = newHeight
+
+        lol()
+    }
+
+    private fun lol() {
+
     }
 }

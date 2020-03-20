@@ -4,6 +4,8 @@ title: alltypes -
 
 ### All Types
 
+| [io.github.mkohm.detekt.hint.demo.Foo](../io.github.mkohm.detekt.hint.demo/-foo/index.html) |  |
+| [io.github.mkohm.detekt.hint.rules.LackOfCohesionOfMethodsRule](../io.github.mkohm.detekt.hint.rules/-lack-of-cohesion-of-methods-rule/index.html) | A rule that notifies if there is too much lack of cohesion. Remember to configure it correctly in the detekt.yml. |
 | [io.github.mkohm.detekt.hint.demo.Rectangle](../io.github.mkohm.detekt.hint.demo/-rectangle/index.html) |  |
 | [io.github.mkohm.detekt.hint.SampleProvider](../io.github.mkohm.detekt.hint/-sample-provider/index.html) |  |
 | [io.github.mkohm.detekt.hint.demo.Square](../io.github.mkohm.detekt.hint.demo/-square/index.html) |  |
