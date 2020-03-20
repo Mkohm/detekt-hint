@@ -24,10 +24,16 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 
 /**
  * A rule that notifies if there is too much lack of cohesion. Remember to configure it correctly in the detekt.yml.
+ *
+ * LCOM for a class will range between 0 and 1, with 0 being totally cohesive and 1 being totally non-cohesive.
+ * This makes sense since a low “lack of cohesion” score would mean a lot of cohesion.
+ *
+ * For each property in the class, you count the methods that reference it, and then you add all of those up across all properties. This value is called referencesCount.
+ * You then divide that by the count of methods times the count of properties, and you subtract the result from one.
+ *
+ * LCOM = 1 - referencesCount / ( methodsCount * propertyCount)
  */
 class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) {
-
-    private val memoizedResults = mutableMapOf<KtExpression, List<KtExpression>>()
 
     override val issue = Issue(
         javaClass.simpleName,
@@ -36,25 +42,56 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         Debt.TWENTY_MINS
     )
 
-    private val thresholdValue =
-        valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
+    private val memoizedResults = mutableMapOf<KtExpression, List<KtExpression>>()
+    private val thresholdValue = valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
 
-    // The number of properties in the class. Includes both properties that comes from the primary constructor and that is declared directly in the class.
     private var propertyCount: Int = 0
-
-    // referencesCount = For each field in the class, you count the methods that reference it, and then you add all of those up across all fields.
     private var referencesCount = 0
 
     override fun visitNamedDeclaration(declaration: KtNamedDeclaration) {
         super.visitNamedDeclaration(declaration)
 
-        if ((propertyIsMember(declaration) || isPropertyFromPrimaryConstructor(declaration)) && hasContainingClass(declaration)) {
+        if ((propertyIsMember(declaration) || isPropertyInitializedInPrimaryConstructor(declaration)) && hasContainingClass(declaration)) {
             propertyCount++
 
             val containingClass = declaration.containingClass()!!
-
-            // todo: handle protected etc methods as well
             searchForReferences(declaration, containingClass)
+        }
+    }
+
+    override fun visitClass(klass: KtClass) {
+        // Skip interfaces, enums and inner classes.
+        if (klass.isInterface() || klass.isEnum() || klass.isInner()) return
+
+        propertyCount = 0
+        referencesCount = 0
+        val publicAndProtectedMethods = getPublicAndProtectedMethods(klass)
+
+        /*
+         * methodsCount is the number of methods that can reference properties in the class. Since constructors count as methods we have to add those as well.
+         *
+         * Initializer blocks can reference properties.
+         * Primary constructors can initialize properties with the concise Kotlin syntax. We add 1 if the current class uses this syntax.
+         * Secondary constructors can reference properties.
+         */
+        val methodsCount =
+            publicAndProtectedMethods.size +
+                klass.getAnonymousInitializers().size +
+                klass.secondaryConstructors.size +
+                if (initializesPropertiesFromPrimaryConstructor(klass)) 1 else 0
+
+        super.visitClass(klass)
+
+        // If there is no methods or properties, there is no point of calculating LCOM, we will therefore return without reporting any value
+        if (methodsCount == 0 || propertyCount == 0) {
+            return
+        }
+
+        val lcom = calculateLCOMvalue(methodsCount)
+        if (lcom > thresholdValue) {
+            report(
+                CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
+            )
         }
     }
 
@@ -70,74 +107,38 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
         }
     }
 
-    override fun visitClass(klass: KtClass) {
-        // Skip interfaces, enums and inner classes.
-        if (klass.isInterface() || klass.isEnum() || klass.isInner()) return
-
-        propertyCount = 0
-        referencesCount = 0
-        val publicMethods = getPublicMethods(klass)
-
-        /*
-         * methodsCount is the number of methods that can reference properties in the class. Since constructors count as methods we have to add those as well.
-         *
-         * Initializer blocks can reference properties.
-         * Primary constructors can initialize properties with the concise Kotlin syntax. We add 1 if the current class uses this syntax.
-         * Secondary constructors can reference properties.
-         */
-        val methodsCount =
-            publicMethods.size +
-                klass.getAnonymousInitializers().size +
-                klass.secondaryConstructors.size +
-                if (initializesPropertiesFromPrimaryConstructor(klass)) 1 else 0
-
-        super.visitClass(klass)
-
-        // If there is no methods or properties, there is no point of calculating LCOM, we will therefore return without reporting any value
-        if (methodsCount == 0 || propertyCount == 0) {
-            println("m: $methodsCount, f:$propertyCount")
-            return
-        }
-
-        val lcom = 1 - (referencesCount.toDouble() / (methodsCount * propertyCount))
-        println("Class ${klass.name} has LCOM: $lcom, properties: $propertyCount, methods: $methodsCount, mf: $referencesCount")
-        publicMethods.forEach { println(it.name) }
-        if (lcom > thresholdValue) {
-            report(
-                CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
-            )
-        }
-    }
+    private fun calculateLCOMvalue(methodsCount: Int) = 1 - (referencesCount.toDouble() / (methodsCount * propertyCount))
 
     private fun initializesPropertiesFromPrimaryConstructor(klass: KtClass): Boolean {
         return klass.primaryConstructorParameters.any { it.hasValOrVar() }
     }
 
-    private fun isPropertyFromPrimaryConstructor(declaration: KtNamedDeclaration) =
+    private fun isPropertyInitializedInPrimaryConstructor(declaration: KtNamedDeclaration) =
         (declaration is KtParameter) && declaration.hasValOrVar()
 
     private fun searchForReferences(property: KtNamedDeclaration, containingClass: KtClass) {
         // Properties can be referenced from public methods, protected methods?, initializer blocks and in secondary constructors. Referencing of properties in primary constructors will not be counted.
         val expressionsToLookForReferences =
-            getPublicMethods(containingClass).mapNotNull { it.bodyExpression } +
+            getPublicAndProtectedMethods(containingClass).mapNotNull { it.bodyExpression } +
                 containingClass.getAnonymousInitializers().mapNotNull { it.body } +
                 containingClass.secondaryConstructors.mapNotNull { it.bodyExpression }
 
+        // If the property is initialized in the primary constructor it is automatically counted as a reference.
+        if (isPropertyInitializedInPrimaryConstructor(property)) {
+            referencesCount++
+        }
+
 
         for (expression in expressionsToLookForReferences) {
-            println("\nLooking for references in ${expression.name}:")
             val referenceExpression = getReferencesOfProperty(expression, property)
 
             if (referenceExpression.isNotEmpty()) {
                 referencesCount++
-                println("Found reference of ${property.name} in method ${expression.name}, continuing with next public method.")
                 continue
             }
 
             // Fetch all methods that is called from this public function, recursively.
             val allCalleesFromThisPublicMethod = getCallees(property, expression, arrayListOf(expression))
-            println("Callees of ${expression.name}: (size: ${allCalleesFromThisPublicMethod.size})")
-            allCalleesFromThisPublicMethod.forEach { println(it.name) }
 
             // We look for references of the property, and as soon as we find it, we increase mf_sum and break so that we can look for references in other public methods.
             for (privateMethod in allCalleesFromThisPublicMethod) {
@@ -147,15 +148,14 @@ class LackOfCohesionOfMethodsRule(config: Config = Config.empty) : Rule(config) 
 
                 if (references.isNotEmpty()) {
                     referencesCount++
-                    println("Found reference of ${property.name} in private method ${privateMethod.name} called from ${expression.name}")
                     break
                 }
             }
         }
     }
 
-    private fun getPublicMethods(klass: KtClass): List<KtNamedFunction> {
-        return klass.collectDescendantsOfType<KtNamedFunction> { it.isPublic || it.isProtected()  }
+    private fun getPublicAndProtectedMethods(klass: KtClass): List<KtNamedFunction> {
+        return klass.collectDescendantsOfType<KtNamedFunction> { it.isPublic || it.isProtected() }
     }
 
     private fun getReferencesOfProperty(

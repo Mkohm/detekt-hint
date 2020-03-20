@@ -108,7 +108,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
 
             val f = 3
             val m = 2
-            val mf = 1
+            val mf = 3
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
@@ -139,7 +139,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
 
             val f = 3
             val m = 2
-            val mf = 1
+            val mf = 3
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             assertThat(findings.first().message).contains("Foo have a too high LCOM value: $lcom")
@@ -514,7 +514,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 """.trimIndent()
             val f = 3
             val m = 3
-            val mf = 3
+            val mf = 5
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
@@ -539,7 +539,7 @@ class LackOfCohesionMethodsRuleSpec : Spek({
                 """.trimIndent()
             val f = 2
             val m = 3
-            val mf = 2
+            val mf = 4
             val lcom = 1 - (mf.toDouble() / (m * f))
 
             val findings = LackOfCohesionOfMethodsRule(testConfig).compileAndLintWithContext(wrapper.env, code)
