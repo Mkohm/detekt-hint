@@ -22,7 +22,8 @@ Through integration with [Danger](https://github.com/danger/danger) comments are
 Contributions are very much welcome and if you like the project - help me out with a :star:. Especially help in which rules to implement, how to implement them and how to reduce the false-positives.
 
 ## Currently supported detections
-:white_check_mark: Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is not violated. Will not report if you inherit from third-party libraries. 
+:white_check_mark: Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is not violated. Will not report if you inherit from third-party libraries.
+
 :white_check_mark: Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
 
 ## Upcoming features 
