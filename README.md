@@ -23,7 +23,7 @@ Contributions are very much welcome and if you like the project - help me out wi
 
 ## Currently supported detections
 :white_check_mark: Use composition instead of inheritance - Will help developer ensure Liskov Substitution Principle is not violated. Will not report if you inherit from third-party libraries. 
-- (SOON) Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
+:white_check_mark: Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
 
 ## Upcoming features 
 ### Interface Segregation Principle
