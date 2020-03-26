@@ -37,9 +37,12 @@
 \newacronym{cli}{CLI}{Command Line Interface}
 \newacronym{qa}{QA}{Quality Assurance}
 \newacronym{jvm}{JVM}{Java Virtual Machine}
-\newacronym{loc}{LOC}{Lines Of Code}
+\newacronym{ci}{CI}{Continous Integration}
 \newacronym{cc}{CC}{Cyclomatic Complexity}
+\newacronym{ddpv}{DDPV}{Detection of Design Principle Violations}
 \newacronym{nof}{NoF}{Number of Functions}
+\newacronym{cpu}{CPU}{Central Processing Unit}
+\newacronym{pm}{PM}{Project Manager}
 
 \begin{document}
 
@@ -59,46 +62,36 @@
 \clearpage
 \chapter{Introduction}
 
-\todo{Ikke bruk for spesifikke begreper som ikke er definert i introduksjonen. Kan heller si litt mer generelt og om viktigheten, og så utdype mer i bakgrunnskapittelet.}
-
+\todo{generelt, ikke vær så sikker på alt på forhånd, men la løsninger være åpent slik at man får cred for dette i design-biten. }
 % https://student.unsw.edu.au/introductions - Nice resource for seeing what should be in the introdcution!
 
 % State the general topic and give some background about its importance
 Writing software that is easy to modify and extend is an important part of software engineering. Software that have this attribute (quality) is often referred to as maintainable. Non-maintainable software is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
 
 % Introduserer best practices etc. Low level code hjelp.
-To help developers write code that is maintainable, well defined rules, best practices and conventions for writing code have been developed. The rules targets low-level code constructs, only covering small amounts of code. I will hereby, refer to these as \textit{rules}. % I will call these rules.
+To help developers write code that is maintainable, well defined rules, best practices and conventions for writing code have been developed. The rules targets low-level code constructs, only covering small amounts of code. I will hereby, refer to these as \textit{rules}.
 
 % Introduserer høyere nivås prinsipper som angriper på et høyere nivå
-Less formal design principles that targets the structure or design of code at an architectural level have also been developed. The design principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. % I will refer to these as principles
+Less formal design principles that targets the structure or design of code at an architectural level have also been developed. The design principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. 
 
-% Outline the current situation
-Currently the rules are adopted by the programmers and can be enforced by the use of code-analysis. Tools for code-analysis have been developed and provides an effective way of checking rules, and can often auto-correct or provide solutions to detected problems.  
+% Introduserer hvordan verktøy kan bidra til å følge regler og prinsipper
+Tools for code-analysis have been created to help developers adhere to the rules. They provide an effective way of detecting problems, and can often auto-correct or provide solutions to detected problems. The tools are ranging from separate \gls{cli}s, build plugins, native applications, online services, to \gls{ide}s and \gls{ide} plugins. Based on the use case of the tool, it is integrated into the developer workflow differently. For example directly to the developer while editing code or as automated feedback that is part of a code review. Both with its advantages and disadvantages.
 
-The design principles, on the other hand are mostly informal and therefore have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are very limited and suffer from false-positives that will create noise during development. Current approaches for detecting violations mostly involve manual code review, which is a time consuming and error-prone task.
+The design principles, on the other hand are mostly informal and have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are very limited and suffer from false-positives that will create an significant amount of noise during development. Current approaches for detecting violations mostly involve manual code review, which is a time consuming and error-prone task.
 
 % Identity the importance of the proposed research
-Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. Restructuring badly designed code is a very time consuming task. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and possibly save large amounts of time.  
+Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and thus reduce the time required for restructuring badly designed code.  
 
-% Present the hypotheses and research questions
-The hypotheses for this study are that there exists a way of using code review and code-analysis in new ways such that we can reduce the impact and disturbance of possible false-positives by presenting it in new ways and providing guidance or solutions to design issues. By following the design science methodology, a tool for detecting design principle violations will be developed and evaluated. 
+% Present the goal and then how to reach it
+The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow.
 
-
-%Writing maintainable and high quality code is an important part of software engineering. Various people define software maintainability differently, but a commonly accepted collection of quality attributes include extensibility, modularity, testability and understandability. To help developers write code with those attributes, well defined rules, best practices and conventions have been developed. They are often enforced by the use of tools commonly referred to as linters. Design principles is another invention that has been created to help developers write code that adheres to the aforementioned quality attributes. Unfortunately, many of the principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the code base. The absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}.} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
-
-
-
-%Code analysis using tools, and code review are two techniques used that is used for detecting design issues or design principle violations in code. According to a pre-study on the current state on tools for improvement of code quality-study \cite{prestudy}, current tools are giving limited options for detecting design issues in code, and manual code reviews suffers from human failure.  \todo{sources that can help me argue that code review don't pick up everything.} By combining code analysis and manual code review the primary objective of the study is to see whether we can detect more design issues. Using the design science methodology an innovative product will be developed through short iterations that includes the use of prototypes and continuous feedback. The study will present the inner workings of the product as well as a detailed evaluation of the final artifact.
-
- %More specifically we will study which design principles that are eligible for code analysis and code review, how to reduce the amount of false-positives and how violations can be reported back to the developer.  
-
-
-%Some tools offer analysis for detection of some design principle violations, but they suffer from false-positives and not being integrated into the development process - resulting in a high degree of context switching. 
+To be able to measure and document the usefulness of such a tool, the design science methodology will be followed.
 
 
 The outline of the paper is as follows; Chapter \ref{background} gives some background information and an introduction to the topics maintainable code and code analysis. Chapter \ref{relatedwork} gives some insight in related work in the area. Chapter \ref{methodology} describes the methodology of the research process, and chapter \ref{results} presents the results, including the prototypes and the final artifact. Chapter \ref{discussion} discusses the results ending with the conclusion of the study.  
 
 \chapter{Background}
+
 \todo{watch out for self-plagiat. Diff with the pre-study when things starting to get fininished - smooth checker: https://copyleaks.com/compare .}
 \label{background}
 To see why achieving maintainable code is so important, and why a new tool for detecting design principle violations is suggested, we need some background information on what maintainable code is and how we can achieve it. The following sections will give a brief introduction to it.
@@ -169,13 +162,9 @@ To make matters worse; \gls{dip} suggests introducing abstractions to decouple s
 The design principles are therefore hard to verify using code analysis. However, some principles are easier to verify than others, and signs of violation could be detected using code analysis or during code review which is described in section \ref{code-review}.
 
 \section{Code analysis}
-\todo{rewrite this to fit programming principles and PSI}
-%Using code analysis and analyzing for design principles we can achieve maintainable code, which causes less rework and less context switches. 
-To help developers of software systems adhere to the aforementioned concepts, principles and conventions, tools for code analysis have been developed. In code analysis we differentiate between two types of code analysis, dynamic code analysis and static code analysis. \textit{Dynamic code analysis} is done by analysing programs being executed on a processor, while \textit{static code analysis} is purely based on analysis of the source code. Since dynamic analysis is based on program execution it has the advantage of being able to measure the actual CPU, memory and energy performance of the application. 
+In code analysis we differentiate between two types of code analysis, dynamic code analysis and static code analysis. \textit{Dynamic code analysis} is done by analysing programs being executed on a processor, while \textit{static code analysis} is purely based on analysis of the source code. Since dynamic analysis is based on program execution it has the advantage of being able to measure the actual \gls{cpu}, memory and energy performance of the application. 
 
-%It can also gather information about the system that would be hard to detect using static code analysis. Examples include discovery of dynamic dependencies using reflection, or actual application usage. However, that does not mean that static code analysis is not able to target performance or dynamic aspects of source code.
-
-As we search to improve the source code, we have chosen to focus on static code analysis. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing the tree for violations of the aforementioned principles, concepts and conventions. Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis tools could detect that the expression \texttt{x == 1} always evaluates to \texttt{true} and that the variable \texttt{y} is never used. The tool could then suggest that the branching is unnecessary and that the \texttt{y} variable is removed.  
+As we search to improve the source code, we have chosen to focus on static code analysis. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing the tree. The tools for code analysis in this study will do analysis for violations of the aforementioned principles, concepts and conventions. Other tools with automatic refactoring possibilities might include transformation of the \gls{ast} to support text manipulation in a safe way compared to direct string manipulation. Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis tools could detect that the expression \texttt{x == 1} always evaluates to \texttt{true} and that the variable \texttt{y} is never used. The tool could then suggest that the branching is unnecessary and that the \texttt{y} variable is removed.  
 
 \begin{figure}[h!]
 	\centering
@@ -183,16 +172,6 @@ As we search to improve the source code, we have chosen to focus on static code 
 	\caption{Simple \gls{ast} of x=1; if (x == 1) \{y = 10;\}}
 	\label{fig:ast}
 \end{figure}
-
-In case of detekt-hint, to do analysis of the Kotlin \gls{ast} easier, Jetbrains\cite{jetbrains} have created an Open-Source \gls{psi} on top, adding utility methods for \gls{ast} analysis and modification. Figure \ref{fig:psi} shows a simplified example \gls{psi} that detekt-hint would use to find violations of \gls{isp}. The analysis would simply look in the PSI for classes that implement interfaces, and see if the overridden methods of that interface are empty or only throws exceptions. 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{report/images/psi.png}
-    \caption{Simplified version of a sample \gls{psi} showing a sign of violating the \gls{isp}}
-    \label{fig:psi}
-\end{figure}
-
 
 
 
@@ -221,29 +200,30 @@ It is a whole lot of things to consider when doing a code review. Naming a few;
 
 When dealing with large amounts of changed code it is easy to forget some of these. Especially when dealing with repetitive tasks its easy to overlook issues. Luckily, tools will be able to help us with the first point regarding style and best practices. The rest of the points are currently solved by inspecting the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding design issues that tools are not able to detect. 
 
-By detecting issues during code review design defects will be resolved quicker because the developer can fix the issue right away. And fixing issues right away, saves a lot of time. \todo{Do i need to argument more here why it saves a lot of time? references for arguments like this? There is hard to find, but it "common knowlodge" for devs. https://www.ministryoftesting.com/dojo/lessons/ten-reasons-why-you-fix-bugs-as-soon-as-you-find-them. }
+By detecting issues during code review design defects will be resolved quicker because the developer can fix the issue right away. And fixing issues right away, saves a lot of time.
 
-\section{Fixing design defects}
-\todo{use design issues / design defects consistently}
-\label{fix-design-issues}
-Why should we fix design issues if it does not directly affect functionality of the system? Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects, as they often are a breeding ground for bugs. Below is a short summary of the most important arguments inspired by that article:
-\begin{enumerate}
-    \item Unfixed design defects may hide other design defects. Fixing the design the defects can solve upcoming problems, that would have been harder to track down and solve at a later point.
-    \item Building upon badly designed software further complicates and increases the difficulty of fixing the software.
-    \item Unfixed design defects suggest quality is not important. If a software developer is working on poorly written software, it is likely that more code of the same style is added, continuing to degrade the system quality.
-    \item Unfixed design defects lead to inaccurate estimates. Having design defects in code will make it hard to modify and extend. New requirements that incur changes to the code base which may break unexpected parts of the system. The estimation will then be hard to do.
-    \item Fixing familiar code is easier than unfamiliar code. Developers need time to get familiar with code, understand what it does and why. Fixing issues while the developer is in the context of that code will save time.
-\end{enumerate}
+\section{Developer workflow}
 
+Developers have their own workflows which they find useful, and a tool for code-analysis needs to fit the workflow to help the developer during development. There exists a number of places where a tool could be executed in the coding phases of development. Common examples include:
+\begin{itemize}
+    \item While coding (Tool runs continously as the developer types)
+    \item On building the application 
+    \item On commit (When one bulk of changes is done)
+    \item Before \gls{qa} and code review (Often in a \gls{ci} environment)
+    \item Anytime the developer wants to execute the tool
+\end{itemize}
+
+Depending on the use case of the tool, the tool executes in different phases. The compiler (parser) would for example execute its code-analysis to find syntax errors on every build. The tool needs to execute at correct point to create the least amount of noise. Reporting issues as early as possible may generally seem like a good idea, but could possibly distract the developer from solving the issue. Especially, if the tool itself creates noise (by introducing false-positives or takes a significant amount of time to execute) reporting issues early in the development phases would annoy the developer. 
+
+Developers also have their own preferences for workflows and when to execute and use tools. Making a tool configurable or fit in multiple execution points in the development process is therefore often appreciated.
 
 \chapter{Related work}
 \label{relatedwork}
-\todo{fill inn more stuff here}
 
 % General about tools that is related
 To the best of my knowledge, a tool that directly targets detection of violations of design principles, does not exist. There exists a lot of tools for code analysis, PMD\cite{pmd}, SonarQube\cite{sonarqube} to name a two of the most used ones for the Java language. Most of them support detection of violations of style conventions, best practices and finding possible bugs. However, some tools and linters include functionality for detecting violations on a small subset of the design principles. Therefore, developers need to adopt a large suite of tools to only be able to support detection of a few design principles violations. Also, the tools are fundamentally different and have different purpose and supports integration in the development process differently, both with its advantages and disadvantages. The tools are ranging from separate \gls{cli}s, native applications, online services, \gls{ide}s and \gls{ide} plugins. The purpose also varies. Some are used for project level analysis activities, for finding areas in the code base with issues, while other tools are focused at reporting issues at the time of writing or in the \gls{qa} process. 
 
-This thesis is mainly considering two research fields. First, related work on code-analysis regarding detecting design defects will be presented. Then other related work and tools related to code review and manual inspection of code will be presented.
+This thesis is mainly considering two research fields. First, related work on code-analysis regarding detecting design principle violations will be presented. Then other related work and tools related to code review and manual inspection of code will be presented.
 
 PMD \cite{pmd} is one of many tools that calculates multiple metrics\footnote{A measurement of a particular characteristic of a program.} to indirectly support detecting design issues. Examples of metrics could be \gls{loc}, \gls{cc} and \gls{nof}. The principle of \textbf{High Cohesion - Low Coupling} is a principle that has support in multiple tools, in the form of calculating a metric, including but not limited to JArchitect \cite{jarchitect} and CodeMR \cite{codemr}. JArchitect \cite{jarchitect} also includes functionality for visualizing  High Cohesion - Low Coupling using a \gls{dsm}. Another example of indirectly detecting design principle violations by using metrics is JArchitect. JArchitect uses the \gls{dsm} to find violations of \textbf{\gls{srp}} by looking at how many different types a class uses. Ndepend \cite{ndepend} calculates the \gls{lcom} value to find whether the class is cohesive or not, and therefore possibly breaking \gls{srp}. 
 
@@ -252,51 +232,38 @@ IntelliJ \cite{IntelliJ} (for Java) and \cite{pmd} has support for detecting vio
 Detecting similar snippets of code to find violations of the \textbf{\gls{dry}} principle is targeted by many tools including, but not limited to IntelliJ\cite{IntelliJ}, PMD\cite{pmd} and Code Climate\cite{codeclimate}. However, code can violate \gls{dry} without looking similar, and tools that can detect more complicated cases have not been found.  
 
 \todo{See if i can find tools that target other design principles. Look at the design principle list on github.}
-Other design principles like \textbf{\gls{isp}}, \textbf{\gls{ocp}} and \textbf{\gls{lsp}} are not targeted at all in tools, but several articles and forum posts on how one can spot violations have been found. \todo{Find the posts and articles and refer them here?} 
+Other design principles like \textbf{\gls{isp}}, \textbf{\gls{ocp}} and \textbf{\gls{lsp}} are not targeted at all in tools, but several articles and forum posts on how one can spot violations have been found. Composition over inheritance is tightly related to the \gls{lsp} and \cite{composition-over-inheritance-stackoverflow} has been useful in providing hints. Multiple articles about spotting violations of \gls{ocp} have also been found, and has been useful.
+
+\todo{Find the posts and articles and refer them here?} These have been shown useful in implementing rules that are not targeted in the current set of tools.
 
 Regarding the process of code review, services like Github\cite{github}\footnote{From wikipedia: "..company that provides hosting for software development version control using Git"\cite{github-wiki}} provides useful features and integration with other tools for code review. Especially a tool called Danger\cite{danger} provides the possibility of automating comments on \gls{pr}'s. It supports development of plugins to support different kinds of automation. No tools that support finding design defects have been found, but plugins that enable such development have been found. Most notable are the plugins that enables automatically commenting on issues found using various linters. Examples include the danger-eslint-plugin\cite{danger-eslint-plugin} and the danger-detekt-plugin\cite{danger-detekt-plugin} which enables comments on \gls{pr}'s based on warnings created by eslint\cite{eslint} and detekt\cite{detekt}, respectively. 
 
 \chapter{Methodology}
-\todo{Si mer om hvorfor jeg har valgt design science - 
-legge struktur på vanlig utvikling. mer ordentlig enn utvikling med fokus på bruker. hvorfor design science: generelt bidrag ; ikke bare om produktet løser problemet for kotlin utviklere. mer evaluering, og om "hinting" er interessant for alle utviklere. }
-
-\todo{diff between design science and development - google dette}
 \label{methodology}
-\todo{rephrase}
 The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. Then the selected research methodology will be presented, and how it contributes to reaching the goal. Then, a more detailed description of the different steps in the research methodology will be provided. 
 
-\section{Goal}
+\section{Goals of the study}
 
-There exists a lot of theory and information on how to design and build maintainable software. The information, and the fulfillment, through the use of code analysis helps developers write systems that are maintainable. However, there exists information about design principles that is not used in the current set of tools for code analysis. The main goal for the study is to see if it is possible to utilize this information and then improve the maintainability of code, by using elements from code analysis in manual code review. A natural follow up question is to evaluate how well it does it.
+There exists a lot of theory and knowledge on how to design and build maintainable software. The knowledge is used by the developers when writing code, and is enforced by tools for code analysis. It helps developers write systems that are maintainable. However, there exists knowledge about design principles that is not used in the current set of tools for code analysis. Design principles is not targeted with the current set of tools, because it is shown hard to detect violations of design principles with a low false-positive rate. The high false-positive rates will create noise and disturbs the developer.
 
-The goals for the study is summarized below:
+The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. The second goal of the study is to evaluate the solution to address the shortcomings and to adjust the solution to users needs. In addition the tool should provide a general contribution to the research field of improving the maintainability of code through code analysis. The goals and the sub-goals are summarized below:
 
 \begin{enumerate}
-    % Her sier jeg noe om løsningen, men det er pga dette var et krav som var satt på forhånd. 
-    \item Improving maintainability of code by creating a new tool that will report violations of design principles, by using elements from code analysis in manual code review.
-    \item Evaluate how well the tool works, and if it contributes to improving the maintainability of code. 
+    \item [\textbf{G1:}] Create a tool for \gls{ddpv} to help developers write maintainable code
+    \begin{enumerate}
+        \item [\textbf{G1.1:}] Create a set of rules for \gls{ddpv}
+        \item [\textbf{G1.2:}]Designing a solution for how and where to integrate it in the developer workflow to reduce eventual noise
+    \end{enumerate}
+    \item [\textbf{G2:}] Evaluate how well the tool works, and provide a general contribution to the field of improving the maintainability of code through code analysis.  
 \end{enumerate}
 
 \section{Research methodology}
-Answering the hypotheses would be impossible through a theoretical approach \todo{why?}. To answer the hypotheses it will be necessary to have practical approach where an actual product is developed and evaluated. 
+To reach the goals it will be necessary to have practical approach where an actual product is developed and evaluated. As the goal is to help developers creating more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a normal choice for such development. However, for this study the end product should also provide a general contribution to the field of improving maintainability of code. The contribution will include what is learned in the process, to see if such an approach could be expanded and put more work into and possibly being a new way of helping developers create maintainable software. A more structured and defined approach with specific guidelines for iteration and evaluation will therefore be chosen. The Design Science research methodology is engineered with that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}.
 
-
-
-% Then select method
-As the problem involves finding out how one can use current technology in code analysis and code review to crate an innovative software artifact that solves problems for developers, an user centred approach will be useful. A traditional user-centred design process would be a normal choice for such development. However, i wish to not only create an innovative software product. I want to document and develop knowledge about the domain of detecting design issues, and therefore a method only involving development would not be suitable for a process involving more structured evaluation. I wish to to say something more general about the domain and if "hinting" is something that could be adopted in the developer community as a whole.  
-
-% Which methods i have used and why that particular method was most appropriate
-The development of a system for detecting design principle violations may look as any user-centred design process. However, there are two general goals of this study. The first is to build an innovative software product. The second goal is to develop knowledge about giving guidelines on following design principles, in a developer workflow. To reach the second goal  Such that this knowledge can be used to develop similar tools, or be further built upon. To develop such knowledge, a methodology presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302} will be utilized. The methodology provides specific guidelines for evaluation and iteration in research projects. 
-
-The knowledge is presented in the form of this whole thesis, while the actual product. 
-
+% About the chosen methodology
 Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. 
 
-For this thesis it is selected because it 
-
-
-
-It is selected because it fits the process of building a innovative software artifact. The software artifact will be created through a series of iterations that include the follow activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
+The software artifact will be created through a series of iterations that include the following activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
 
 \begin{figure}[h!]
     \centering
@@ -305,72 +272,76 @@ It is selected because it fits the process of building a innovative software art
     \label{fig:designScience}
 \end{figure}
 
-
-
-As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required. I will elaborate on how the different activities is applied to the project below. 
-
-
+As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required. I will elaborate on how the different activities is applied to the study below. 
 
 \section{Problem identification and motivation}
-Absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring tasks and technical debt. Finding design flaws as soon as possible is a crucial task to limit the amount of rework required. There are mainly two reasons for this: 
+\label{problem-identification-and-motiviation}
+\todo{use design issues / design defects consistently}
 
-\todo{refer to the list in background ?}
+% Motivation for finding and fixing design issues
+Design issues does not target the functionality of the system directly, and can and is often by \gls{pm} given less priority in favor of feature development. However, absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring tasks and technical debt\cite{}. Finding design flaws as soon as possible is a crucial task to limit the amount of rework required. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects, as design issues often are a breeding ground for bugs. Below is a short summary of the most important arguments inspired by that article:
+
 \begin{enumerate}
-    \item Building upon badly designed software further complicates and increases the difficulty of fixing the software.
-
-    \item The developer is in the context of the current code. Fixing design flaws as soon as possible would require less time to do because the developer knows the context and does not need to context switch.
-
+    \item Unfixed design defects may hide other design defects. Fixing the design defects can solve upcoming problems, that would have been harder to find at a later point.
+    \item Building upon badly designed software further complicates and increases the difficulty of resolving the issues later.
+    \item Unfixed design defects suggest quality is not important. If a software developer is working on poorly written software, it is likely that more code of the same style is added, continuing to degrade the system quality.
+    \item Unfixed design defects lead to inaccurate estimates. Having design defects in code will make it hard to modify and extend. New requirements that incur changes to the code base may break unexpected parts of the system. The estimation will then be hard to do.
+    \item Fixing familiar code is easier than unfamiliar code. Developers need time to get familiar with code, understand what it does and why. Fixing issues while the developer is in the context of that code will save time.
 \end{enumerate}
 
-\todo{Definere hva jeg mener med "detection of violations". Det er mer "steder å hinte på" eller guidelines for å følge designprinsipper. }
-
+% Motivation for helping the code review
 There are mainly two techniques for detecting design issues, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
 
-\todo{litt for teknisk problem, hvordan presentere det for brukeren uten å gjøre utvikleren irritert? Hvordan presentere dette for brukeren i en utviklingsprosess?}
-\todo{savner hvordan skal dette passe inn i en utviklings prossess?}
-\hfill \newline
-This problem identification raises an important question which is my main research question:
-\hfill \newline
-\hfill \newline
-\textbf{RQ1}: How can one use techniques for detecting design principle violations to improve the maintainablity of code? \newline
-\textbf{RQ1.1}: Which design principles can be verified using code analysis? \newline
-\textbf{RQ1.2}: How to deal with a high rate of false-positives? 
+% Motivation for designing a solution for integration with the workflow
+Another aspect of such a system is how it should be integrated with the development process to reduce the amount of noise from false positives. If such a system could be created it could possibly be an inspiration for other tools supporting other programming languages or domains that are subject for analysis. \\
 
+\\ The definition of the specific research problem is based on the two main challenges in this study. It is as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
+
+\todo{Does there exist other domains that does involve analysis, but that does not utilize all the information and is suffering from false positives? }
 
 \section{Define objectives of a solution}
 \label{objectives-of-solution}
-
-
 \todo{Write some more details about the OS?, mer generelt. Ikke si noe om løsning. }
 \todo{Trenger en ide om hvor sikker analysen er. }
-Initially the objectives of a solution had the following characteristics:
 
+
+The initial objectives of a solution are based on current knowledge about the domain and how the solution should be engineered to best achieve the goals. 
+
+The first objective is that the solution should be able to detect violations of design principles using static code analysis. As discussed in the background, static code analysis is best suited for this task as we search to improve the source code itself, and not dynamic quality aspects of the code. The selection of principles to support should be based on knowledge on which principles that are most important, and which principles that fits code analysis best. 
+
+The second objective is that the solution should be designed to reduce eventual noise from false identifications. This is based on the knowledge that current tools suffer from false-positives and that implementations have have been skipped or dropped because they created too much noise. By designing the solution to accept and reduce the amount of noise, more design principles could be considered for implementation.
+
+The third objective is that the tool is configurable to fit individual or team preferences. We know that each developer and teams has their own workflow, and to fit them the tool should be configurable, both at the rule-level and at tool-level. Rule-level meaning that it should be possible to select which rules to enable, and tool-level meaning that the tool should be possible to integrate in multiple types of developer workflows.
+
+The fourth objective is that the tool should be included in a existing tool or should be easy to integrate with existing tools. This is based on the knowledge that getting users to adopt a new tools is easier if it is easy to start using, and if others are already using it. It would also drastically reduce the effort required to develop a tool because a framework for code analysis is already provided. 
+
+The objectives of a solution is summarized below:
 \begin{itemize}
-    \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using static code analysis.
-    \item [\textbf{OS2:}] False-positives should not create too much noise in the developer workflow. First, the rate of false positives should be reduced as much as possible. Second, reported violations should be easy to ignore. 
-    \item [\textbf{OS3:}] It contributes to detecting design issues at the time of \gls{qa}.
-    
-    \todo{hvor kommer de spesifikke løsningene fra, kan få det fra background, eller så må det være mer generelle objectives.}
-    \todo{fjerne mekanismen og hvordan det er løst}
-    \item [\textbf{OS4:}] It should be configurable for defining desired threshold values and turning off unwanted rules.
-    \item [\textbf{OS5:}] Focus on building an artifact that can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
+    \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using code analysis.
+    \begin{itemize}
+        \item [\textbf{OS1.1:}] Most important design principles considered first.
+        \item [\textbf{OS1.2:}] Design principles that fits code analysis should be given priority.
+    \end{itemize}
+    \item [\textbf{OS2:}] The solution is designed to reduce eventual noise from false identifications. 
+    \item [\textbf{OS3:}] It is configurable, to fit individual or team preferences on which rules to analyze, and where it fits in the workflow.
+    \item [\textbf{OS4:}] It can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
 \end{itemize}
 
-The objectives were confirmed by the initial prototype that were posted on social media. 
-
-
-
-During development of the vertical prototype it came to mind that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to help with the solution. It also appeared harder than initially thought to create and develop accurate rules. A new objective and a specification of OS1 was therefore made: 
-
+As the development progressed, multiple iterations of development, demonstration and evaluation contributed to a better understanding of the problem and objectives was   therefore added or changed. During development of the vertical prototype it appeared harder than initially thought to create and develop accurate rules. A specification of OS1 was therefore made. 
 
 \begin{itemize}
-    \item [\textbf{OS6:}] Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
     \item [\textbf{OS1.1:}] It detects violations of \textbf{important} design principles through a \textbf{limited} set of rules using static code analysis.
+\end{itemize}
+
+During presentation of the horizontal prototype there was found out that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to help with the solution. 
+
+\begin{itemize}
+        \item [\textbf{OS5:}] Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
 \end{itemize}
 
 Later on, it was discovered that the performance and ease of setup are crucial objectives to make developers adopt the tool. Therefore, two new objectives for a solution was defined:
 \begin{itemize}
-     \item [\textbf{OS7:}] It is easy to set up and use for all team members in the project
+    \item [\textbf{OS7:}] It is easy to set up and use for all team members in the project
     \item [\textbf{OS8:}] Good performance
 \end{itemize}
 
@@ -386,8 +357,6 @@ Rule specific objectives:
 Comments are understandable, and provides suggestions for solutions.
 
 \section{Design and development}
-\todo{krevende brukergrupee, som kan kreve funksjonalitet, og ikke en fasade og se at dette kan bli et virkelig produkt. Derfor ble vertikal prototype utviklet først. }
-\todo{Si at en horizontal prototype kan være vanlig å utvikle først, men at dette ble gjort annerledes i dette prosjektet pga pga.}
 
 % Generally about design and development
 The design and development phase involves the development of vertical- and horizontal prototypes, with high and low resolution, as well as the final artifact. 
@@ -395,28 +364,29 @@ The design and development phase involves the development of vertical- and horiz
 % Theory about prototypes
 \textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{vertical prototypes} on the other hand focuses on the technical challenges and a single functionality of the system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low resolution} or \textit{high resolution prototype}. 
 
-First, low resolution prototypes will be created, and then more high resolution prototypes. The reason is that we want to get feedback on the initial idea as quick as possible and to adjust the product accordingly.
-
-% About the design and development phase in this project?
-
-
-
-
-%Used a prototype of the horizontal prototype to verify if i got feedback on what i wanted to. (Test on Eirik) \todo{write this one}
-
- 
+First, low resolution prototypes will be created, and then more high resolution prototypes. The reason is that we want to get feedback on the initial idea as quick as possible and to adjust the product accordingly. Why and how the different artifacts was created is written about in the results section for each of the product artifacts.
  
 \section{Demonstration}
-\todo{Because hard to get informants & corona: Shifted focus on getting feedback trough creating PR on github, to get real projects to test the tool.?}
 
-The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. The most important aspect of demonstrating the prototypes, is to put them in a environment that is as similar as possible to the environment that the final product will be used in, a so called field test. This involves getting users to test the product. However, solutions that does not involve explicit testing and field testing must also be considered as gathering participants for testing could be time consuming and require more resources.  
+% General about demonstration. Specific demonstration details is found in results section.
+The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. Examples include functional testing and presentation of prototypes. The most important aspect of demonstrating the prototypes, is to create an environment that is as similar as possible to the environment that the final product will be used in. A so called field test. This involves getting users (other developers) to test the prototypes and the final product. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles. Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.     
+
+\todo{By creating \gls{pr}'s in open-source projects and advertising the tool through backlinks to the repository on GitHub, more feedback could be gathered. Analysis of old \gls{pr}'s in public projects could also be done to give results that could be evaluated manually. }
+
+A specific description of how the demonstration of each prototype was done can be seen in the results section.
 \todo{tried to get feedback by: posted in slack channels work work, kotlin etc, updating the readme for better seo and to show off the product, creating Prs in muliple repositories to advertise. creating issues in related repositories., reddit, hackernews.}
+
  
 \section{Evaluation}
-Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. Different types of evaluation methods includes qualitative methods and quantitative methods, both formal and informal. More specifically, interest measurement, unstructured and informal discussions with other developers, colleges, professors and friends, semi structured interviews, presentations, prototype testing and workshops. Informal methods and events are easier to organize and can inspire to useful discussions, possible features and useful feedback. Formal demonstrations are better for structured feedback and to find the overall results instead of single users perspective. By using both of the strategies we can get the best of both worlds. The results from the evaluations is presented in the results.
+% General about evaluation. Specific evaluation details is found in results section.
+In the evaluation phase we will observe and measure how well the developed artifact solves the problem. We will compare the artifact with the objectives of a solution, and use different techniques for evaluation based on the type of artifact and at which stage in development we are. Evaluation methods includes qualitative methods and quantitative methods. The qualitative methods include feedback gathered from having conversations with experienced developers and through presentation of prototypes. The quantitative methods include interest measurement and analysis of efficiency of the final artifact.   
+
+The methods were mostly informal as formal methods were impossible to organize. This is a major flaw of the study and is targeted in section \ref{flaws-of-study}. Informal evaluation methods were easier to organize and caused useful discussions, possible features and useful feedback. 
+
+Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. After each evaluation activity, based on how the artifact compares to the objectives of a solution it is decided if another iteration is required. The results from the evaluations is presented in the result chapter.
 
 \section{Communication}
-The end result is communicated through this master thesis. Product is also available is for use and further development at https://github.com/Mkohm/detekt-hint/.
+The end result and the developed knowledge about \gls{ddpv} is diffused in this master thesis, for others to consume. The final artifact is also available for use and further development on GitHub\cite{detekt-hint-repository}.
 
 \chapter{Results}
 \label{results}
@@ -429,12 +399,12 @@ Describing the exact number of iterations and the iteration steps is not possibl
     \label{fig:workflow}
 \end{figure}
 
-The 4 iterations were focused on 4 different versions of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one.
+The 4 iterations were focused on 4 different versions of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one. A description of the technical solutions and details is found in section \ref{technical-solution}.
 
 \section{Initial prototype}
-
+\todo{Hvor skal jeg skrive at jeg fant ut at code-review var et passende sted for et slikt produkt? }
 \subsection*{Why and how it was created}
-An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The prototype can be seen in figure \ref{fig:mockup}.
+An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a solution where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}.
 
 \begin{figure}[h!]
     \centering
@@ -447,16 +417,16 @@ An initial low resolution prototype was created to see if there was any interest
 The initial prototype was posted on the subforum of Kotlin\cite{kotlin-reddit} and SoftwareArchitecture\cite{softwarearch-reddit} on Reddit. Additionally, the prototype was presented and discussed with friends. 
 
 \subsection*{Evaluation}
-The general feedback was that there was an interest in a tool like this, and that it would be worth spending more time on. This is only based on a few comments and a fair amount of upvotes on the post, so the actual value of that evaluation will be limited. Read more about this in \ref{flaws-of-study}. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. \\
+The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, commenting on \gls{pr} will only add comments to changed lines of code, reducing the amount of warnings that will appear.  
 
-Suggestions for improvement included: 
+The general feedback was that there was an interest in a tool like this, and that it would solve some of the issues with false-positives. However, some did still point out that reducing the amount of false-positives still would be one of the most important focus points. Other suggestions for improvement included: 
 \begin{itemize}
-    \item Do not claim that the developer is wrong when there can be a lot of false-positives, instead present it as this \textbf{might} be a violation of a design principle.
-    \item Identifications could create useful discussions within the developer team.
-    \item Focus on removing the amount of false-positives as much as possible and making it configurable to fit different needs.
+    \item Do not claim that the developer is wrong when there can be a lot of false-positives, instead present it as it \textbf{might} be a violation of a design principle.
+    \item Identifications and even false-identifications could create useful discussions within the developer team.
+    \item Focus on removing the amount of false-positives as much as possible and making the product configurable to fit different needs.
 \end{itemize}
 
-In general the feedback confirmed my initial objectives for a solution.
+This feedback was only based on discussions with friends and a handful of comments in the forum threads, and a fair amount of upvotes. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. However, the actual value of the feedback may be limited. Read more about this in \ref{flaws-of-study}. 
 
 \section{Vertical prototype}
 
@@ -556,9 +526,14 @@ Schema:
 Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop? Because of difficulties related to finding informants, i had to focus on evaluating the prototype by myself, and gethering numbers for how many 
 
 \subsection*{Evaluation}
+
+compare the end result with the objectives of a solution.
 \begin{itemize}
     \item false-positive rate / per rule
-    \item how many comments per PR avg? How obtrusive is the tool
+    \item how many comments per PR avg? How obtrusive is the tool? How much noise does each rule create? Is this less noise than linters create? Linters may need suppressions of rules etc.
+    \item How easy to integrate? Many lines of configuration, multiple files and stuff?
+    \item How performant is it? How long does it take to run? Is that good enough?
+    \item Does it target all the most important design principles?
 \end{itemize}
 
 What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
@@ -569,10 +544,24 @@ Gather a group of Kotlin/Android entusiasts for a workshop where one could order
 
 \section{Technical solution}
 \label{technical-solution}
+\subsubsection{Getting started}
+A setup guide can be found at \cite{detekt-hint-repository}.
+
 \subsubsection{Detekt-hint specification}
 Specification of all the rules.
 
 \subsubsection{Detekt-hint}
+How rules are created. PSI.
+
+To do analysis of the Kotlin \gls{ast} easier, Jetbrains\cite{jetbrains} have created an Open-Source \gls{psi} on top, adding utility methods for \gls{ast} analysis and modification. Figure \ref{fig:psi} shows a simplified example \gls{psi} that detekt-hint would use to find violations of \gls{isp}. The analysis would simply look in the PSI for classes that implement interfaces, and see if the overridden methods of that interface are empty or only throws exceptions. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{report/images/psi.png}
+    \caption{Simplified version of a sample \gls{psi} showing a sign of violating the \gls{isp}}
+    \label{fig:psi}
+\end{figure}
+
 
 \subsubsection{Architecture}
 A diagram of how everything interacts with each other.
@@ -585,7 +574,7 @@ Detekt gives us access to IntelliJ PSI for analyzing Kotlin code. The PSI is bui
 Type resolution?
 
 \subsubsection{Detekt-hint}
-Final source code can be found on Github\cite{detekt-hint-repository}
+Final source code can be found on Github\cite{detekt-hint-repository}. Developed as a plugin to detekt. Is built as a jar and either included in the gradle build script as a detekt plugin or run separately as a command line interface.
 
 \subsubsection{Danger}
 
@@ -607,12 +596,16 @@ Increasing the performance.
 Easing the setup process. Github app? Direct integration with the repository with no setup. A tool like code-climate that does not need any configuration. Plus of tool like this: all setup is in source control. Downside: could be tedious to set up or not all team members want to use it.
 \section{Flaws of the study}
 \label{flaws-of-study}
+\subsection{Lack of formal evaluation methods}
+Formal evaluation methods are better for structured feedback and to find the overall results instead of single users perspective. 
+
 not enough informants - lack of testing the software
 informants lacking knowldge about design principles
 Should create samples for the horizontal prototype that demonstrates possible false positives as well as true positives. Kan gi inntrykk av at programmet er lurere enn det egentlig er siden jeg bare presenterte de positive identifikasjonene. Inntrykk av interesse på reddit kan være feil pga dette.
 
 \section{Conclusion}
 \label{conclusion}
+Based on the results, the tool may be useful, but lacks .... More development is proposed.
 
 \section{Acknowledgements}
 \label{acknowledgements}
