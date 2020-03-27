@@ -43,6 +43,7 @@
 \newacronym{nof}{NoF}{Number of Functions}
 \newacronym{cpu}{CPU}{Central Processing Unit}
 \newacronym{pm}{PM}{Project Manager}
+\newacronym{api}{API}{Application Program Interface}
 
 \begin{document}
 
@@ -61,8 +62,6 @@
 \tableofcontents
 \clearpage
 \chapter{Introduction}
-
-\todo{generelt, ikke vær så sikker på alt på forhånd, men la løsninger være åpent slik at man får cred for dette i design-biten. }
 % https://student.unsw.edu.au/introductions - Nice resource for seeing what should be in the introdcution!
 
 % State the general topic and give some background about its importance
@@ -301,9 +300,6 @@ Another aspect of such a system is how it should be integrated with the developm
 
 \section{Define objectives of a solution}
 \label{objectives-of-solution}
-\todo{Write some more details about the OS?, mer generelt. Ikke si noe om løsning. }
-\todo{Trenger en ide om hvor sikker analysen er. }
-
 
 The initial objectives of a solution are based on current knowledge about the domain and how the solution should be engineered to best achieve the goals. 
 
@@ -323,7 +319,13 @@ The objectives of a solution is summarized below:
         \item [\textbf{OS1.2:}] Design principles that fits code analysis should be given priority.
     \end{itemize}
     \item [\textbf{OS2:}] The solution is designed to reduce eventual noise from false identifications. 
-    \item [\textbf{OS3:}] It is configurable, to fit individual or team preferences on which rules to analyze, and where it fits in the workflow.
+    
+    \item [\textbf{OS3:}] It is configurable
+    \begin{itemize}
+         \item [\textbf{OS3.1:}] To fit individual or team preferences on where to use the tool in the workflow.
+         \item [\textbf{OS3.2:}] To select which rules to analyze, and possibilities for configuration to support even less false-positives.  
+    \end{itemize}
+    
     \item [\textbf{OS4:}] It can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
 \end{itemize}
 
@@ -339,10 +341,9 @@ During presentation of the horizontal prototype there was found out that reporte
         \item [\textbf{OS5:}] Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
 \end{itemize}
 
-Later on, it was discovered that the performance and ease of setup are crucial objectives to make developers adopt the tool. Therefore, two new objectives for a solution was defined:
+Later on, it was discovered that the performance of the application was bad due to bad optimization of the developed rules. A new objective for a solution was therefore defined:
 \begin{itemize}
-    \item [\textbf{OS7:}] It is easy to set up and use for all team members in the project
-    \item [\textbf{OS8:}] Good performance
+    \item [\textbf{OS6:}] Good performance
 \end{itemize}
 
 
@@ -365,7 +366,7 @@ The design and development phase involves the development of vertical- and horiz
 \textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{vertical prototypes} on the other hand focuses on the technical challenges and a single functionality of the system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low resolution} or \textit{high resolution prototype}. 
 
 First, low resolution prototypes will be created, and then more high resolution prototypes. The reason is that we want to get feedback on the initial idea as quick as possible and to adjust the product accordingly. Why and how the different artifacts was created is written about in the results section for each of the product artifacts.
- 
+ \todo{write about tdd?}
 \section{Demonstration}
 
 % General about demonstration. Specific demonstration details is found in results section.
@@ -402,9 +403,8 @@ Describing the exact number of iterations and the iteration steps is not possibl
 The 4 iterations were focused on 4 different versions of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one. A description of the technical solutions and details is found in section \ref{technical-solution}.
 
 \section{Initial prototype}
-\todo{Hvor skal jeg skrive at jeg fant ut at code-review var et passende sted for et slikt produkt? }
 \subsection*{Why and how it was created}
-An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a solution where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}.
+An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}.
 
 \begin{figure}[h!]
     \centering
@@ -421,17 +421,17 @@ The prototype was focused at finding a solution to \textbf{OS2} (The solution is
 
 The general feedback was that there was an interest in a tool like this, and that it would solve some of the issues with false-positives. However, some did still point out that reducing the amount of false-positives still would be one of the most important focus points. Other suggestions for improvement included: 
 \begin{itemize}
-    \item Do not claim that the developer is wrong when there can be a lot of false-positives, instead present it as it \textbf{might} be a violation of a design principle.
+    \item Do not claim that the developer is wrong when there can be a lot of false-positives, instead present it as it \textbf{might} be a violation of a design principle, and guide the developer to taking the correct decision.
     \item Identifications and even false-identifications could create useful discussions within the developer team.
     \item Focus on removing the amount of false-positives as much as possible and making the product configurable to fit different needs.
 \end{itemize}
 
-This feedback was only based on discussions with friends and a handful of comments in the forum threads, and a fair amount of upvotes. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. However, the actual value of the feedback may be limited. Read more about this in \ref{flaws-of-study}. 
+This feedback was only based on discussions with friends and a handful of comments in the forum threads, and a fair amount of upvotes. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. However, the actual value of the feedback may be limited. Read more about this in section \ref{flaws-of-study}. 
 
 \section{Vertical prototype}
 
 \subsection*{Why and how it was created}
-The initial prototype proposed more work into creating a tool for detecting design principle violations. Normally, a vertical prototype is built first, with the intention of getting an idea of which features that needs to be implemented and the priority of those. In this case a vertical prototype was built first for three reasons:
+The initial prototype proposed more work into creating a tool for detecting design principle violations, and using automated comments during code-review to reduce the amount of noise from false-positives. Normally, a vertical prototype is built first, with the intention of getting an idea of which features that needs to be implemented and the priority of those. In this case a vertical prototype was built first for three reasons:
 
 \begin{enumerate}
     \item The prioritization is somewhat known up front. Being a product focusing on detection of design principle violations, it is quite natural that the product should prioritize principles that are not covered by other tools and that the most significant principles are considered first.
@@ -440,51 +440,39 @@ The initial prototype proposed more work into creating a tool for detecting desi
 \end{enumerate}
 
 % How the prototype was created
-Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as the language subject for analysis. Several tools/framework was considered to use as the fundament for a tool, including Ktlint and Code Climate, but Detekt was chosen as the best platform to build on because it looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}.
+Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as the language subject for analysis. Several tools and frameworks was considered to use as the fundament for a tool, including Ktlint\cite{ktlint} and Code Climate\cite{codeclimate}, but Detekt\cite{detekt} was chosen as the best platform to build on because it was made extensible, and plugins for detekt was already existing for the automated \gls{pr} tool\cite{danger-detekt-plugin}, Danger\cite{danger}. Therefore, Detekt looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}, but a prototype needed to be built to confirm that assumption. 
 
 \subsection*{Demonstration}
-The prototype was mainly demonstrated continuously during development to the developer. It was also partly presented to the participants at the detekt-hint presentation.
+The prototype was mainly demonstrated and continuously evaluated during development to the developer. It was also partly presented to the participants at the detekt-hint presentation at Javabin Trondheim.
 
 \subsection*{Evaluation}
-
-By building upon Detekt the objectives are solved in this way:
+\todo{rewrite these to the new objectives}
+Evaluation of the vertical prototype is based on the objectives of a solution, and a evaluation of the applicable objectives is presented below.
 \begin{itemize}
-    \item [\textbf{OS1:}] It enables writing detection-rules by analysis of the Kotlin \gls{ast} and Jetbrains \gls{psi}.
+    \item [\textbf{OS1:}] Using Detekt as a platform, we are able to write detection-rules by analysis of the Kotlin \gls{ast} by using the Detekt rule framework and the  Jetbrains \gls{psi}. Using the detekt \gls{api} was a highly manageable task due to good documentation and a large amount of sample rules to look at. The analysis itself using the Jetbrains \gls{psi} \gls{api} was shown to be more difficult and time consuming. It involves programming in a complex environment with a huge API with lack of documentation. In addition, creating inspections for programming languages involves handling a lot of edge-cases that can take time to cover. Writing test cases for all the different scenarios ensured the proper handling of edge-cases. As development progressed the \gls{api} got more manageable and looking into other platforms or solutions for analysis were therefore not considered.   
     
-    \item [\textbf{OS2:}] Writing rules with high accuracy using the detekt-api, the amount of false positives can be held to a minimum. Through the danger-kotlin\_detekt plugin violations can be posted on \gls{pr}, minimizing noise and impact of possible false-positives.
+    \item [\textbf{OS2:}] By using the danger detekt plugin, violations reported by the detekt plugin can be commented on pull requests, exactly as proposed in the initial prototype. The noise will therefore be significantly reduced. In addition, rules can be written with high accuracy using the detekt-api, the amount of false positives can be held to a minimum. 
     
-    \item [\textbf{OS3:}] Through commenting on \gls{pr}'s the design issues is targeted at the time of \gls{qa}.
+    \item [\textbf{OS3.1:}] Provides possibility to configure tool to fit mainly two workflows. Can be run separately using the \gls{cli} or running the Gradle task to analyze the whole code base, or be used directly in the code review by using the Danger integration.
+    \item [\textbf{OS3.2:}] Provides configuration options for rules through the use of a configuration file so the rules can be configured to fit the developers or teams best. The configuration file can contain configuration of, but is not limited to threshold values for rules and excluding files for analysis based on exclude patterns. 
     
-    \item [\textbf{OS4:}] Provides configuration options for rules through the use of a configuration file so the rules can be configured to fit developers/teams best.
+    \item [\textbf{OS4:}] The tool is easy to use with detekt, as the developed tool is a detekt plugin. It is However, to use the tool with the Danger integration it requires some additional setup files, creating a bot user on Github and integration with the \gls{ci} environment. This is not an optimal solution, and approaches looking to improve this should be considered. All the tools and plugins that are used are open-source, making it possible for everyone to adopt the tool.
     
-    \item [\textbf{OS5:}] Easy to use with detekt, as the developed tool is a detekt plugin.
-    
-    \item [\textbf{OS6:}] Code context can easily be added to comments.
-    
-    \item [\textbf{OS7:}] Is made extensible through the development of detekt plugins and is easily added to any project already using detekt, and does not require any setup from individual developers.
+    \item [\textbf{OS5:}] Code context can easily be added to comments, by getting the required information from the code-analysis and posting comments that is formatted with markdown.
 
-    \item [\textbf{OS8:}] Have good performance and rules can run in parallel. 
+    \item [\textbf{OS6:}] Have good performance and rules can run in parallel. 
 \end{itemize}
 
-Detekt is also open-source, making it easy to get in touch with the developers if any issues or problems occur.
-
-
-The prototype therefore solves many of the objectives of a solution. However, because of being a prototype it only supports 1 rule that has too many false positives, and the comment is not helping the developer.
-
-
-Building the prototype confirmed the above, and showed a simple rule in action. It was therefore a successful prototype that was a proof of concept and laid the foundations to further development. What was learned developing the prototype is that creating rules is an time-intensive process because it involves programming in a complex environment with a huge API with lack of documentation. In addition, creating inspections for programming languages involves handling a lot of edge-cases that can take time to cover. Writing test cases for all the different scenarios ensured proper handling of all the edge-cases.
-
-
-The main takeaways from evaluating the prototype:
+The prototype therefore solves many of the objectives of a solution. However, because of being a prototype it only supported 1 rule that had a lot of false positives, and evaluation of the actual usefulness of the tool could not be performed. In general, it was a successful prototype that was a proof of concept and laid the foundations to further development. The main takeaways from evaluating the prototype:
 \begin{itemize}
-    \item Detekt is a good platform for building such a tool and enables fulfillment of most objectives for a solution
-    \item Further development should focus on a small set of the most important rules, because they can take a long time to implement.
-    \item Run the tool on others code to find possible bugs and false-positives
+    \item Detekt is a good platform for building such a tool and enables fulfillment of most objectives for a solution.
+    \item Running the tool on own and others code is a good way of finding possible bugs and false-positives.
+    \item Further development should focus on a small set of the most important rules, because they can take a long time to implement. And further evaluations of the tool need to address the usefulness of it.
 \end{itemize}
 
 \section{Horizontal prototype}
 \subsection*{Why and how it was created}
-As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement. Looking through a lot of principles, i tried to determine which rules that would be useful. Since \gls{solid} is considered by many to be the most important design principles, the focus was put on those. The process ended by creating the horizontal prototype that included the rules that i had the most value. 
+As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design descisions. Looking through a lot of principles, i tried to determine which rules that would be useful. Based on the feedback from the inital prototype, the comments were written in a way that were providing guidance instead of claiming changes because of violations. Since \gls{solid} is considered by many to be the most important set of design principles, the focus was put on those. I also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that i had the most value. 
 
 
 The horizontal prototype was built by creating sample \gls{pr} in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}.
@@ -504,16 +492,9 @@ The horizontal prototype was then presented for a group of x number of people us
 % What did i find when using this prototype? What changes does the product need, or does it confirm that i am on the right path?
 
 \subsection*{Evaluation}
+Visual representation was showing useful, especially when including refactoring hints, but would act more as showoff than provide more value. Implementation costs was higher than the value of visual representation. More rules should be prioritized instead. A textual representation of refactoring possibilities would be almost just as good.
 
 The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. 
-
-Does not need a diagram, can use text instead?
-
-Because it was discovered that a small subset of rules only could be developed, it was then a question of finding out which rules should be implemented. Therefore the horizontal prototype was created.
-
-
-Outcome:
-
 
 \section{Final artifact}
 \subsection*{Why and how it was created}
