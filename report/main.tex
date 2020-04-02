@@ -66,6 +66,9 @@
 \chapter{Introduction}
 
 \todo{Sjekk at alle begreper som brukes i teksten tidligre er definert i f.eks bakgrunn}
+\todo{fix referanser}
+\todo{Test for self-plagiat: https://copyleaks.com/compare .}
+
 
 % https://student.unsw.edu.au/introductions - Nice resource for seeing what should be in the introdcution!
 
@@ -96,7 +99,6 @@ The outline of the paper is as follows; Chapter \ref{background} gives some back
 
 \chapter{Background}
 
-\todo{watch out for self-plagiat. Diff with the pre-study when things starting to get fininished - smooth checker: https://copyleaks.com/compare .}
 \label{background}
 To see why achieving maintainable code is so important, and why a new tool for detecting design principle violations is suggested, we need some background information on what maintainable code is and how we can achieve it. The following sections will give a brief introduction to it.
 
@@ -119,6 +121,7 @@ Following are the definitions of the internal quality attributes with most impor
 In the next section we will look into methods of fulfilling these quality attributes.
 
 \section{Achieving maintainable code}
+\label{achieving-maintainable-code}
 To write code that is maintainable a set of concepts, principles and conventions including; Architectural patterns, design patterns, anti-patterns, design principles, metrics and best practices is used amongst developers. Some of them are well defined, and can easily be verified through source code analysis. Others are more abstract in nature and requires reasoning from the developers and is harder to verify.
 
 An \textit{architectural pattern} is a general, reusable solution to a commonly occurring problem in software architecture within a given context \cite{architecturalpattern}. An example is the \gls{mvvm}-pattern for mobile development \cite{mvvm}. It is a well defined pattern and correct use or misuse could be verified through testing tools like ArchUnit \cite{archunit}. 
@@ -200,12 +203,9 @@ Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis to
 
 
 \section{False positives and false negatives}
-As stated above, most of the design principles are hard to detect violations of. Because we are not totally sure that sure that a design principle is violated and should be our tool will report violations, that isn't. We call these \textit{false-positives}. \todo{add a sample?}We often discuss the rate of false-positives, which is an important metric to evaluate the usefulness of different rules.
+As stated above, most of the design principles are hard to detect violations of. Because one is not totally sure that sure that a design principle is violated our tool will report violations, that isn't. These are false alarms and we call these \textit{false-positives}. We often discuss the rate of false-positives, which is an important metric to evaluate the usefulness of different rules. We generally would like the rate of false-positives to be as low as possible. It is believed that the higher the value of the rule, the higher false-positive rate we can accept. 
 
-A \textit{false-negative} is when actual violation goes undetected. \todo{add sample?}
-
-\todo{Should maybe use the wording "wrong guidelines" instead of false-positives in a way. }
-
+A \textit{false-negative} is the opposite, when actual violations goes undetected. We want to keep this rate as low as possible. 
 
 \section{Code review}
 \label{code-review}
@@ -217,12 +217,13 @@ It is a whole lot of things to consider when doing a code review. Naming a few;
 \begin{itemize}
     \item Is the solution following the preferred coding style? Are best practices concerning style, and design principles used?
     \item Is the solution well architected? Is it following the architectural model of the application? Are all the files in the correct modules?
-    \item Is the solution following relevant design principles? Will changes cause unexpected behavior? (hal: Blander du ikke kortene her?)
+    \item Is the solution following relevant design principles?
+    \item Will the changes cause unexpected behavior, and break other parts of the system? 
     \item Is the code understandable? Does all variables, method names, classes express its intent?
     \item Is duplicate code introduced? Is this way of solving the problem the way we prefer it to be in this project?
 \end{itemize}
 
-When dealing with large amounts of changed code it is easy to forget some of the bullet points above. Especially when dealing with repetitive tasks its easy to overlook issues. Luckily, tools will be able to help us with the first point regarding style and best practices. The rest of the points are currently solved by inspecting the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding design issues that tools are not able to detect. 
+When dealing with large amounts of changed code it is easy to forget some of the bullet points above. The number of false-negatives per changed line usually increases as the number of changed lines in a pull request increases. Especially when dealing with repetitive tasks its easy to overlook issues. Luckily, tools will be able to help us with the first point regarding style and best practices. The rest of the points are currently solved by inspecting the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding design issues that tools are not able to detect. 
 
 By detecting issues during code review design defects will be resolved quicker because the developer can fix the issue right away. And fixing issues right away, saves a lot of time.
 
@@ -270,9 +271,11 @@ The selected research methodology needs to fit the goal of the study. Therefore,
 
 \section{Goals of the study}
 
-There exists a lot of theory and knowledge on how to design and build maintainable software. The knowledge is used by the developers when writing code, and is enforced\todo{(hal: litt sterkt uttrykk, det kommer jo an på om hva slags makt verktøy har i prosessen)} by tools for code analysis. It helps developers write systems that are maintainable. However, there exists knowledge about design principles that is not used in the current set of tools for code analysis. Design principles is not targeted with the current set of tools, because it is shown hard to detect violations of design principles with a low false-positive rate. The high false-positive rates will create noise and disturbs the developer.
+There exists a lot of theory and knowledge on how to design and build maintainable software. The knowledge is used by the developers when writing code, and some of the knowledge could be enforced by tools for code analysis. It helps developers write systems that are maintainable. However, there exists knowledge about design principles that is not used in the current set of tools for code analysis. Design principles is not targeted with the current set of tools, because it is shown hard to detect violations of design principles with a low false-positive rate. The high false-positive rates will create noise and disturbs the developer.
 
-The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. \todo{(hal: Tror ikke "study" er riktig uttrykk når du bygger et verktøy)}. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. The second goal of the study is to evaluate the solution to address the shortcomings and to adjust the solution to users needs. In addition the tool should provide a general contribution to the research field of improving the maintainability of code through code analysis. The goals and the sub-goals are summarized below:
+The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. \todo{(hal: Tror ikke "study" er riktig uttrykk når du bygger et verktøy)} By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. 
+
+The goals and the sub-goals are summarized below:
 
 \begin{enumerate}
     \item [\textbf{G1:}] Create a tool for \gls{ddpv} to help developers write maintainable code
@@ -280,18 +283,14 @@ The main goal of the study is to create a tool that help developers adhere to th
         \item [\textbf{G1.1:}] Create a set of rules for \gls{ddpv}
         \item [\textbf{G1.2:}]Designing a solution for how and where to integrate it in the developer workflow to reduce eventual noise
     \end{enumerate}
-    \item [\textbf{G2:}] Evaluate how well the tool works, and provide a general contribution to the field of improving the maintainability of code through code analysis.  
 \end{enumerate}
 
-\todo{hal: Jeg tror ikke det er riktig å ha evaluering som et eget mål, det er jo en del av metoden, så det blir en delaktivitet for å nå målet (eller sjekke om en faktisk har nådd det).}
 
 \section{Research methodology}
-To reach the goals it will be necessary to have practical approach where an actual product is developed and evaluated. As the goal is to help developers creating more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a normal choice for such development. However, for this study the end product should also provide a general contribution to the field of improving maintainability of code. The contribution will include what is learned in the process, to see if such an approach could be expanded and put more work into and possibly being a new way of helping developers create maintainable software. A more structured and defined approach with specific guidelines for iteration and evaluation will therefore be chosen. The Design Science research methodology is engineered with that purpose. \todo{hal: Er "engineered" riktig uttrykk her?} It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}.
+To reach the goals it will be necessary to have practical approach where an innovative product is designed, developed and evaluated. As the goal is to help developers creating more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a normal choice for such development. However, for this study the end product should also provide a general contribution to the research field of improving maintainability of code. The contribution should include what is learned in the process, to see if such an approach could be expanded and put more work into and possibly being a new way of helping developers create maintainable software. The Design Science research methodology fits that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}.
 
 % About the chosen methodology
-Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. 
-
-The software artifact will be created through a series of iterations that include the following activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
+Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. The software artifact will be created through a series of iterations that include the following activities; problem identification/understanding and motivation, definition of objectives for a solution, design and development, demonstration/testing, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
 
 \begin{figure}[h!]
     \centering
@@ -305,9 +304,13 @@ As can be seen in the figure is important to notice that the activities is not d
 \section{Problem identification and motivation}
 \label{problem-identification-and-motiviation}
 \todo{use design issues / design defects consistently}
+\todo{hal: Det kommer veldig an på hva du legger i "design"!!! Hvis brukt som "utforming av en løsning for en bruker", som er naturlig i kontekst av "design science", så handler det i høyeste grad også om funksjonalitet. Mens i "design principles" brukes det annerledes.}
 
-% Motivation for finding and fixing design issues
-Design issues do not target the functionality of the system directly, and can and is often by \gls{pm} given less priority in favor of feature development. \todo{hal: Det kommer veldig an på hva du legger i "design"!!! Hvis brukt som "utforming av en løsning for en bruker", som er naturlig i kontekst av "design science", så handler det i høyeste grad også om funksjonalitet. Mens i "design principles" brukes det annerledes.} However, absence of correctly applied design principles triggers maintainability problems and is often a breeding ground for bugs, refactoring tasks and technical debt\cite{}. Finding design flaws as soon as possible is a crucial task to limit the amount of rework required. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects, as design issues often are a breeding ground for bugs. Below is a short summary of the most important arguments inspired by that article:
+
+% Motivation for detecting design issues is that it is cheaper to develop high quality code
+As Martin Fowler explains in his article "Is High Quality Software Worth the Cost?"\cite{is-high-quality-softaware-worth-it}, the common trade-off between quality and cost does not apply to software. High quality software is actually cheaper to produce because "Neglecting internal quality leads to rapid build up of cruft\footnote{Cruft is the difference between how the system is, and how it ideally would be.}, which slows down feature development. Even great teams produces cruft, but by keeping internal quality high, one is able to keep it under control. High internal quality keeps cruft to a minimum, allowing a team to add features with less effort, time, and cost."
+
+The rapid increase in cruft comes from the consequences of neglecting internal quality attributes. As discussed in section \ref{achieving-maintainable-code} an essential part of developing software with high internal quality software is to follow or adhere to the design principles. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects (that is introduced by f.example not following design principles). Below is a short summary of the most important arguments inspired by that article:
 
 \begin{enumerate}
     \item Unfixed design defects may hide other design defects. Fixing the design defects can solve upcoming problems, that would have been harder to find at a later point.
@@ -316,6 +319,12 @@ Design issues do not target the functionality of the system directly, and can an
     \item Unfixed design defects lead to inaccurate estimates. Having design defects in code will make it hard to modify and extend. New requirements that incur changes to the code base may break unexpected parts of the system. The estimation will then be hard to do.
     \item Fixing familiar code is easier than unfamiliar code. Developers need time to get familiar with code, understand what it does and why. Fixing issues while the developer is in the context of that code will save time.
 \end{enumerate}
+
+Therefore, to reduce the cost, we should improve the internal quality which includes following the design principles.
+
+
+%Developers often fail to communicate the positive correlation between internal quality and development cost, which leads \gls{pm}'s to give internal quality less priority in favor of feature development.
+
 
 % Motivation for helping the code review
 There are mainly two techniques for detecting design issues, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
@@ -401,7 +410,9 @@ First, low resolution prototypes will be created, and then more high resolution 
 \section{Demonstration}
 
 % General about demonstration. Specific demonstration details is found in results section.
-The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. Examples include functional testing and presentation of prototypes. The most important aspect of demonstrating the prototypes, is to create an environment that is as similar as possible to the environment that the final product will be used in. A so called field test. This involves getting users (other developers) to test the prototypes and the final product. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles. Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.
+The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. Examples include functional testing and presentation of prototypes. The most important aspect of demonstrating the prototypes, is to create an environment that is as similar as possible to the environment that the final product will be used in. A so called field test. This involves getting users (other developers) to test the prototypes and the final product. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles.
+
+%Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.
 
 \todo{hal: Diskusjonen om hva som var mulig i praksis, bør skilles ut og komme senere, når du skriver om hvordan du faktisk gjennomførte det.}
 
@@ -420,7 +431,7 @@ The methods were mostly informal as formal methods were impossible to organize. 
 Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. After each evaluation activity, based on how the artifact compares to the objectives of a solution it is decided if another iteration is required. The results from the evaluations is presented in the result chapter.
 
 \section{Communication}
-The end result and the developed knowledge about \gls{ddpv} is diffused in this master thesis, for others to consume. The final artifact is also available for use and further development on GitHub\cite{detekt-hint-repository}.
+The end result and the developed knowledge about \gls{ddpv} is diffused in this master thesis, for others to consume. It should provide a general contribution to the research field of improving the maintainability of code through code analysis. It should communicate the results and provide insight in what could be improved and areas subject for more research. The final artifact is available for use and further development on GitHub\cite{detekt-hint-repository}.
 
 \chapter{Results}
 \label{results}
