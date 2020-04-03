@@ -60,8 +60,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(1)
         }
@@ -89,8 +88,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(1)
         }
@@ -115,8 +113,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(1)
         }
@@ -141,8 +138,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(0)
         }
@@ -161,8 +157,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(1)
         }
@@ -184,15 +179,14 @@ class InterfaceSegregationPrincipleSpec : Spek({
         }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(0)
         }
     }
 
-    describe("Overridden method that only throws exception") {
-        it("Should be reported as a violation of ISP") {
+    describe("Overridden method that throws exception") {
+        it("Should not be reported as a violation of ISP") {
 
             // language=kotlin
             val code = """
@@ -214,10 +208,51 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
                     }
         """.trimIndent()
 
-            val rule =
-                InterfaceSegregationPrinciple()
+            val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLint(code)
             assertThat(findings).hasSize(0)
         }
+    }
+
+    describe("Overridden method that only throws exception, but has comment in front") {
+        it("Should be reported as a violation of ISP") {
+
+            // language=kotlin
+            val code = """
+ import java.lang.RuntimeExceptioninterface A {
+                            fun print()
+                        }
+
+                        class B : A {
+                            override fun print() = /* Try me */ throw RuntimeException("Not supported")
+                        }
+            """.trimIndent()
+
+            val rule = InterfaceSegregationPrinciple()
+            val findings = rule.compileAndLint(code)
+            assertThat(findings).hasSize(1)
+        }
+
+    }
+
+    describe("Overridden method that only throws exception, but has comment in the back") {
+        it("Should be reported as a violation of ISP") {
+
+            // language=kotlin
+            val code = """
+ import java.lang.RuntimeExceptioninterface A {
+                            fun print()
+                        }
+
+                        class B : A {
+                            override fun print() = throw RuntimeException("Not supported")  /* Try me */ 
+                        }
+            """.trimIndent()
+
+            val rule = InterfaceSegregationPrinciple()
+            val findings = rule.compileAndLint(code)
+            assertThat(findings).hasSize(1)
+        }
+
     }
 })

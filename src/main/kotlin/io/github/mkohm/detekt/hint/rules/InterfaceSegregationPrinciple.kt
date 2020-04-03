@@ -7,10 +7,11 @@ import io.gitlab.arturbosch.detekt.api.Entity
 import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
+import org.jetbrains.kotlin.com.intellij.psi.PsiComment
+import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.LeafPsiElement
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtThrowExpression
-import org.jetbrains.kotlin.psi.psiUtil.anyDescendantOfType
 
 /**
  * Interface segregation principle rule
@@ -37,20 +38,8 @@ class InterfaceSegregationPrinciple(config: Config = Config.empty) : Rule(config
         }
     }
 
-    private fun hasOnlyThrowExpression(function: KtNamedFunction) = function.bodyExpression?.firstChild is KtThrowExpression
-
-
-    private fun isBlockFunctionWithOneExpression(function: KtNamedFunction) = function.bodyBlockExpression?.statements?.size == 1
-
-    private fun containsThrowExpression(function: KtNamedFunction) = function.anyDescendantOfType<KtThrowExpression>()
-
-    private fun isSingleExpressionFunction(function: KtNamedFunction) = (function.bodyBlockExpression == null)
-
     private fun isUnNecessary(function: KtNamedFunction): Boolean {
-        return isEmpty(function) || hasOnlyThrowExpression(function)
-    }
-
-    private fun isEmpty(function: KtNamedFunction): Boolean {
-        return function.bodyBlockExpression?.statements?.isEmpty() ?: false
+        return if (function.hasBlockBody()) function.bodyExpression?.children?.all { it is KtThrowExpression || it is PsiComment || it is LeafPsiElement } ?: false
+        else function.bodyExpression is KtThrowExpression || function.bodyExpression?.children?.all { it is KtThrowExpression || it is PsiComment } ?: false
     }
 }
