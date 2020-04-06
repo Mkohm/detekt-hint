@@ -227,6 +227,7 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
 
                 // After each call we put the result into the map, we therefore know that the key exists.
                 // Landmine operator is therefore okay in this case.
+                @Suppress("UnsafeCallOnNullableType")
                 newResult = memoizedResults[reachableExpression]!!
             } else {
                 newResult = getReachableExpressions(property, reachableExpression, reachableExpressionsFromThisExpressions)
