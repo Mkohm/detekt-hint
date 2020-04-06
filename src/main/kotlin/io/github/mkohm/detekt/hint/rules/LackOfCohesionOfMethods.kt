@@ -57,7 +57,6 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
             // Landmine operator is therefore okay.
             @Suppress("UnsafeCallOnNullableType")
             val containingClass = declaration.containingClass()!!
-
             searchForReferences(declaration, containingClass)
         }
     }
