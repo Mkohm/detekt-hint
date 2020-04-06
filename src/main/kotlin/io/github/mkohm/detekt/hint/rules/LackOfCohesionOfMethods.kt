@@ -55,6 +55,7 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
 
             // We know that the containing class exist, because of the above check hasContainingClass().
             // Landmine operator is therefore okay.
+            @Suppress("UnsafeCallOnNullableType")
             val containingClass = declaration.containingClass()!!
 
             searchForReferences(declaration, containingClass)
