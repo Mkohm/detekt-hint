@@ -320,14 +320,14 @@ The rapid increase in cruft comes from the consequences of neglecting internal q
     \item Fixing familiar code is easier than unfamiliar code. Developers need time to get familiar with code, understand what it does and why. Fixing issues while the developer is in the context of that code will save time.
 \end{enumerate}
 
-Therefore, to reduce the cost, we should improve the internal quality which includes following the design principles.
+Therefore, to reduce the cruft, and thereby the cost, we should improve the internal quality which includes following the design principles.
 
 
 %Developers often fail to communicate the positive correlation between internal quality and development cost, which leads \gls{pm}'s to give internal quality less priority in favor of feature development.
 
 
 % Motivation for helping the code review
-There are mainly two techniques for detecting design issues, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
+There are mainly two techniques for detecting violations of design principles, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design-issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the reviewee with not overlooking possible design issues, and could cause useful design discussions within the team.
 
 % Motivation for designing a solution for integration with the workflow
 Another aspect of such a system is how it should be integrated with the development process to reduce the amount of noise from false positives. If such a system could be created it could possibly be an inspiration for other tools supporting other programming languages or domains that are subject for analysis. \\
@@ -360,7 +360,7 @@ The objectives of a solution is summarized below:
     
     \item [\textbf{OS3:}] It is configurable
     \begin{itemize}
-         \item [\textbf{OS3.1:}] To fit individual or team preferences on where to use the tool in the workflow. \todo{hal: Er det ikke litt risikabelt å si at dette er konfigurerbart. Hvordan skal man f.eks. kunne konfigurerer det til å skje i IDE-en og ikke ved commit til felles repo?}
+         \item [\textbf{OS3.1:}] To fit individual or team preferences on where to use the tool in the workflow. \todo{hal: Er det ikke litt risikabelt å si at dette er konfigurerbart. Hvordan skal man f.eks. kunne konfigurerer det til å skje i IDE-en og ikke ved commit til felles repo? Marius: Verktøyet kan kjøres fra kommandolinjen eller etter PR er opprettet i Github. Ved å legge til "file-watchers" i IDE skal man også få til å kjøre det hver gang en fil lagres. Å få det til å kjøre kontinuerlig i IDE blir noe vanskeligere.}
          \item [\textbf{OS3.2:}] To select which rules to analyze, and possibilities for configuration to support even less false-positives.  
     \end{itemize}
     
@@ -413,8 +413,6 @@ First, low resolution prototypes will be created, and then more high resolution 
 The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. Examples include functional testing and presentation of prototypes. The most important aspect of demonstrating the prototypes, is to create an environment that is as similar as possible to the environment that the final product will be used in. A so called field test. This involves getting users (other developers) to test the prototypes and the final product. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles.
 
 %Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.
-
-\todo{hal: Diskusjonen om hva som var mulig i praksis, bør skilles ut og komme senere, når du skriver om hvordan du faktisk gjennomførte det.}
 
 \todo{By creating \gls{pr}'s in open-source projects and advertising the tool through backlinks to the repository on GitHub, more feedback could be gathered. Analysis of old \gls{pr}'s in public projects could also be done to give results that could be evaluated manually. }
 
@@ -617,6 +615,15 @@ The Danger-detekt plugin is a simple plugin which takes a gradle task which is e
 \subsection{Integration}
 In a proper setup, everything is set up to run within the \gls{ci} environment. First, Danger is executed. Danger runs the Danger-detekt-plugin which runs the specified gradle task for running detekt on the repository. Since detekt-hint is added as a ruleset to detekt, the rules from detekt-hint will be executed and a report containing issues will be generated. The Danger-detekt plugin will then parse the results and output the results in the form of comments on \gls{pr}'s. A diagram of how everything interacts with each other can be seen in figure \ref{fig:integration}. 
 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{report/images/execution-flow.png}
+    \caption{The overall architecture/execution flow of the solution}
+    \label{fig:integration}
+\end{figure}
+
+
 \subsubsection{Getting started}
 A setup guide can be found at \cite{detekt-hint-repository}.
 
@@ -627,19 +634,37 @@ A setup guide can be found at \cite{detekt-hint-repository}.
 \label{discussion}
 
 \section{Discussion}
+Given the results.. 
 
 \section{Future work}
+\todo{just say a few sentences about each thing, keep it short and concise.}
+There are mainly two ways of continuing the work on the tool, either by improving the current functionality or by extending it with new functionality. 
+
+\subsection{Enhancement}
+Lower false positive rates
+Enhance the integration/setup process
+Enhance the comments, and improving the suggested solutions. Possibly suggesting multiple solutions.
+\subsection{New features}
+Supporting more more design principles is an obvious way of including more features to the tool. For example ... principle and .. principle. 
+
+Since the tool are able to cope with higher rates of false-positives it is not restricted to targeting only design principles. Other types of knowledge or best practices could be included as rules as well. Other types of rules could involve comments that works as a simple checklist for pull requests. Are tests included? Is coding done blindfolded? Is this file in the correct package/module?    
+
+
 Look at the evaluation results and fix/work on all of those! 
 Implement more rules. More accuraty calculations of LCOM. Considering the different types of LCOM values and choose the best one.
 Reducing the amount of false positives.
 Announce the tool so more developers would use it.
-
+Rules that show useful with very low false-positive rate should be included into the design section of the mother repository detekt.
 Providing more context and/or possible solutions in the comments. Images or graphs explaining.
 Increasing the performance.
 Easing the setup process. Github app? Direct integration with the repository with no setup. A tool like code-climate that does not need any configuration. Plus of tool like this: all setup is in source control. Downside: could be tedious to set up or not all team members want to use it.
 could include other things than design principles, but things that easily is forgotten in code review. blind coding, file organization .... list goes on. everything that is hard to check or easy to forget. 
 
 look at dynamic software metrics, and see how it could be implementet, or if it should get more focus from tool developers, as it looks promising. Dynamic softawer metrics are according to https://www.researchgate.net/publication/225261876_A_Survey_of_Dynamic_Software_Metrics more accurate, and could possibly target design principles in a different way.
+
+\subsection{Adopting the tool}
+Getting peopel to adopt the tool through advertisemens etc.
+
 \section{Flaws of the study}
 \label{flaws-of-study}
 \subsection{Lack of formal evaluation methods}
