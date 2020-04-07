@@ -53,7 +53,6 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
             )
         }
 
-
         if (isTypeCheckExpression(expression)) {
 
             val classes = getClassNames(expression)
@@ -73,28 +72,18 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
         return allClasses.map { it?.text }.reduceRight { ktTypeReference, acc -> "$acc, $ktTypeReference" }
     }
 
-    private fun getEnumName(expression: KtWhenExpression): String {
-        return expression.subjectExpression?.getType(bindingContext).toString()
-    }
+    private fun getEnumName(expression: KtWhenExpression): String = expression.subjectExpression?.getType(bindingContext).toString()
 
-    private fun isTypeCheckExpression(expression: KtWhenExpression): Boolean {
-        return entriesContainsIsExpression(expression)
-    }
+    private fun isTypeCheckExpression(expression: KtWhenExpression): Boolean = entriesContainsIsExpression(expression)
 
-    private fun entriesContainsIsExpression(expression: KtWhenExpression): Boolean {
-        // If "is" is used more than entries-1 times, we fire the warning.
-        return expression.entries.count { entry -> hasExactlyOneIsExpression(entry) } >= (expression.entries.count() - 1)
-    }
+    private fun entriesContainsIsExpression(expression: KtWhenExpression): Boolean =
+        numberOfIsExpression(expression) > 0 && numberOfIsExpression(expression) >= (expression.entries.count() - 1)
 
-    private fun hasExactlyOneIsExpression(whenEntry: KtWhenEntry): Boolean {
-        return whenEntry.collectDescendantsOfType<KtIsExpression>().count() == 1
-    }
+    private fun numberOfIsExpression(expression: KtWhenExpression) = expression.entries.count { entry -> hasExactlyOneIsExpression(entry) }
 
-    private fun isEnumWhenExpression(expression: KtWhenExpression): Boolean {
-        return subjectExpressionIsEnum(expression)
-    }
+    private fun hasExactlyOneIsExpression(whenEntry: KtWhenEntry): Boolean = whenEntry.collectDescendantsOfType<KtIsExpression>().count() == 1
 
-    private fun subjectExpressionIsEnum(expression: KtWhenExpression): Boolean {
-        return expression.subjectExpression?.getType(bindingContext)?.isEnum() ?: false
-    }
+    private fun isEnumWhenExpression(expression: KtWhenExpression): Boolean = subjectExpressionIsEnum(expression)
+
+    private fun subjectExpressionIsEnum(expression: KtWhenExpression): Boolean = expression.subjectExpression?.getType(bindingContext)?.isEnum() ?: false
 }

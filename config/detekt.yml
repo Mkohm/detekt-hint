@@ -521,7 +521,7 @@ style:
   NestedClassesVisibility:
     active: false
   NewLineAtEndOfFile:
-    active: true
+    active: false
   NoTabs:
     active: false
   OptionalAbstractKeyword:
@@ -608,7 +608,7 @@ sample:
   UseCompositionInsteadOfInheritance:
     active: true
     yourUniquePackageName: "com.airthings.airthings"
-  LackOfCohesionOfMethodsRule:
+  LackOfCohesionMethods:
     active: true
     threshold: "0.8"
   InterfaceSegregationPrinciple:
