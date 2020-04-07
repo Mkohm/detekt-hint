@@ -607,7 +607,7 @@ style:
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
-    yourUniquePackageName: "com.airthings.airthings"
+    yourUniquePackageName: "io.github.mkohm"
   LackOfCohesionMethods:
     active: true
     threshold: "0.8"
