@@ -91,7 +91,7 @@ class LackOfCohesionMethods(config: Config = Config.empty) : Rule(config) {
 
         val lcom = calculateLCOMvalue(methodsCount, propertyCount, referencesCount)
         val thresholdValue = valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
-        if (lcom > thresholdValue) {
+        if (lcom >= thresholdValue) {
             report(
                 CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
             )

@@ -48,7 +48,7 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
                 CodeSmell(
                     issue,
                     Entity.from(expression),
-                    "Switching on enum values is a common sign of violation the Open-Closed Principle. Consider creating an introducing an interface for $enum, with different implementations for every type."
+                    "Switching on enum values is a common sign of violation the Open-Closed Principle. Consider introducing an abstraction (interface) for `$enum`, with new implementations of the interface for every value."
                 )
             )
         }
@@ -61,7 +61,7 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
                 CodeSmell(
                     issue,
                     Entity.from(expression),
-                    "Type checking is a sign of violating the Open-Closed Principle. Consider creating an introducing an interface for $classes, with different implementations for every type."
+                    "Type checking is a sign of violating the Open-Closed Principle. Consider introducing an abstraction (interface) for $classes, with new implementations of the interface for every class."
                 )
             )
         }
@@ -69,7 +69,7 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
 
     private fun getClassNames(expression: KtWhenExpression): String? {
         val allClasses = expression.collectDescendantsOfType<KtIsExpression>().map { it.typeReference }
-        return allClasses.map { it?.text }.reduceRight { ktTypeReference, acc -> "$acc, $ktTypeReference" }
+        return allClasses.map { "`${it?.text}`"}.reduceRight { ktTypeReference, acc -> "$acc, $ktTypeReference" }
     }
 
     private fun getEnumName(expression: KtWhenExpression): String = expression.subjectExpression?.getType(bindingContext).toString()
