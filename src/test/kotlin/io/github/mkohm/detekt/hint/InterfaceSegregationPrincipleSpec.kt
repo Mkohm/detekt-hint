@@ -1,12 +1,19 @@
 package io.github.mkohm.detekt.hint
 
 import io.github.mkohm.detekt.hint.rules.InterfaceSegregationPrinciple
+import io.gitlab.arturbosch.detekt.test.KtTestCompiler
 import io.gitlab.arturbosch.detekt.test.compileAndLint
+import io.gitlab.arturbosch.detekt.test.compileAndLintWithContext
 import org.assertj.core.api.Assertions.assertThat
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 class InterfaceSegregationPrincipleSpec : Spek({
+
+    val wrapper by memoized(
+        factory = { KtTestCompiler.createEnvironment() },
+        destructor = { it.dispose() }
+    )
 
     describe("Empty overridden method") {
         it("Should be reported as a violation of ISP") {
@@ -29,7 +36,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
 
             val rule =
                 InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
     }
@@ -61,7 +68,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
     }
@@ -89,7 +96,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
     }
@@ -114,7 +121,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
     }
@@ -139,7 +146,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(0)
         }
     }
@@ -158,7 +165,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
     }
@@ -180,7 +187,7 @@ class InterfaceSegregationPrincipleSpec : Spek({
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(0)
         }
     }
@@ -209,7 +216,7 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
         """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(0)
         }
     }
@@ -229,7 +236,7 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
             """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
 
@@ -250,7 +257,7 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
             """.trimIndent()
 
             val rule = InterfaceSegregationPrinciple()
-            val findings = rule.compileAndLint(code)
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
         }
 

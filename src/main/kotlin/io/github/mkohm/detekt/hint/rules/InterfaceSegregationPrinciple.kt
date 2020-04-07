@@ -28,11 +28,15 @@ class InterfaceSegregationPrinciple(config: Config = Config.empty) : Rule(config
         super.visitNamedFunction(function)
 
         if (function.hasModifier(KtTokens.OVERRIDE_KEYWORD) && isUnNecessary(function)) {
+
+            @Suppress("UnsafeCallOnNullableType")
+            // We know that it has a parent since it has the override modifier, therefore the landmine operator is okay.
+            val interfaceName = function.fqName?.parent()!!
             report(
                 CodeSmell(
                     issue,
                     Entity.from(function),
-                    "${function.text} is not implemented an may not be neccesary. This is a possible violation of the interface segregation principle."
+                    "${function.text} is not implemented an may not be necessary. This is a possible violation of the interface segregation principle. Consider splitting up $interfaceName into smaller interfaces with a single responsibility."
                 )
             )
         }
