@@ -607,10 +607,12 @@ style:
 sample:
   UseCompositionInsteadOfInheritance:
     active: true
-    yourUniquePackageName: "io.github.mkohm"
+    yourUniquePackageName: "com.airthings.airthings"
   LackOfCohesionOfMethodsRule:
     active: true
     threshold: "0.8"
   InterfaceSegregationPrinciple:
+    active: true
+  OpenClosedPrinciple:
     active: true
 
