@@ -9,6 +9,7 @@ script:
   - ./gradlew assemble
   - gem install bundler
   - bundle install
+  - bundle update danger
   - bundle exec danger --verbose
   - ./gradlew test
   - ./gradlew jacocoTestReport

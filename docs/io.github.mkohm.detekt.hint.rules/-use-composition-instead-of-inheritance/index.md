@@ -10,8 +10,8 @@ title: UseCompositionInsteadOfInheritance -
 
 A rule suggesting the use of composition instead of inheritance. It will help you test for Liskov Substitution.
 
-The rule will fire every time inheritance is introduced, unless you derive from a class that exists in another package.
-This will reduce the amount of warnings created where the framework or library you are working with are forcing you to introduce inheritance.
+The rule will fire every time inheritance is introduced, unless you derive from a class that exists in a third party package.
+This will reduce the amount of warnings created where the framework or library are forcing you to introduce inheritance.
 
 Remember to configure this rule correctly by adding:
 "yourUniquePackageName" : "io.github.mkohm"

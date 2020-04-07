@@ -26,6 +26,8 @@ Contributions are very much welcome and if you like the project - help me out wi
 
 :white_check_mark: Lack Of Cohesion of Methods - Notifies you if the LCOM value is too high.
 
+:white_check_mark: Interface Segregation Principles - Notifies you if you implement methods that the class does not need.
+
 ## Upcoming features 
 ### Interface Segregation Principle
 ![lcom](images/comment_isp.png)

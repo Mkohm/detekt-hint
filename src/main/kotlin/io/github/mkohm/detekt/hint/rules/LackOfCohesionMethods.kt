@@ -33,7 +33,7 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
  *
  * LCOM = 1 - referencesCount / ( methodsCount * propertyCount)
  */
-class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
+class LackOfCohesionMethods(config: Config = Config.empty) : Rule(config) {
 
     override val issue = Issue(
         javaClass.simpleName,
@@ -43,7 +43,6 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
     )
 
     private val memoizedResults = mutableMapOf<KtExpression, List<KtExpression>>()
-    private val thresholdValue = valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
 
     private var propertyCount: Int = 0
     private var referencesCount = 0
@@ -56,8 +55,8 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
 
             // We know that the containing class exist, because of the above check hasContainingClass().
             // Landmine operator is therefore okay.
+            @Suppress("UnsafeCallOnNullableType")
             val containingClass = declaration.containingClass()!!
-
             searchForReferences(declaration, containingClass)
         }
     }
@@ -91,6 +90,7 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
         }
 
         val lcom = calculateLCOMvalue(methodsCount, propertyCount, referencesCount)
+        val thresholdValue = valueOrNull<String>("threshold")?.toDouble() ?: error("You must specify a threshold value in detekt.yml")
         if (lcom > thresholdValue) {
             report(
                 CodeSmell(issue, Entity.from(klass), "${klass.name} have a too high LCOM value: $lcom")
@@ -227,6 +227,7 @@ class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
 
                 // After each call we put the result into the map, we therefore know that the key exists.
                 // Landmine operator is therefore okay in this case.
+                @Suppress("UnsafeCallOnNullableType")
                 newResult = memoizedResults[reachableExpression]!!
             } else {
                 newResult = getReachableExpressions(property, reachableExpression, reachableExpressionsFromThisExpressions)
