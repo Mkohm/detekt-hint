@@ -42,34 +42,38 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
     override fun visitWhenExpression(expression: KtWhenExpression) {
         super.visitWhenExpression(expression)
 
-        if (isEnumWhenExpression(expression)) {
-            val enum = getEnumName(expression)
-            report(
-                CodeSmell(
-                    issue,
-                    Entity.from(expression),
-                    "Switching on enum values is a common sign of violation the Open-Closed Principle. Consider introducing an abstraction (interface) for `$enum`, with new implementations of the interface for every value."
-                )
-            )
+        when {
+            isEnumWhenExpression(expression) -> reportEnumSmell(expression)
+            isTypeCheckExpression(expression) -> reportTypeCheckSmell(expression)
         }
+    }
 
-        if (isTypeCheckExpression(expression)) {
+    private fun reportTypeCheckSmell(expression: KtWhenExpression) {
+        val classes = getClassNames(expression)
 
-            val classes = getClassNames(expression)
-
-            report(
-                CodeSmell(
-                    issue,
-                    Entity.from(expression),
-                    "Type checking is a sign of violating the Open-Closed Principle. Consider introducing an abstraction (interface) for $classes, with new implementations of the interface for every class."
-                )
+        report(
+            CodeSmell(
+                issue,
+                Entity.from(expression),
+                "Type checking is a sign of violating the Open-Closed Principle. Consider introducing an abstraction (interface) for $classes, with new implementations of the interface for every class."
             )
-        }
+        )
+    }
+
+    private fun reportEnumSmell(expression: KtWhenExpression) {
+        val enum = getEnumName(expression)
+        report(
+            CodeSmell(
+                issue,
+                Entity.from(expression),
+                "Switching on enum values is a common sign of violation the Open-Closed Principle. Consider introducing an abstraction (interface) for `$enum`, with new implementations of the interface for every value."
+            )
+        )
     }
 
     private fun getClassNames(expression: KtWhenExpression): String? {
         val allClasses = expression.collectDescendantsOfType<KtIsExpression>().map { it.typeReference }
-        return allClasses.map { "`${it?.text}`"}.reduceRight { ktTypeReference, acc -> "$acc, $ktTypeReference" }
+        return allClasses.map { "`${it?.text}`" }.reduceRight { ktTypeReference, acc -> "$acc, $ktTypeReference" }
     }
 
     private fun getEnumName(expression: KtWhenExpression): String = expression.subjectExpression?.getType(bindingContext).toString()
