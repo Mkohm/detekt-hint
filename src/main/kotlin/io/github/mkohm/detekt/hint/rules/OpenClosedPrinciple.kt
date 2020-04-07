@@ -44,13 +44,12 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
 
         when {
             isEnumWhenExpression(expression) -> reportEnumSmell(expression)
-            isTypeCheckExpression(expression) -> reportTypeCheckSmell(expression)
+            isTypeCheckWhenExpression(expression) -> reportTypeCheckSmell(expression)
         }
     }
 
     private fun reportTypeCheckSmell(expression: KtWhenExpression) {
         val classes = getClassNames(expression)
-
         report(
             CodeSmell(
                 issue,
@@ -78,7 +77,7 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
 
     private fun getEnumName(expression: KtWhenExpression): String = expression.subjectExpression?.getType(bindingContext).toString()
 
-    private fun isTypeCheckExpression(expression: KtWhenExpression): Boolean = entriesContainsIsExpression(expression)
+    private fun isTypeCheckWhenExpression(expression: KtWhenExpression): Boolean = entriesContainsIsExpression(expression)
 
     private fun entriesContainsIsExpression(expression: KtWhenExpression): Boolean =
         numberOfIsExpression(expression) > 0 && numberOfIsExpression(expression) >= (expression.entries.count() - 1)
