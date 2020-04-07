@@ -76,7 +76,7 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
 
         return when {
             isJavaSuperClass -> "Exposing interface of a Java superclass is not supported"
-            (superClass.findPsi() as KtClass).body?.functions.isNullOrEmpty() -> "empty public interface"
+            (superClass.findPsi() as KtClass).body?.functions?.filter { it.isPublic }.isNullOrEmpty() -> "empty public interface"
             else -> {
                 val functions = (superClass.findPsi() as KtClass).body?.functions?.filter { it.isPublic }
                 concatenateFunctionNames(functions)

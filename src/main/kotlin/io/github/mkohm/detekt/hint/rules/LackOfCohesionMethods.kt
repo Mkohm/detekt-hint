@@ -33,7 +33,7 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
  *
  * LCOM = 1 - referencesCount / ( methodsCount * propertyCount)
  */
-class LackOfCohesionOfMethods(config: Config = Config.empty) : Rule(config) {
+class LackOfCohesionMethods(config: Config = Config.empty) : Rule(config) {
 
     override val issue = Issue(
         javaClass.simpleName,
