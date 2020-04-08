@@ -8,6 +8,7 @@ import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
 import org.jetbrains.kotlin.psi.KtIsExpression
+import org.jetbrains.kotlin.psi.KtWhenConditionIsPattern
 import org.jetbrains.kotlin.psi.KtWhenEntry
 import org.jetbrains.kotlin.psi.KtWhenExpression
 import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
@@ -71,7 +72,9 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
     }
 
     private fun getClassNames(expression: KtWhenExpression): String? {
-        val allClasses = expression.collectDescendantsOfType<KtIsExpression>().map { it.typeReference }
+        val allClasses =
+            expression.collectDescendantsOfType<KtIsExpression>().map { it.typeReference } +
+                expression.collectDescendantsOfType<KtWhenConditionIsPattern>().map { it.typeReference }
         return allClasses.map { "`${it?.text}`" }.reduceRight { ktTypeReference, acc -> "$acc, $ktTypeReference" }
     }
 
@@ -84,7 +87,8 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
 
     private fun numberOfIsExpression(expression: KtWhenExpression) = expression.entries.count { entry -> hasExactlyOneIsExpression(entry) }
 
-    private fun hasExactlyOneIsExpression(whenEntry: KtWhenEntry): Boolean = whenEntry.collectDescendantsOfType<KtIsExpression>().count() == 1
+    private fun hasExactlyOneIsExpression(whenEntry: KtWhenEntry): Boolean =
+        (whenEntry.collectDescendantsOfType<KtIsExpression>() + whenEntry.collectDescendantsOfType<KtWhenConditionIsPattern>()).count() == 1
 
     private fun isEnumWhenExpression(expression: KtWhenExpression): Boolean = subjectExpressionIsEnum(expression)
 
