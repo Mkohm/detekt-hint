@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.isProtected
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
+import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 
 /**
@@ -49,6 +50,7 @@ class LackOfCohesionMethods(config: Config = Config.empty) : Rule(config) {
 
     override fun visitNamedDeclaration(declaration: KtNamedDeclaration) {
         super.visitNamedDeclaration(declaration)
+        if (bindingContext == BindingContext.EMPTY) return
 
         if ((propertyIsMember(declaration) || isPropertyInitializedInPrimaryConstructor(declaration)) && hasContainingClass(declaration)) {
             propertyCount++

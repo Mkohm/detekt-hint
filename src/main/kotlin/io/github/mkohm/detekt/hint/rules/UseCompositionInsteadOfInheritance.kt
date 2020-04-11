@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getSuperNames
 import org.jetbrains.kotlin.psi.psiUtil.isPublic
 import org.jetbrains.kotlin.psi.stubs.elements.KtStubElementTypes.ENUM_ENTRY
 import org.jetbrains.kotlin.psi.stubs.elements.KtStubElementTypes.SUPER_TYPE_CALL_ENTRY
+import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
@@ -38,6 +39,8 @@ class UseCompositionInsteadOfInheritance(config: Config = Config.empty) : Rule(c
 
     override fun visitClass(klass: KtClass) {
         super.visitClass(klass)
+        if (bindingContext == BindingContext.EMPTY) return
+
         val uniquePackageName =
             valueOrNull<String>("yourUniquePackageName") ?: error("You must specify your unique package name in the configuration for rule 'UseCompositionInsteadOfInheritance'")
 

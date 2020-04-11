@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.psi.KtWhenConditionIsPattern
 import org.jetbrains.kotlin.psi.KtWhenEntry
 import org.jetbrains.kotlin.psi.KtWhenExpression
 import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
+import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
 import org.jetbrains.kotlin.types.typeUtil.isEnum
 
@@ -42,6 +43,7 @@ class OpenClosedPrinciple(config: Config = Config.empty) : Rule(config) {
 
     override fun visitWhenExpression(expression: KtWhenExpression) {
         super.visitWhenExpression(expression)
+        if (bindingContext == BindingContext.EMPTY) return
 
         when {
             isEnumWhenExpression(expression) -> reportEnumSmell(expression)
