@@ -6,12 +6,12 @@ build:
     # LongParameterList: 1
     # style: 1
     # comments: 1
-    sample: 0
+    detekt-hint: 0
 
 config:
   validation: true
   # when writing own rules with new properties, exclude the property path e.g.: "my_rule_set,.*>.*>[my_property]"
-  excludes: "sample.*,sample>.*>.*"
+  excludes: "detekt-hint.*,detekt-hint>.*>.*"
 
 processors:
   active: true
@@ -604,7 +604,7 @@ style:
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
     excludeImports: 'java.util.*,kotlinx.android.synthetic.*'
 
-sample:
+detekt-hint:
   UseCompositionInsteadOfInheritance:
     active: true
     yourUniquePackageName: "io.github.mkohm"
