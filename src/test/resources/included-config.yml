@@ -1,4 +1,4 @@
-sample:
+detekt-hint:
   UseCompositionInsteadOfInheritance:
     active: true
     yourUniquePackageName: "io.github.mkohm"

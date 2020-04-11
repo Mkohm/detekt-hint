@@ -8,9 +8,9 @@ import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.RuleSet
 import io.gitlab.arturbosch.detekt.api.RuleSetProvider
 
-class SampleProvider : RuleSetProvider {
+class DetektHintProvider : RuleSetProvider {
 
-    override val ruleSetId: String = "sample"
+    override val ruleSetId: String = "detekt-hint"
 
     override fun instance(config: Config): RuleSet = RuleSet(
         ruleSetId,
