@@ -28,7 +28,8 @@ Contributions are very much welcome and if you like the project - help me out wi
 
 :white_check_mark: Interface Segregation Principles - Notifies you if you implement methods that the class does not need.
 
-## Upcoming features 
+:white_check_mark: Open-Closed Principle - This rule reports use of switching on enums and classes, which may be a sign of violation the open closed principle.
+
 ### Interface Segregation Principle
 ![lcom](images/comment_isp.png)
 
