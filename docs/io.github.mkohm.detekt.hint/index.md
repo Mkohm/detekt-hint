@@ -8,5 +8,5 @@ title: io.github.mkohm.detekt.hint -
 
 ### Types
 
-| [SampleProvider](-sample-provider/index.html) | `class SampleProvider : RuleSetProvider` |
+| [DetektHintProvider](-detekt-hint-provider/index.html) | `class DetektHintProvider : RuleSetProvider` |
 

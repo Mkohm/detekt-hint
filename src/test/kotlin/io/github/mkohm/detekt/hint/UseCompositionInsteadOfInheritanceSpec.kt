@@ -204,7 +204,7 @@ class UseCompositionInsteadOfInheritanceSpec : Spek({
         it("Should throw runtime error") {
             val rule = UseCompositionInsteadOfInheritance()
             assertThatIllegalStateException().isThrownBy {
-                val findings = rule.lint(code)
+                val findings = rule.compileAndLintWithContext(wrapper.env, code)
             }
         }
     }

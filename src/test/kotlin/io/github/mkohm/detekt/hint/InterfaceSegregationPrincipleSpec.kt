@@ -226,7 +226,8 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
 
             // language=kotlin
             val code = """
- import java.lang.RuntimeExceptioninterface A {
+ import java.lang.RuntimeException
+interface A {
                             fun print()
                         }
 
@@ -247,7 +248,8 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
 
             // language=kotlin
             val code = """
- import java.lang.RuntimeExceptioninterface A {
+ import java.lang.RuntimeException
+interface A {
                             fun print()
                         }
 
@@ -259,6 +261,77 @@ override fun beginFwUpdate(processListener: FwUpdateProcess.ProcessListener) {
             val rule = InterfaceSegregationPrinciple()
             val findings = rule.compileAndLintWithContext(wrapper.env, code)
             assertThat(findings).hasSize(1)
+        }
+
+    }
+
+    describe("Overridden method that is single expression, but has implementation") {
+        it("Should not be reported as a violation of ISP") {
+
+            // language=kotlin
+            val code = """
+interface A {
+                            fun print(): String
+                        }
+
+                        class B : A {
+                            override fun print() = "printed" 
+                        }
+            """.trimIndent()
+
+            val rule = InterfaceSegregationPrinciple()
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings).hasSize(0)
+        }
+
+    }
+
+
+    describe("Overridden method that is single expression, but has implementation and comment in the back") {
+        it("Should not be reported as a violation of ISP") {
+
+            // language=kotlin
+            val code = """
+interface A {
+                            fun print(): String
+                        }
+
+                        class B : A {
+                            override fun print() = "printed"  /* Try me */ 
+                        }
+            """.trimIndent()
+
+            val rule = InterfaceSegregationPrinciple()
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings).hasSize(0)
+        }
+
+    }
+
+
+    describe("Overridden method that is of type body exression and that is implemented") {
+        it("Should not be reported as a violation of ISP") {
+
+            // language=kotlin
+            val code = """
+                package io.gitlab.arturbosch.detekt.api.internal
+
+                interface Notification {
+                fun toString(): String
+                }
+
+                data class SimpleNotification(
+                    override val message: String,
+                    override val level: Notification.Level = Notification.Level.Error
+                ) : Notification {
+
+                    override fun toString(): String = message
+                }
+            """.trimIndent()
+
+            val rule = InterfaceSegregationPrinciple()
+            val findings = rule.compileAndLintWithContext(wrapper.env, code)
+            assertThat(findings).hasSize(0)
         }
 
     }

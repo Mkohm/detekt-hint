@@ -9,9 +9,16 @@ import io.gitlab.arturbosch.detekt.api.Rule
 import io.gitlab.arturbosch.detekt.api.Severity
 import org.jetbrains.kotlin.com.intellij.psi.PsiComment
 import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.LeafPsiElement
+import org.jetbrains.kotlin.descriptors.ClassDescriptor
+import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
 import org.jetbrains.kotlin.lexer.KtTokens
+import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtThrowExpression
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
+import org.jetbrains.kotlin.psi.synthetics.findClassDescriptor
+import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
+import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperInterfaces
 
 /**
  * Interface segregation principle rule
@@ -41,12 +48,30 @@ class InterfaceSegregationPrinciple(config: Config = Config.empty) : Rule(config
     }
 
     private fun getInterfaceName(function: KtNamedFunction): Any {
-        val interfaceName = function.fqName?.parent()
-        return if (interfaceName == null) "" else " `$interfaceName`"
+        val implementedInterfaces = function.containingClass()?.findClassDescriptor(bindingContext)?.getSuperInterfaces()
+        val interfaceOfOverriddenFunction = implementedInterfaces?.find { classDescriptor ->
+            interfaceThatHasFunctionWithSameName(classDescriptor, function)
+        }
+        val interfaceNameOfOverriddenFunction = interfaceOfOverriddenFunction?.fqNameSafe.toString()
+
+        return if (interfaceNameOfOverriddenFunction == "") "" else " `$interfaceOfOverriddenFunction`"
     }
 
+    private fun interfaceThatHasFunctionWithSameName(
+        classDescriptor: ClassDescriptor,
+        function: KtNamedFunction
+    ) = (classDescriptor.findPsi() as KtClass).body?.functions?.any { it.name == function.name } ?: false
+
     private fun isUnNecessary(function: KtNamedFunction): Boolean {
-        return if (function.hasBlockBody()) function.bodyExpression?.children?.all { it is KtThrowExpression || it is PsiComment || it is LeafPsiElement } ?: false
-        else function.bodyExpression is KtThrowExpression || function.bodyExpression?.children?.all { it is KtThrowExpression || it is PsiComment } ?: false
+        return if (function.hasBlockBody()) {
+            function.bodyExpression?.children?.all { it is KtThrowExpression || it is PsiComment || it is LeafPsiElement } ?: false
+        } else {
+            function.bodyExpression is KtThrowExpression || (hasChildren(function) && allChildrenIsThrowOrComment(function))
+        }
     }
+
+    private fun allChildrenIsThrowOrComment(function: KtNamedFunction) =
+        function.bodyExpression?.children?.all { it is KtThrowExpression || it is PsiComment } ?: false
+
+    private fun hasChildren(function: KtNamedFunction): Boolean = function.bodyExpression?.children?.isNotEmpty() ?: false
 }
