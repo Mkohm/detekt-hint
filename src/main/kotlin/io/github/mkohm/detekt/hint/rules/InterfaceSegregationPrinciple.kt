@@ -17,7 +17,9 @@ import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtThrowExpression
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.synthetics.findClassDescriptor
+import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameOrNull
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
+import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameUnsafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperInterfaces
 
 /**
@@ -52,9 +54,9 @@ class InterfaceSegregationPrinciple(config: Config = Config.empty) : Rule(config
         val interfaceOfOverriddenFunction = implementedInterfaces?.find { classDescriptor ->
             interfaceThatHasFunctionWithSameName(classDescriptor, function)
         }
-        val interfaceNameOfOverriddenFunction = interfaceOfOverriddenFunction?.fqNameSafe.toString()
+        val interfaceNameOfOverriddenFunction = interfaceOfOverriddenFunction?.fqNameOrNull()
 
-        return if (interfaceNameOfOverriddenFunction == "") "" else " `$interfaceOfOverriddenFunction`"
+        return if (interfaceNameOfOverriddenFunction == null) "" else " `$interfaceOfOverriddenFunction`"
     }
 
     private fun interfaceThatHasFunctionWithSameName(

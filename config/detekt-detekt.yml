@@ -9,7 +9,7 @@ build:
 detekt-hint:
   UseCompositionInsteadOfInheritance:
     active: true
-    yourUniquePackageName: "io.github.mkohm"
+    yourUniquePackageName: "io.gitlab.arturbosch"
   LackOfCohesionMethods:
     active: true
     threshold: "0.8"
