@@ -9,7 +9,7 @@ build:
 detekt-hint:
   UseCompositionInsteadOfInheritance:
     active: true
-    yourUniquePackageName: "com.airthings"
+    yourUniquePackageName: "io.ktor"
   LackOfCohesionMethods:
     active: true
     threshold: "0.8"
