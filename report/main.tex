@@ -26,6 +26,7 @@
 \newacronym{dip}{DIP}{Dependency Inversion Principle}
 \newacronym{lcom}{LCOM}{Lack of Cohesion Of Methods}
 \newacronym{loc}{LOC}{Lines Of Code}
+\newacronym{lloc}{LLOC}{Logical Lines Of Code}
 \newacronym{mvvm}{MVVM}{Model-View-ViewModel}
 \newacronym{pr}{PR}{Pull Request}
 \newacronym{ntnu}{NTNU}{Norwegian University of Science and Technology}
@@ -396,6 +397,7 @@ Rule specific objectives:
 Comments are understandable, and provides suggestions for solutions.
 
 \section{Design and development}
+\label{design-development}
 \todo{usecases, requirements ?}
 
 
@@ -433,7 +435,8 @@ The end result and the developed knowledge about \gls{ddpv} is diffused in this 
 
 \chapter{Results}
 \label{results}
-Describing the exact number of iterations and the iteration steps is not possible as one continuously evaluates the product and adjusts the product under development. But seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
+In this chapter i will present the results of executing multiple iterations of product development, following the design science methodology. As stated in the design and development section (\ref{design-development}) low-resolution 
+prototypes is created first and then more functional artifacts are developed. The chapter is therefore divided into sections for each of the produced artifacts, ending with the evaluation of the final artifact. \todo{where/was}Describing the exact number of iterations and the iteration steps is not possible as one continuously evaluates the product and adjusts the product under development. But seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
 
 \begin{figure}[h!]
     \centering
@@ -443,6 +446,8 @@ Describing the exact number of iterations and the iteration steps is not possibl
 \end{figure}
 
 The 4 iterations were focused on 4 different versions of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one. A description of the technical solutions and details is found in section \ref{technical-solution}.
+
+
 
 \section{Initial prototype}
 \subsection*{Why and how it was created}
@@ -472,7 +477,7 @@ This feedback was only based on discussions with friends and a handful of commen
 \section{Vertical prototype}
 
 \subsection*{Why and how it was created}
-The initial prototype proposed more work into creating a tool for detecting design principle violations, and using automated comments during code-review to reduce the amount of noise from false-positives. Normally, a vertical prototype is built first, with the intention of getting an idea of which features that needs to be implemented and the priority of those. In this case a vertical prototype was built first for three reasons:
+The initial prototype proposed more work into creating a tool for detecting design principle violations, and using automated comments during code-review to reduce the amount of noise from false-positives. Normally, a horizontal prototype is built first, with the intention of getting an idea of which features that needs to be implemented and the priority of those. In this case a vertical prototype was built first for three reasons:
 
 \begin{enumerate}
     \item The prioritization is somewhat known up front. Being a product focusing on detection of design principle violations, it is quite natural that the product should prioritize principles that are not covered by other tools and that the most significant principles are considered first.
@@ -511,13 +516,13 @@ The prototype therefore solves many of the objectives of a solution. However, be
 
 \section{Horizontal prototype}
 \subsection*{Why and how it was created}
-As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design descisions. Looking through a lot of principles, i tried to determine which rules that would be useful. Based on the feedback from the inital prototype, the comments were written in a way that were providing guidance instead of claiming changes because of violations. Since \gls{solid} is considered by many to be the most important set of design principles, the focus was put on those. I also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that i had the most value. 
+As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design decisions. Looking through a lot of principles, i tried to determine which rules that would be useful. Based on the feedback from the initial prototype, the comments were written in a way that were providing guidance instead of claiming changes because of violations. Since \gls{solid} is considered by many to be the most important set of design principles, the focus was put on those. I also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that had the most value. 
 
 
 The horizontal prototype was built by creating sample \gls{pr}'s in a sample repository on Github\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:liskov}.
 
 \subsection*{Demonstration}
-Initially, to get structured feedback on the prototype, it was planned to present the prototype to a group of people using a semi structured interview. To get informants to the semi-structured interview, a presentation for approximately 20 participants at Javabin\footnote{A usergroup for persons interested in software development on the Java and \gls{jvm} platform, and related technologies.} Trondheim was held. Search for informants also included asking companies with Kotlin developers, including Bekk and Netlight, but with limited success. 6 \todo{inkluderer eirik, kanskje en fra netlight?} participants signed up for joining the semi-structured interview, but i were only able to get in touch with 2 of them to actually join the semi structured interview. The interview followed the semi-structured interview schema that can be found in the appendix \cite{}.
+Initially, to get structured feedback on the prototype, it was planned to present the prototype to a group of people using a semi structured interview. To get informants to the semi-structured interview, a presentation for approximately 20 participants at Javabin\footnote{A user group for persons interested in software development on the Java and \gls{jvm} platform, and related technologies.} Trondheim was held. Search for informants also included asking companies with Kotlin developers, including Bekk and Netlight, but with limited success. 6 participants signed up for joining the semi-structured interview, but i were only able to get in touch with 2 of them to actually join the semi structured interview. The interview followed the semi-structured interview schema that can be found in the appendix \ref{semi-structured-interview-schema}.
 
 Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, and further complicated the issue of contacting and speaking with other developers directly. I was then forced to find other ways of reaching out to people to gather feedback. The prototype were shown in multiple slack channels for work, the official Kotlin channel and various other channels.
 
@@ -532,9 +537,11 @@ Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, a
 
 \subsection*{Evaluation}
 \todo{can i include images from slack? To proof that i have done some effort in recruiting and getting feedback?}
-From the semi structured interview it was found out that visual representation of design principle violations was showing useful, especially when including refactoring hints, but would act more as showoff than provide more value. The implementation costs of generating such images was higher than the value of visual representation. More rules should be prioritized instead, and a textual representation of refactoring possibilities would be almost just as good. There were also a concern related to too few rules implemented, and that the tool would give limited value because of too few issues reported. 
+From the semi structured interview it was found out that visual representation of design principle violations was showing useful, especially when including refactoring hints, but would act more as showoff than provide more value. The implementation costs of generating such images was higher than the value of visual representation. More rules should be prioritized instead, and a textual representation of refactoring possibilities would be almost just as good. There were also a concern related to too few rules implemented, and that the tool would give limited value because of too few issues reported. Participants also mentioned that showing warnings in the PR makes it easy to ignore eventual false-positives. 1 participant were more concerned about false-positives than the other.
 
-From other ways of demonstrating the general impression was much of the same as for the initial prototype. People like the project, and are generally positive. However, very few suggestions for improvements or others design principles to support were suggested.
+
+
+From other ways of demonstrating the general impression was much of the same as for the initial prototype. People like the project, and are generally positive. However, very few suggestions for improvements or others design principles to support were suggested. Other suggestions for features not directly related to design principles were proposed, and is written about in section \ref{futurework}.
 
 The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. \todo{clean up there}
 
@@ -542,30 +549,87 @@ The schema used for the semi-structured interview, the participants answers/feed
 
 \section{Final artifact}
 \subsection*{Why and how it was created}
-The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because of feedback on visual representation of violations it was instead decided to provide refactoring possibilities trough a textual representation. A focus on implementing more rules was also done. 
+The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. Also, to facilitate evaluation of the final artifact, effort in integrating the tool into open-source projects was done. \todo{Tell about how it went ?}.
+%Because of feedback on visual representation of violations it was instead decided to provide refactoring possibilities trough a textual representation. \todo{impement that.}
 
-Because earlier approaches for feedback gave limited amounts of feedback, it was decided that a next approach needs to include a functional prototype that would detect actual design issues in code.
+\subsection{Demonstration}
 
-
-\subsection*{Demonstration}
-Through a workshop, where participants analyze their own Kotlin code with detekt-hint the final artifact was supposed to be evaluated. However, a new approach for evaluating the artifact had to be considered. A supporting-tool for collecting merged \gls{pr}'s, and analyzing them needed to be created. 
+Through a workshop, where participants analyze their own Kotlin code with detekt-hint the final artifact was supposed to be evaluated. However, a new approach for evaluating the artifact had to be considered due to \gls{covid19}. It was decided to focus on two types of evaluation. Evaluations based on feedback from the open source community, and from internal testing.
 
 
 Analysis of pull requests and see if we can find some issues. \todo{write about how covid19 affected this}
 Schema:
 %Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop? Because of difficulties related to finding informants, i had to focus on evaluating the prototype by myself, and gethering numbers for how many 
 
-\subsection*{Evaluation}
+\subsection{Evaluation from the open source community}
+
+\subsection{Internal evaluation}
+\subsubsection{Rule invocations}
+To evaluate the possible impact of the tool, and the possible downsides of the false positives, analysis on x projects have been done. The results is presented in the tables below.
+
+\subsubsection{Usefulness of rules}
+The most interesting part of evaluating the product is to evaluate if it will help developers write more maintainable code. Unfortunately, without any users/teams to test the tool, it is very hard to get a sense of its value. Because there seldomly is any definitive answer to which design principle to follow, it is hard to do such analysis without extensive insight into a project, and experience. 
+
+With no users to test the product i need to do an evaluation myself on a project that i know. Analyzing the Airthings Wave Android app, 23 code smells per 1000 \gls{lloc} were found. x percent usecompositioninsteadofinheritance, x percent .... . The rule makes it easy to see the public interface of the superclass, and informs the developer about whether inheritance is properly used. Other heuristics for determining correct usage should also be provided. 
+
+Extra false-positives in lackofcohesion due to fields in kotlin is not only data holders, but is tightly connected to methods. See SyncControlViewModel in AT app. Access variables in superclass.
+
+
+
+
+How much more value does the rules give, compared to "metric rules"
+
+A case study where the tool is applied to a project, would have 
+
+
+
+
+Analyse detekt. Airthings, and another app? Best practices app from google?
+
+- For each rule, describre the false positives and how hard it is to find false-positives and discard them, how much time do you use to do that?
+
+\subsubsection{Ease of setup}
+
+ \todo{not relevant. What is relevant is the design science that is done. Is these kinds of rules a thing that is of value? Or would it cause too much false-positives} 
+- Performance of a run/each rule
+
+\subsubsection{Overall evaluation}
+Needs more rules.
+
+
+
+
+Må like mye evaluere design-biten (hvor godt det fungerer å få kommentarar i PR). Dette var en del av designproblemet, som det faktisk er en god løsning på. Ikke for mye fokus på at reglene ikke er rakettforskning. Bruker 1 sekund på å trykke resolve conversation. Og avhengig av hva det kommenteres på bør det ta noen få sekunder å oppdage en falsk positiv. Bruker man lengre tid å å avgjare, betyr det kanskje at det er en design-feil, eller ihvertfall noe man bør se nærmere på.
+
+- How useful for taking design decisions in the team?
+- How accurate are the detections?
+- How much noise is created?
+
+Possible sections/metrics:
+evaluation of usefulness of rules
+evaluation of impact of false positives
+ease of setup
+performance
+
+summary
+
+
+
+However, i am able to evaluate each of the rules on a project that i know. Trying to figure out the value of the detections. Hvordan skal jeg sammenligne hvor bra det er når det ikke nødvendigvis finnes noen fasit? Å gjøre en slik vurdering alene blir vanskelig å presentere på en troverdig måte.
+
+Analysere på ulike prosjekter med ulik grad av kvalitet. Se hvor mange warnings / 1000 linjer. Vi ser at dette ikke er et uhåndterlig antall med warnings, som resulterer i noen per pull request. Skaper iikke for mye noise.
 
 compare the end result with the objectives of a solution.
 \begin{itemize}
+    \item detections / line of code / file
+    \item How good are the detections/rules?
     \item false-positive rate / per rule
     \item how many comments per PR avg? How obtrusive is the tool? How much noise does each rule create? Is this less noise than linters create? Linters may need suppressions of rules etc.
     \item How easy to integrate? Many lines of configuration, multiple files and stuff?
     \item How performant is it? How long does it take to run? Is that good enough?
     \item Does it target all the most important design principles?
 \end{itemize}
-
+Analyse different projects that uses kotlin, and compare the rate of numbers of issues i can detekt. And then compare it to the score it has on codefactor, codeclimate etc?
 What is the goal, how should i reach the goal of the workshop. Keep the workshop structured.
 
 
@@ -604,6 +668,8 @@ The final artifact consists of \todo{enter number} rules. Below follows a techni
     \item Open-Closed-Principle (\gls{ocp}). A rule that looks for instance of checking and switching on enums. It is a common sign of violating the Open-Closed Principle. Will not warn when checking on instances provided by a third party framework or library.
 \end{itemize}
 
+detekt-hint is published to mvnrepository for easy access and integration with detekt.
+
 %Final source code can be found on Github\cite{detekt-hint-repository}. Developed as a plugin to detekt. Is built as a jar and either included in the gradle build script as a detekt plugin or run separately as a command line interface.
 
 \subsection{Danger}
@@ -619,7 +685,7 @@ In a proper setup, everything is set up to run within the \gls{ci} environment. 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{report/images/execution-flow.png}
-    \caption{The overall architecture/execution flow of the solution}
+    \caption{The overall architecture and execution flow of the solution}
     \label{fig:integration}
 \end{figure}
 
@@ -637,13 +703,16 @@ A setup guide can be found at \cite{detekt-hint-repository}.
 Given the results.. 
 
 \section{Future work}
+\label{futurework}
 \todo{just say a few sentences about each thing, keep it short and concise.}
 There are mainly two ways of continuing the work on the tool, either by improving the current functionality or by extending it with new functionality. 
 
 \subsection{Enhancement}
+Direct configuration with closer github-integration. for Example an option to add "SomeClass" to the list of classes to ignore. Would help by reducing the amount of false-positives.
 Lower false positive rates
 Enhance the integration/setup process
 Enhance the comments, and improving the suggested solutions. Possibly suggesting multiple solutions.
+Detekting more cases of switching on enums and classes. reduce rate of false-negatives
 \subsection{New features}
 Supporting more more design principles is an obvious way of including more features to the tool. For example ... principle and .. principle. 
 
@@ -668,8 +737,9 @@ Getting peopel to adopt the tool through advertisemens etc.
 \section{Flaws of the study}
 \label{flaws-of-study}
 \subsection{Lack of formal evaluation methods}
+People will not test the tool untill it has a lot of users.. And a lot of rules. Too few rules will make people not find it very valueable.
 Formal evaluation methods are better for structured feedback and to find the overall results instead of single users perspective. 
-
+Should have tested the tool on a team, and observed their usage over time to get insight in how it is used, and if it helps taking good design desicions. Case study should be tried out.
 not enough informants - lack of testing the software
 informants lacking knowldge about design principles
 Should create samples for the horizontal prototype that demonstrates possible false positives as well as true positives. Kan gi inntrykk av at programmet er lurere enn det egentlig er siden jeg bare presenterte de positive identifikasjonene. Inntrykk av interesse på reddit kan være feil pga dette.
