@@ -38,6 +38,7 @@
 \clearpage
 
 \section{Horizontal prototype schema}
+\label{semi-structured-interview-schema}
 \subsubsection*{Participant number:} What is the number of the participant.
 \subsubsection*{Background:} What is the participants background. Experience with software architecture? Knows and uses design principles? Experience with Kotlin?
 \subsubsection*{Presentation of rules - For each rule}
@@ -71,8 +72,23 @@
 
 \noindent Other: Tools for detecting complicated expressions that can be extracted out as a separate method with a descriptive name. Blocks of code should be extracted out as separate methods so that lines of code that belongs together has its own scope. 
 \clearpage
-\section{Workshop schema}
-\label{workshop-schema}
+
+
+% Netlight
+\noindent\textbf{Participant number:} 2 \newline
+\textbf{Background:} Works as a software developer for Netlight, x years of experience with Kotlin.\\
+\textbf{Experience with design principles:} Yes \\\\
+
+\noindent UseCompositionInsteadOfInheritance: Positive about the rule, but is concerned about not showing warnings when deriving from third party libraries. This is a case where one also should think about using composition instead of inheritance. Suggests to remove this logic, and instead provide configuration options for packages that should not be reported as violations when derived from.  \\\\
+
+\noindent LCOM: Nothing special. \\\\
+
+\noindent OCP: Useful for both instance of checking and enum switching. Enums in Kotlin are powerful, so switching on them is in many cases not needed and polymorphism is used instead.\\\\
+
+\noindent ISP: Could be useful. May need to handle TODO's specially. \\\\
+
+\noindent Other: In general positive to the tool, and think it has potential. Good that it is easy to ignore warnings, with just a click. It needs more rules before considering using it. For example including detection of Java antipatterns and ensuring that Kotlin code is idiomatic. For example static methods and places where data-classes could be used. The tool could be used as "training wheels" in a team, where one gradually could disable more rules to not create unnecessary noise in the development.
+\clearpage
 
 
 \todo{Publish pre study somewehere so that i can link to it?}
