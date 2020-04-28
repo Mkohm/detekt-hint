@@ -39,8 +39,6 @@ Contributions are very much welcome and if you like the project - help me out wi
 ### Open-Closed Principle
 ![lcom](images/comment_ocp2.png)
 
-Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
-
 ## Using detekt-hint
 If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
 
