@@ -41,14 +41,13 @@ Contributions are very much welcome and if you like the project - help me out wi
 
 Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
 
-## Using detekt-hint with Github Actions
+## Using detekt-hint
 If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
 
-Else, grab a :coffee: and read on.
+### With Github Actions
+1. Configure a detekt-hint.yml to include detekt-hint rules and put it in a folder called "config" in your root project folder. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt-hint-config.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
 
-1. Configure a detekt-hint.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt-hint.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
-
-2. Create a github action using the detekt-hint docker action.
+2. Create a github action using the detekt-hint docker action. See here for a [sample](https://github.com/Mkohm/detekt-hint-sample/blob/master/.github/workflows/detekt-hint.yml)
 
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
 
