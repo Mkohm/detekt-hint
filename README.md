@@ -41,59 +41,14 @@ Contributions are very much welcome and if you like the project - help me out wi
 
 Look in [sample-repository](https://github.com/Mkohm/detekt-hint-sample/pulls) for mockups of upcoming features.
 
-## Getting started
+## Using detekt-hint with Github Actions
 If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
 
 Else, grab a :coffee: and read on.
 
-### Using detekt-hint with Danger
-To add detekt-hint and Danger to your repository you will have to follow these steps:
-1. Setup detekt. Look for instructions on how to use detekt with Gradle [here](https://github.com/arturbosch/detekt#with-gradle).
-2. Add the detekt-plugin. Add
-```
-dependencies {
-    detektPlugins "io.github.mkohm:detekt-hint:[version]"
-}
-```
-to your build.gradle. Remember to enter the [latest version](https://mvnrepository.com/artifact/io.github.mkohm/detekt-hint) of detekt-hint.
+1. Configure a detekt-hint.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt-hint.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
 
-3. [Getting set up with Danger](https://danger.systems/guides/getting_started.html)
-- Create a `Gemfile` with the following contents in the root of your repository
-
-```
-source "https://rubygems.org"
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
-
-gem 'danger'
-gem 'oga'
-gem "danger-kotlin_detekt", "~> 0.0.3"
-```
-
-- Create a `Dangerfile` with the following contents in the root of your repository
-```
-# Use the kotlin_detekt danger-plugin
-#kotlin_detekt.filtering = true
-kotlin_detekt.report_file = "build/reports/detekt/main.xml"
-kotlin_detekt.gradle_task = "detektMain"
-kotlin_detekt.detekt(inline_mode: true)
-```
-
-4. [Create a bot user in Github](https://danger.systems/guides/getting_started.html#creating-a-bot-account-for-danger-to-use)
-
-5. [Setting up an access token](https://danger.systems/guides/getting_started.html#setting-up-an-access-token)
-
-6. [Run Danger in your CI and add access token](https://danger.systems/guides/getting_started.html#continuous-integration)
-
-If your CI environment does not come with bundler pre-installed you also need to install Bundler and the required gems using the two commands below.
-```
-  - gem install bundler
-  - bundle install
-  - bundle exec danger --verbose # Verbose is nice for debugging if any problems occur 
-```
-
-6. Configure detekt.yml to include detekt-hint rules. Look [here](https://github.com/Mkohm/detekt-hint/blob/master/config/detekt.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
-
-7. Create a PR and wait for Danger to comment.
+2. Create a github action using the detekt-hint docker action.
 
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
 
