@@ -65,6 +65,7 @@ Make sure you enter your unique package name in the configuration for the UseCom
 
 2. Create a github action using the detekt-hint docker action. 
 
+.github/workflows/detekt-hint.yml
 ```yml
 name: detekt hint
 
