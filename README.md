@@ -3,7 +3,7 @@
 # detekt-hint
 Detection of design principle violations in Kotlin added as comments on pull requests.
 
-## [Getting started](#getting-started) | :checkered_flag: [Roadmap](#upcoming-features) | :thought_balloon: [Ask a question](https://github.com/Mkohm/detekt-hint/issues/new) | :book: [Documentation](https://mkohm.github.io/detekt-hint/docs/)
+## [Getting started](#getting-started) | :checkered_flag: [Roadmap](#upcoming-features) | :thought_balloon: [Ask a question](https://github.com/Mkohm/detekt-hint/issues/new) | :book: [Documentation](https://mkohm.github.io/detekt-hint/docs/) [![Kotlinlang slack](https://img.shields.io/static/v1?label=kotlinlang&message=detekt-hint&color=brightgreen&logo=slack&style=flat-square)](https://app.slack.com/client/T09229ZC6/C012ZSM6L1J)
 
 
 [![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
@@ -47,7 +47,7 @@ If you just want to analyze some code without bothering with the Danger integrat
 
 2. Create a github action using the detekt-hint docker action. See here for a [sample](https://github.com/Mkohm/detekt-hint-sample/blob/master/.github/workflows/detekt-hint.yml)
 
-Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
+Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) or contact me on the kotlinlang Slack (username: mkohm), and i will help you out.
 
 ### With the command line
 If you only want to do some analysis on your code without the power of Danger commenting on your PR you can use the tool from the command line. You must first clone detekt and detekt-hint repositories, and then build the required jars:
