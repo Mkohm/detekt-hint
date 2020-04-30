@@ -44,9 +44,56 @@ Contributions are very much welcome and if you like the project - help me out wi
 If you just want to analyze some code without bothering with the Danger integration (which really defeats the purpose of the tool) head to the [command line section](#With-the-command-line).
 
 ### With Github Actions
-1. Configure a detekt-hint.yml to include detekt-hint rules and put it in a folder called "config" in your root project folder. Look [here](https://github.com/Mkohm/detekt-hint-sample/blob/master/config/detekt-hint-config.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
+1. Configure a detekt-hint-config.yml to include detekt-hint rules and put it in a folder called "config" in your root project folder. 
 
-2. Create a github action using the detekt-hint docker action. See here for a [sample](https://github.com/Mkohm/detekt-hint-sample/blob/master/.github/workflows/detekt-hint.yml)
+config/detekt-hint-config.yml
+```yml
+detekt-hint:
+  UseCompositionInsteadOfInheritance:
+    active: true
+    yourUniquePackageName: "io.github.mkohm"
+  LackOfCohesionMethods:
+    active: true
+    threshold: "0.8"
+  InterfaceSegregationPrinciple:
+      active: true
+  OpenClosedPrinciple:
+      active: true
+```
+
+Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
+
+2. Create a github action using the detekt-hint docker action. 
+
+```yml
+name: detekt hint
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  gradle:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        jdk: [11]
+    runs-on: ${{ matrix.os }}
+    if: ${{ !contains(github.event.head_commit.message, 'detekt hint skip') }}
+    env:
+      JDK_VERSION:  ${{ matrix.jdk }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        
+      - name: Run detekt hint
+        uses: mkohm/detekt-hint-action@v1.1
+        with:
+          github-api-token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+3. Create a PR and see detekt-hint run as a separate action.
 
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) or contact me on the kotlinlang Slack (username: mkohm), and i will help you out.
 
