@@ -40,7 +40,7 @@ Contributions are very much welcome and if you like the project - help me out wi
 ![lcom](images/comment_ocp2.png)
 
 ## Using detekt-hint
-If you just want to analyze some code without bothering with the Danger integration head to the [command line section](#With-the-command-line). If you want to start writing some Kotlin in a new repository with most of the setup done - head to [this sample repository](https://github.com/Mkohm/detekt-hint-sample).
+If you just want to analyze some code without bothering with the Danger integration (which really defeats the purpose of the tool) head to the [command line section](#With-the-command-line).
 
 ### With Github Actions
 1. Configure a detekt-hint.yml to include detekt-hint rules and put it in a folder called "config" in your root project folder. Look [here](https://github.com/Mkohm/detekt-hint-sample/blob/master/config/detekt-hint-config.yml) for a sample configuration file. Make sure you enter your unique package name in the configuration for the UseCompositionInsteadOfInheritance rule.
@@ -49,7 +49,6 @@ If you just want to analyze some code without bothering with the Danger integrat
 
 Having trouble? Please [create an issue](https://github.com/Mkohm/detekt-hint/issues/new) and i will help you out.
 
-This repository is using detekt-hint itself, and serves as an example setup. 
 ### With the command line
 If you only want to do some analysis on your code without the power of Danger commenting on your PR you can use the tool from the command line. You must first clone detekt and detekt-hint repositories, and then build the required jars:
 ```
