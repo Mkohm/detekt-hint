@@ -47,6 +47,7 @@
 \newacronym{pm}{PM}{Project Manager}
 \newacronym{api}{API}{Application Program Interface}
 \newacronym{covid19}{COVID-19}{Corona Virus Disease 2019}
+\newacronym{coh}{COH}{Composition over Inheritance}
 
 \begin{document}
 
@@ -451,7 +452,7 @@ The 4 iterations were focused on 4 different versions of the product. The differ
 
 \section{Initial prototype}
 \subsection*{Why and how it was created}
-An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}. The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, commenting on \gls{pr} will only add comments to changed lines of code, reducing the amount of warnings that will appear.  
+An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}. The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, commenting on \gls{pr} will only add comments to modified/added files, reducing the amount of warnings that will appear.  
 
 \begin{figure}[h!]
     \centering
@@ -530,7 +531,7 @@ Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, a
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{../images/demo.png}
-    \caption{Screenshot of horizontal prototype - Showing the composition over inheritance / \gls{lsp} rule}
+    \caption{Screenshot of horizontal prototype - Showing the \gls{coh}/\gls{lsp} rule}
     \label{fig:liskov}
 \end{figure}
 
@@ -549,25 +550,74 @@ The schema used for the semi-structured interview, the participants answers/feed
 
 \section{Final artifact}
 \subsection*{Why and how it was created}
-The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. Also, to facilitate evaluation of the final artifact, effort in integrating the tool into open-source projects was done. \todo{Tell about how it went ?}.
-%Because of feedback on visual representation of violations it was instead decided to provide refactoring possibilities trough a textual representation. \todo{impement that.}
+The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. To further get insight in how accurate rules need to be to provide any value, the rules were having different accuracy, ranging from almost none, to pretty accurate. The final artifact consists of 4 rules, \gls{coh}, \gls{isp}, \gls{lcom} and \gls{ocp}. \todo{Write why these principles are important? in the background? https://reflectoring.io/interface-segregation-principle/} Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
+
 
 \subsection{Demonstration}
 
-Through a workshop, where participants analyze their own Kotlin code with detekt-hint the final artifact was supposed to be evaluated. However, a new approach for evaluating the artifact had to be considered due to \gls{covid19}. It was decided to focus on two types of evaluation. Evaluations based on feedback from the open source community, and from internal testing.
+Through a workshop, where participants analyze their own Kotlin code with detekt-hint the final artifact was supposed to be evaluated. However, a new approach for evaluating the artifact had to be considered due to \gls{covid19} limiting the possibilities of meeting with other people. It was decided to focus on two types of evaluation. Evaluations based on feedback from the open source community, and from internal testing. The evaluation from the open-source community is based on feedback gathered after having implemented detekt-hint as part of their build pipeline. It was created \gls{pr}'s and opened issues in multiple repositories including, detekt\cite{detekt}, leakcanary\cite{leakcanary}  and javalin\cite{javalin}, tachiyomi\cite{tachiyomi} and Tusky\cite{tusky}. It was merged for testing and used in the Javalin repository. Unfortunately, after merging a limitation with the Github action API appeared. Detekt-hint did not receive write access to pull-requests to the main repository when running on the forked repository. As pull request from forks is the de facto way of collaborating on Github. This leaves the integration unusable with no alternative solutions possible within the scope of this thesis. Read more about this in section \ref{possible-solutions}. Using comments on PR as a mechanism to reduce the impact of reporting false-positives could therefore not be evaluated by running the tool. To get some feedback on the integration, comments that the tool would have added were added manually to a number of \gls{pr}'s. \todo{write more here when i get confirmation from the repos that i can do this}
 
+The evaluation will therefore unfortunately be limited to feedback from a number of comments created on \gls{pr}'s, discussions with programmers from the open-source community and internal evaluation. The internal evaluation was based on running detekt-hint on both known and unknown repositories measuring the amount of rule invocations and doing analysis of the actual value given by the rules. 
 
-Analysis of pull requests and see if we can find some issues. \todo{write about how covid19 affected this}
-Schema:
-%Who is the participants, some background information on them. What did the participants say. What is the takeaway from the workshop? What did i change in the product after having the workshop? Because of difficulties related to finding informants, i had to focus on evaluating the prototype by myself, and gethering numbers for how many 
 
 \subsection{Evaluation from the open source community}
 
+\gls{pr}'s with the integration of detekt-hint received mixed feedback. Maintainers of Detekt and Javalin was positive for an integration testing out the tool. One contributor of Leakcanary was interested in testing out the tool on a separate fork, while the owner wrote that he was more conservative than most when it comes to checks, and did not accept any false-positives. 
+
+The maintainer of Tusky\cite{tusky} ran the tool on the codebase using the \gls{cli} and did not find the tool particularly useful, and were generally concerned that the tool would generate too much noise. This may be a sign that the rules are weak and/or have too many false-positives. On the other hand, running the tool on the codebase using the \gls{cli} is not how the tool is supposed to work, and will defeat its purpose since it does not make use of the Github integration. Further communication with the maintainer of Tusky revealed that they currently did not have any linter set up for their build pipeline, and that a tool discovering possible bugs and crashes would be prioritized first. Later, a tool looking for design principle violations could be looked into.
+
+\todo{Will add more feedback, when it ticks in}
+
+
+Generally, it may seem like the tool generates too many false-positives, making most people concerned that the tool would generate too much noise. However, the rules that generates most of the noise may "destroy" the impression of the tool. Therefore, without any direct feedback on each of the single rules, the results from the open source community are inconclusive.     \todo{Try to get some feedback on the individual rules!!!}
+ 
 \subsection{Internal evaluation}
 \subsubsection{Rule invocations}
-To evaluate the possible impact of the tool, and the possible downsides of the false positives, analysis on x projects have been done. The results is presented in the tables below.
+X number of popular open-source projects including one that were familiar to the writer were selected to evaluate the results of running detekt-hint. The rationale for selecting projects that were familiar to the writer were that false-positives easier could be detected, as one already have some insights into the architecture of those systems. The other systems were selected based on perceived quality (based on their popularity), and knowledge about the architecture of Android systems.
 
-\subsubsection{Usefulness of rules}
+Following is a description of the open source kotlin projects that were selected for analysis: \textbf{Detekt} is the mother repository of the detekt-hint detekt plugin. Is is a project consisting all the source code for the detekt linter.   
+
+\textbf{Ktor} is a
+
+
+\textbf{iosched} is an Android app from google, that is supposed to show best practices in Android development. It is believed that this app is well architecturally well designed and does not contain much design issues. 
+
+
+The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results of different code-bases, any effort in specific configuration of individual rules for the different repositories were not done. This may result with a slightly higher rate of invocations\todo{use invocations/reports/detections consistently}. For example detekt will get a higher rate of invocations for the composition over inheritance because it consists of a number of rules, that all inherits from a common Rule class. Ignoring the Rule class from this check would have lowered the amount of invocations significantly. Because The results is presented in the table below. It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the modified files.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/distribution.png}
+    \caption{Number of detections per 1000 \gls{lloc} for each rule. }
+    \label{fig:distribution}
+\end{figure}
+
+\subsubsection{Usefulness and accuracy of rules}
+\todo{Should i mention what should be improved here in the evaluation? or should it be in the discussion?}
+Building on the detections presented above, determining the ratio of false-positives and the rate of false-negatives will determine usefulness of the tool. Unfortunately, due to the nature of design principles, it is hard to know if the detection is a true or false-positive, and if there is any false-negatives. The rules were having different accuracy, ranging from almost none, to accurate. Below follows an breakdown of each rule, and its possible accuracy by looking into the detections in the different code-bases. 
+\todo{create a table with false-positive rate and false-negative rate? And say bad, good, medium}
+\begin{itemize}
+
+    \item \gls{coh}: Its value is considered high, and the impact of reporting a false-positive is low due to good comments that mentions the inheritance and the public \gls{api} of the superclass. The rate of false-positives is high due to reporting all occurrences of inheritance within a unique package identifier. Together with a medium rate of false-negatives caused by not reporting issues with inheritance from third party packages, the rule has bad accuracy \todo{ They could change and then one is tightly coupled to them.}.
+
+    \item \gls{isp}: Its value considered high, and the impact of reporting a false-positive is low. The rate of false-positives is low, but the amount of false-negatives is high since this principle can be broken by adding new methods to interfaces without having multiple classes implement the interface. This gives the rule a medium accuracy.
+    
+    \item \gls{ocp}: Its value is considered high, and the impact of reporting a false-positive is low. The rate of false-positives is medium, and the rate of false-negatives is medium, giving the rule a medium accuracy.
+    
+    \item \gls{lcom}: Its value is considered medium. Due to the need of finding out what is causing the cohesion to be low, the impact of reporting a false-positive is medium. Because it is controlled by the threshold value there are a medium amount of both false-positives and false-negatives, giving the rule a medium accuracy. 
+
+\end{itemize}
+
+
+
+\subsection{Evaluation of using comments on \gls{pr} to reduce impact of reporting false-positives}
+Automatically adding comments to pull requests works as a good way of exposing possible design flaws late in the development process. With informative comments that is having references to the code, possible false-positives are sorted out in a matter of seconds, and easily closed with the "resolve conversation" option. If determining whether the reported issue is a true or false-positive takes more than a few seconds it is likely that the developer did not consider the design principle during development. In that case the comment serves as a reminder and would be good for learning purposes that is constructive for further development.
+
+On the downside, 
+
+
+
 The most interesting part of evaluating the product is to evaluate if it will help developers write more maintainable code. Unfortunately, without any users/teams to test the tool, it is very hard to get a sense of its value. Because there seldomly is any definitive answer to which design principle to follow, it is hard to do such analysis without extensive insight into a project, and experience. 
 
 With no users to test the product i need to do an evaluation myself on a project that i know. Analyzing the Airthings Wave Android app, 23 code smells per 1000 \gls{lloc} were found. x percent usecompositioninsteadofinheritance, x percent .... . The rule makes it easy to see the public interface of the superclass, and informs the developer about whether inheritance is properly used. Other heuristics for determining correct usage should also be provided. 
@@ -595,7 +645,7 @@ Analyse detekt. Airthings, and another app? Best practices app from google?
 
 \subsubsection{Overall evaluation}
 Needs more rules.
-
+Needs to implement more constraints for rules so false-positive rate can be lowered. And a feedback mechanism.? Or should this be in the future work section. Maybe put evaluation and future work to same section?
 
 
 
@@ -676,6 +726,7 @@ detekt-hint is published to mvnrepository for easy access and integration with d
 Danger is a system which is created for the purpose of commenting directly on \gls{pr}'s. It provides an easy to use \gls{api} for extracting the required information from git, and provides methods for commenting directly on pull requests. It is run in your \gls{ci} environment on every commit to pull requests that is made. When the rules are adhered to, the comments are amended to reflect the current state of the pull request. Danger is extensible through the use of plugins.
 
 \subsection{Danger detekt plugin}
+\todo{rewrite this to mention the github action docker thingy}
 The Danger-detekt plugin is a simple plugin which takes a gradle task which is executing detekt. The generated report from Detekt is parsed and comments on the \gls{pr} is added.
 
 \subsection{Integration}
@@ -699,16 +750,39 @@ A setup guide can be found at \cite{detekt-hint-repository}.
 \chapter{Discussion and conclusion}
 \label{discussion}
 
+
+
 \section{Discussion}
 Given the results.. 
+diskutere hvor bra det er, og hvordan det kunne vært gjort annerledes.
 
+Discussion: compositoninheritance: Still, being invoked 99 times is much, but it is only a couple of times for each pull request, which can serve as a good checklist item to check to ensure good design. By implementing "do not check this supertype" in the config, the number of invocations will be drastically reduced. A possible better solution would report on all inheritance to reduce the rate of false-negatives to 0, and implementing a mechanism for "feedback" to the bot such that specified types could be ignored.
+
+isp: reduce the amount of false-negatives by trigger warning when introducing new method to interface. This will however increase the amount of false-positives.
+
+Adding up all the invocations, and using a \gls{pr} size of 500 lines of changed code we get an average of about 8.5 comments on each \gls{pr}, which is a quite large amount. However, this amount can be reduced drastically by configuring the composition over inheritance rule to ignore specified types. 
 \section{Future work}
+
+\subsection{Possible solutions to Github Actions limitations}
+\label{possible-solutions}
+To understand the limitation that was found one needs to understand how pull requests works across forks on Github. When a user have their own fork of another repository, pull requests to the repository runs on the forked repository. Because secrets/tokens private to a repository are not available to forks, one needs to use the GITHUB\_TOKEN provided by Github for authentication against the Github API. Unfortunately this token does not have write access to pull requests against the main repository when running on a forked repository. Pull requests against the main repository running on the forked repository will therefore not be able to write comments on the pull request.
+
+Possible solutions to this limitation are: 
+hack: https://github.com/nyurik/auto_pr_comments_from_forks
+
+Using a separate service (like codeclimate) for the comments instead of adding them to the PR? (bad)
+create a integration working with travis/circleci.
+A full blown github app that could be installed on the repository. would require a backend service. Could be a good solution going forward with the tool, where configuration could be autoconfiged by reply options on the bot.
+using a personal access token, that all persons with a fork needed to add. (bad)
+
+
 \label{futurework}
 \todo{just say a few sentences about each thing, keep it short and concise.}
 There are mainly two ways of continuing the work on the tool, either by improving the current functionality or by extending it with new functionality. 
 
 \subsection{Enhancement}
-Direct configuration with closer github-integration. for Example an option to add "SomeClass" to the list of classes to ignore. Would help by reducing the amount of false-positives.
+Only showing comments on changed lines of code. 
+Direct configuration with closer github-integration. Two-way communication with the bot for easy access. for Example an option to add "SomeClass" to the list of classes to ignore. Would help by reducing the amount of false-positives.
 Lower false positive rates
 Enhance the integration/setup process
 Enhance the comments, and improving the suggested solutions. Possibly suggesting multiple solutions.
@@ -717,6 +791,9 @@ Detekting more cases of switching on enums and classes. reduce rate of false-neg
 Supporting more more design principles is an obvious way of including more features to the tool. For example ... principle and .. principle. 
 
 Since the tool are able to cope with higher rates of false-positives it is not restricted to targeting only design principles. Other types of knowledge or best practices could be included as rules as well. Other types of rules could involve comments that works as a simple checklist for pull requests. Are tests included? Is coding done blindfolded? Is this file in the correct package/module?    
+
+See if the complote interface is used by the subclass to indicate flaws of inheritance.
+
 
 
 Look at the evaluation results and fix/work on all of those! 
@@ -739,11 +816,14 @@ Getting peopel to adopt the tool through advertisemens etc.
 \subsection{Lack of formal evaluation methods}
 People will not test the tool untill it has a lot of users.. And a lot of rules. Too few rules will make people not find it very valueable.
 Formal evaluation methods are better for structured feedback and to find the overall results instead of single users perspective. 
-Should have tested the tool on a team, and observed their usage over time to get insight in how it is used, and if it helps taking good design desicions. Case study should be tried out.
+Should have tested the tool on a team, and observed their usage over time to get insight in how it is used, and if it helps taking good design desicions. Case study should be tried out. Then we will have enough access with the github token if pr is not coming from forks. 
 not enough informants - lack of testing the software
 informants lacking knowldge about design principles
 Should create samples for the horizontal prototype that demonstrates possible false positives as well as true positives. Kan gi inntrykk av at programmet er lurere enn det egentlig er siden jeg bare presenterte de positive identifikasjonene. Inntrykk av interesse på reddit kan være feil pga dette.
 not able to gather informants physically, only through digital medium. Easy to ignore, and boring to attend such things. Hard to find experienced developers in Kotlin - that also have the time and will to help out. Without getting anything from it. Limited resources.
+
+\subection{Github token not having write access to \gls{pr}'s}
+
 \section{Conclusion}
 \label{conclusion}
 Based on the results, the tool may be useful, but lacks .... More development is proposed.
