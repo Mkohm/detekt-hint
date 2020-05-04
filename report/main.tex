@@ -69,6 +69,7 @@
 
 \todo{Sjekk at alle begreper som brukes i teksten tidligre er definert i f.eks bakgrunn}
 \todo{fix referanser}
+\todo{run proselint}
 \todo{Test for self-plagiat: https://copyleaks.com/compare .}
 
 
@@ -559,6 +560,14 @@ Through a workshop, where participants analyze their own Kotlin code with detekt
 
 The evaluation will therefore unfortunately be limited to feedback from a number of comments created on \gls{pr}'s, discussions with programmers from the open-source community and internal evaluation. The internal evaluation was based on running detekt-hint on both known and unknown repositories measuring the amount of rule invocations and doing analysis of the actual value given by the rules. 
 
+The final artifact is presented in the figure below.
+\begin{figure}
+    \centering
+    \includegraphics{images/final_artifact.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
 
 \subsection{Evaluation from the open source community}
 
@@ -583,7 +592,7 @@ Following is a description of the open source kotlin projects that were selected
 \textbf{iosched} is an Android app from google, that is supposed to show best practices in Android development. It is believed that this app is well architecturally well designed and does not contain much design issues. 
 
 
-The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results of different code-bases, any effort in specific configuration of individual rules for the different repositories were not done. This may result with a slightly higher rate of invocations\todo{use invocations/reports/detections consistently}. For example detekt will get a higher rate of invocations for the composition over inheritance because it consists of a number of rules, that all inherits from a common Rule class. Ignoring the Rule class from this check would have lowered the amount of invocations significantly. Because The results is presented in the table below. It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the modified files.
+The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results of different code-bases, any effort in specific configuration of individual rules for the different repositories were not done. This may result with a slightly higher rate of invocations\todo{use invocations/reports/detections consistently}. For example detekt will get a higher rate of invocations for the \gls{coh} because it consists of a number of rules, that all inherits from a common \texttt{Rule} class. Ignoring the \texttt{Rule} class from this check would have lowered the amount of invocations significantly. The results is presented in the chart below. It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the modified files.
 
 
 \begin{figure}[h!]
@@ -595,11 +604,12 @@ The analysis were run with all rules enabled, default configuration and with a \
 
 \subsubsection{Usefulness and accuracy of rules}
 \todo{Should i mention what should be improved here in the evaluation? or should it be in the discussion?}
-Building on the detections presented above, determining the ratio of false-positives and the rate of false-negatives will determine usefulness of the tool. Unfortunately, due to the nature of design principles, it is hard to know if the detection is a true or false-positive, and if there is any false-negatives. The rules were having different accuracy, ranging from almost none, to accurate. Below follows an breakdown of each rule, and its possible accuracy by looking into the detections in the different code-bases. 
+Building on the detections presented in the above chart, the accuracy of the tool is based on the ratio of false-positives combined with the rate of false-negatives. Unfortunately, due to the nature of design principles, it is hard to know if the detections are true or false-positives, and if there is any false-negatives without extensive knowledge about the codebase and the domain. The following evaluation of the usefulness and the accuracy of the rules are therefore based on simple inspections of the reported issues, without any extensive insight. The level of usefulness and accuracy is rated using three levels, low, medium and high.
+
 \todo{create a table with false-positive rate and false-negative rate? And say bad, good, medium}
 \begin{itemize}
 
-    \item \gls{coh}: Its value is considered high, and the impact of reporting a false-positive is low due to good comments that mentions the inheritance and the public \gls{api} of the superclass. The rate of false-positives is high due to reporting all occurrences of inheritance within a unique package identifier. Together with a medium rate of false-negatives caused by not reporting issues with inheritance from third party packages, the rule has bad accuracy \todo{ They could change and then one is tightly coupled to them.}.
+    \item \gls{coh}: Its value is considered high, and the impact of reporting a false-positive is low due to good comments that mentions the inheritance and the public \gls{api} of the superclass. The rate of false-positives is high due to reporting all occurrences of inheritance within a unique package identifier. Together with a medium rate of false-negatives caused by not reporting issues with inheritance from third party packages, the rule has bad accuracy. Seeing  \todo{ They could change and then one is tightly coupled to them.}
 
     \item \gls{isp}: Its value considered high, and the impact of reporting a false-positive is low. The rate of false-positives is low, but the amount of false-negatives is high since this principle can be broken by adding new methods to interfaces without having multiple classes implement the interface. This gives the rule a medium accuracy.
     
