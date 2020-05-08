@@ -183,7 +183,7 @@ We differentiate between two types of code analysis, dynamic code analysis and s
 Runtime properties     & \begin{tabular}[c]{@{}l@{}}- Performance \\(memory leak etc..)\\ - Correctness\\ - Security analysis\\ ...\end{tabular} & \begin{tabular}[c]{@{}l@{}}- Performance \\(memory leak etc..)\\ - Correctness\\ - Security analysis\\ ...\end{tabular} \\ \hline
 Design time properties & \begin{tabular}[c]{@{}l@{}}- Design principles \\ - Style\\ - Metrics\\ ...\end{tabular}                              & - Dynamic software metrics                                                                                            \\ \hline
 \end{tabularx}
-\caption{Static and dynamic analysis and their runtime and design properties}
+\caption{Static and dynamic analysis and their run-time and design-time properties}
 \label{table:static-dynamic}
 \end{table}
 
@@ -450,8 +450,14 @@ prototypes is created first and then more functional artifacts are developed. Th
     \label{fig:workflow}
 \end{figure}
 
-The 4 iterations were focused on 4 different versions of the product. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved, making the next section a result of the previous one. A description of the technical solutions and details is found in section \ref{technical-solution}.
+The 4 iterations were focused on 4 different prototypes. A comparison of the 4 prototypes and their fidelity is prestented in figure \ref{fig:radar-chart}. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved. A description of the technical solutions and details is found in section \ref{technical-solution}.
 
+\begin{figure}
+    \centering
+    \includegraphics{}
+    \caption{Comparison of the fidelity of the 4 developed prototypes}
+    \label{fig:radar-chart}
+\end{figure}
 
 
 \section{Initial prototype}
@@ -554,7 +560,7 @@ The schema used for the semi-structured interview, the participants answers/feed
 
 \section{Final artifact}
 \subsection*{Why and how it was created}
-The final artifact is a continuation of the work done in the vertical prototype, and hence has the same qualities and ways of solving the objectives of a solution. The evaluation of the final artifact is therefore mostly related to the developed rules and the integration of it. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. Feedback from the prototypes mainly included two concerns. For getting people to consider testing the tool, it needs to provide more than a couple of rules, and the rules needs to have a low rate of false-positives. Having limited amount of time, a trade-off between number of rules and mechanisms for reducing the amount of false-positives had to be made. Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
+The final artifact is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. Being a continuation of the vertical prototype, it the same qualities and ways of solving the objectives of a solution. The evaluation of the final artifact is therefore mostly related to the developed rules and the integration of it. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. Feedback from the prototypes mainly included two concerns. For getting people to consider testing the tool, it needs to provide more than a couple of rules, and the rules needs to have a low rate of false-positives. Having limited amount of time, a trade-off between number of rules and mechanisms for reducing the amount of false-positives had to be made. Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
 
 To get further get insight in how accurate rules need to be to provide any value, the rules were having different accuracy, ranging from almost none, to pretty accurate. The final artifact consists of 4 rules, \gls{coi}, \gls{isp}, \gls{lcom} and \gls{ocp}. 
 
@@ -568,6 +574,7 @@ The evaluation will therefore unfortunately be limited to feedback from a number
 Images of the final artifact can be seen in section \ref{final-artifact}.
 
 
+\section{Evaluation}
 \subsection{Evaluation from the open source community}
 
 \gls{pr}'s with the integration of detekt-hint received mixed feedback. Maintainers of Detekt and Javalin was positive for an integration testing out the tool. One contributor of Leakcanary was interested in testing out the tool on a separate fork, while the owner wrote that he was more conservative than most when it comes to checks, and did not accept any false-positives. 
@@ -594,7 +601,7 @@ The analysis were run with all rules enabled, default configuration and with a \
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{images/distribution.png}
-    \caption{Number of rule invocations per 1000 \gls{lloc} for each rule. }
+    \caption{Number of rule invocations per 1000 \gls{lloc} for each rule, running detekt-hint on different repositories. }
     \label{fig:distribution}
 \end{figure}
 
@@ -635,7 +642,7 @@ The final artifact presents comments on added/modified files, but should further
 %Extra false-positives in lackofcohesion due to fields in kotlin is not only data holders, but is tightly connected to methods. See SyncControlViewModel in AT app. Access variables in superclass.
 
 \subsection{Overall evaluation}
-Considering a pull request size width 500 modified lines of code, having four rules enabled, with no specific configuration, the tool will on average generate 6.6 comments on each pull request. This is not an awful lot, but considering only 4 rules, with the possibility of adding many more, it is possibly too much and would lead to developers ignoring the comments. 
+    Considering a pull request size with 500 modified lines of code, having four rules enabled, with no specific configuration, the tool will on average generate 6.6 comments on each pull request. This is not an awful lot, but considering only 4 rules, with the possibility of adding many more, it is possibly too much and would lead to developers ignoring the comments. 
 
 
 A problem is that detekt-hint will report warnings for the same types and classes, whenever a new change has happened including non-functional changes, for example related to formatting or renaming. By creating a mechanism for fine-grained configuration, one can limit the amount of false-positives. For example for the \gls{ocp} and \gls{coi} one can add a two way communication mechanism to the bot such that specific enum types, when statements or superclasses could be ignored from the analysis. This way, the tool would learn over time, reducing the total rate of false-positives. 
