@@ -449,12 +449,20 @@ prototypes is created first and then more functional artifacts are developed. Th
     \caption{The general process of developing the final artifact}
     \label{fig:workflow}
 \end{figure}
+\todo{write about these properties of prototypes in the theory-section}
 
-The 4 iterations were focused on 4 different prototypes. A comparison of the 4 prototypes and their fidelity is prestented in figure \ref{fig:radar-chart}. The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved. A description of the technical solutions and details is found in section \ref{technical-solution}.
+The 4 iterations were focused on 4 different prototypes. A comparison of the 4 prototypes and their fidelity is presented in figure \ref{fig:radar-chart}. 
 
-\begin{figure}
+
+
+
+Starting with low fidelity prototypes, focusing on different properties, one learns about how one should develop the later artifacts, reducing the amount of regressions? and forgjeves arbeid. One can see that all "properties" were covered by the prototypes, before the final prototype was created., 
+
+The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved. A description of the technical solutions and details is found in section \ref{technical-solution}.
+
+\begin{figure}[h!]
     \centering
-    \includegraphics{}
+    \includegraphics[width=\linewidth]{../images/radar-chart.png}
     \caption{Comparison of the fidelity of the 4 developed prototypes}
     \label{fig:radar-chart}
 \end{figure}
@@ -462,6 +470,7 @@ The 4 iterations were focused on 4 different prototypes. A comparison of the 4 p
 
 \section{Initial prototype}
 \subsection*{Why and how it was created}
+\todo{describe the focus mentioning the dimensions of the prototype}
 An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}. The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, commenting on \gls{pr} will only add comments to modified/added files, reducing the amount of warnings that will appear.  
 
 \begin{figure}[h!]
@@ -486,6 +495,7 @@ The general feedback was that there was an interest in a tool like this, and tha
 This feedback was only based on discussions with friends and a handful of comments in the forum threads, and a fair amount of upvotes. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. However, the actual value of the feedback may be limited. Read more about this in section \ref{flaws-of-study}. 
 
 \section{Vertical prototype}
+\todo{describe the focus mentioning the dimensions of the prototype}
 
 \subsection*{Why and how it was created}
 The initial prototype proposed more work into creating a tool for detecting design principle violations, and using automated comments during code-review to reduce the amount of noise from false-positives. Normally, a horizontal prototype is built first, with the intention of getting an idea of which features that needs to be implemented and the priority of those. In this case a vertical prototype was built first for three reasons:
@@ -526,6 +536,8 @@ The prototype therefore solves many of the objectives of a solution. However, be
 \end{itemize}
 
 \section{Horizontal prototype}
+\todo{describe the focus mentioning the dimensions of the prototype}
+
 \subsection*{Why and how it was created}
 As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design decisions. Looking through a lot of principles, i tried to determine which rules that would be useful. Based on the feedback from the initial prototype, the comments were written in a way that were providing guidance instead of claiming changes because of violations. Since \gls{solid} is considered by many to be the most important set of design principles, the focus was put on those. I also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that had the most value. 
 
@@ -558,9 +570,11 @@ The schema used for the semi-structured interview, the participants answers/feed
 
 
 
-\section{Final artifact}
+\section{Final prototype}
+\todo{describe the focus mentioning the dimensions of the prototype, it is a prototype trying to cover all the dimensions of a prototype, being a more of a MVP}
+
 \subsection*{Why and how it was created}
-The final artifact is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. Being a continuation of the vertical prototype, it the same qualities and ways of solving the objectives of a solution. The evaluation of the final artifact is therefore mostly related to the developed rules and the integration of it. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. Feedback from the prototypes mainly included two concerns. For getting people to consider testing the tool, it needs to provide more than a couple of rules, and the rules needs to have a low rate of false-positives. Having limited amount of time, a trade-off between number of rules and mechanisms for reducing the amount of false-positives had to be made. Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
+The final artifact is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. Being a continuation of the vertical prototype, it the same qualities and ways of solving the objectives of a solution. The evaluation of the final artifact is therefore mostly related to the developed rules and the integration of it, and not the technical aspects that were covered in the vertical prototype section. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback, it was decided that the next step is to include a functional prototype that would detect actual design issues in code. It was focused on implementing features that were mentioned useful by participants during the presentation of the horizontal prototype. Feedback from the prototypes mainly included two concerns. For getting people to consider testing the tool, it needs to provide more than a couple of rules, and the rules needs to have a low rate of false-positives. Having limited amount of time, a trade-off between number of rules and mechanisms for reducing the amount of false-positives had to be made. Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
 
 To get further get insight in how accurate rules need to be to provide any value, the rules were having different accuracy, ranging from almost none, to pretty accurate. The final artifact consists of 4 rules, \gls{coi}, \gls{isp}, \gls{lcom} and \gls{ocp}. 
 
@@ -575,6 +589,9 @@ Images of the final artifact can be seen in section \ref{final-artifact}.
 
 
 \section{Evaluation}
+\todo{write something here}
+
+
 \subsection{Evaluation from the open source community}
 
 \gls{pr}'s with the integration of detekt-hint received mixed feedback. Maintainers of Detekt and Javalin was positive for an integration testing out the tool. One contributor of Leakcanary was interested in testing out the tool on a separate fork, while the owner wrote that he was more conservative than most when it comes to checks, and did not accept any false-positives. 
