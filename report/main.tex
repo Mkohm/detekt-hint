@@ -403,17 +403,30 @@ Comments are understandable, and provides suggestions for solutions.
 
 \section{Design and development}
 \label{design-development}
-\todo{usecases, requirements ?}
+\todo{usecases, requirements ? argue why focus was not put on create suching diagrams etc. because it all should end with prototype? }
 
 
 % Generally about design and development
-The design and development phase involves the development of vertical- and horizontal prototypes, with high and low resolution, as well as the final artifact. 
+The design and development phase involves the development of vertical- and horizontal prototypes, with both high and low resolution, as well as the final prototype. 
 
 % Theory about prototypes
-\textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{vertical prototypes} on the other hand focuses on the technical challenges and a single functionality of the system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low resolution} or \textit{high resolution prototype}. 
+\todo{move to theory section}
+\textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{Vertical prototypes} on the other hand focuses on the technical challenges and a small subset of functionality of the final system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low fidelity} or \textit{high fidelity} prototype. According to \cite{prototype-dimensions}, there are five independent dimensions to every prototype, visual, interaction, breadth, depth and content.
 
-First, low resolution prototypes will be created, and then more high resolution prototypes. The reason is that we want to get feedback on the initial idea as quick as possible and to adjust the product accordingly. Why and how the different artifacts was created is written about in the results section for each of the product artifacts.
- \todo{write about tdd?}
+\begin{itemize}
+    \item The \textit{visual} dimension describes how much the prototype looks like the finished product. 
+    
+    \item The \textit{interaction} dimension describes the level of interactivity the prototype has. 
+    
+    \item The \textit{breadth} dimension describes how much of the final products surface area that is covered. 
+    
+    \item The \textit{depth} dimension describes to what degree the user is constrained at a given level of breadth.
+\end{itemize}
+
+To get feedback on the initial idea as quick as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on different dimensions. This way, the number of regressions will be reduced. Therefore, low fidelity prototypes will be created first, and then more high fidelity prototypes.
+
+Why and how the different artifacts was created is written about in the results section for each of the product artifacts.
+
 \section{Demonstration}
 
 % General about demonstration. Specific demonstration details is found in results section.
@@ -443,35 +456,34 @@ The end result and the developed knowledge about \gls{ddpv} is diffused in this 
 In this chapter i will present the results of executing multiple iterations of product development, following the design science methodology. As stated in the design and development section (\ref{design-development}) low-resolution 
 prototypes is created first and then more functional artifacts are developed. The chapter is therefore divided into sections for each of the produced artifacts, ending with the evaluation of the final artifact with the name detekt-hint. Describing the exact number of iterations and the iteration steps is not possible as one continuously evaluates the product and adjusts the product under development. But seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
 
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{../images/workflow.png}
     \caption{The general process of developing the final artifact}
     \label{fig:workflow}
 \end{figure}
-\todo{write about these properties of prototypes in the theory-section}
 
-The 4 iterations were focused on 4 different prototypes. A comparison of the 4 prototypes and their fidelity is presented in figure \ref{fig:radar-chart}. 
+The 4 iterations were focused on 4 different prototypes, with both low and high fidelity, focusing on the different dimensions.  A comparison of the 4 prototypes is presented in figure \ref{fig:radar-chart}. As can be seen on the figure, the development started with low fidelity prototypes, focusing on the different dimensions and gradually preceding against more high fidelity prototypes. One can see that all the dimensions were explored with high fidelity, using different prototypes. This is a good sign that most of the product was explored with prototypes before spending a lot of time building the functional and finished prototype. 
 
-
-
-
-Starting with low fidelity prototypes, focusing on different properties, one learns about how one should develop the later artifacts, reducing the amount of regressions? and forgjeves arbeid. One can see that all "properties" were covered by the prototypes, before the final prototype was created., 
-
-The different versions are described and their evaluation are described in the next sections. The results are presented it the order they were achieved. A description of the technical solutions and details is found in section \ref{technical-solution}.
+The different prototypes are described and their evaluation are described in the next sections. The results are presented it the order the prototypes were created. A description of the technical solutions and details is found in section \ref{technical-solution}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{../images/radar-chart.png}
-    \caption{Comparison of the fidelity of the 4 developed prototypes}
+    \caption{Comparison of the dimensions and their fidelity of the 4 developed prototypes}
     \label{fig:radar-chart}
 \end{figure}
-
 
 \section{Initial prototype}
 \subsection*{Why and how it was created}
 \todo{describe the focus mentioning the dimensions of the prototype}
-An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype can be seen in figure \ref{fig:mockup}. The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, commenting on \gls{pr} will only add comments to modified/added files, reducing the amount of warnings that will appear.  
+An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, the idea was that commenting on \gls{pr} will only add comments to modified/added files, reducing the amount of warnings that will appear.  
+
+
+% Present the prototype and explain it
+The prototype can be seen in figure \ref{fig:mockup}. As can be seen in figure \ref{fig:radar-chart}, the initial prototype is only an image, showing the concept. It will therefore have a low fidelity on breadth, depth and interactivity, but has medium fidelity on content and visual. 
+
 
 \begin{figure}[h!]
     \centering
@@ -494,6 +506,9 @@ The general feedback was that there was an interest in a tool like this, and tha
 
 This feedback was only based on discussions with friends and a handful of comments in the forum threads, and a fair amount of upvotes. In both subforums, the post received an amount of upvotes that made the post "top this week" in under 12 hours. However, the actual value of the feedback may be limited. Read more about this in section \ref{flaws-of-study}. 
 
+For being a low resolution prototype that was created within a couple of hours, it was successful.
+
+
 \section{Vertical prototype}
 \todo{describe the focus mentioning the dimensions of the prototype}
 
@@ -508,6 +523,9 @@ The initial prototype proposed more work into creating a tool for detecting desi
 
 % How the prototype was created
 Before building the prototype an in depth investigation of different approaches was done. The tool would ideally support multiple languages, but to limit the scope and because of interest and knowledge about Kotlin and its ecosystem, it was selected as the language subject for analysis. Several tools and frameworks was considered to use as the fundament for a tool, including Ktlint\cite{ktlint} and Code Climate\cite{codeclimate}, but Detekt\cite{detekt} was chosen as the best platform to build on because it was made extensible, and plugins for detekt was already existing for the automated \gls{pr} tool\cite{danger-detekt-plugin}, Danger\cite{danger}. Therefore, Detekt looked as a promising alternative for fulfillment of the objectives of a solution described in \ref{objectives-of-solution}, but a prototype needed to be built to confirm that assumption. 
+
+% Present and explain the prototype
+Being an executable jar file, the prototype cannot be presented in this report. However, the end results of executing it looks very much like the initial prototype, the only difference is that it posts comments on actual \gls{pr}'s. The visual fidelity, its breadth and its content is therefore similar to the initial prototype, but is having more fidelity on depth and interaction.  
 
 \subsection*{Demonstration}
 The prototype was mainly demonstrated and continuously evaluated during development to the developer. It was also partly presented to the participants at the detekt-hint presentation at Javabin Trondheim.
@@ -549,7 +567,7 @@ Initially, to get structured feedback on the prototype, it was planned to presen
 
 Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, and further complicated the issue of contacting and speaking with other developers directly. I was then forced to find other ways of reaching out to people to gather feedback. The prototype were shown in multiple slack channels for work, the official Kotlin channel and various other channels.
 
-
+\todo{show another image to not use the same as initial prototype..}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{../images/demo.png}
@@ -835,6 +853,9 @@ look at dynamic software metrics, and see how it could be implementet, or if it 
 \section{Flaws of the study}
 \label{flaws-of-study}
 \subsection{Lack of formal evaluation methods}
+
+Images prestented in prototypes may leave the impression that the tool is more accurate than it actually is. Even if telling the users that the tool would generate false-positives, this may have given them false-forhåpninger, making them overly positive to such a tool. 
+
 People will not test the tool untill it has a lot of users.. And a lot of rules. Too few rules will make people not find it very valueable.
 Formal evaluation methods are better for structured feedback and to find the overall results instead of single users perspective. 
 Should have tested the tool on a team, and observed their usage over time to get insight in how it is used, and if it helps taking good design desicions. Case study should be tried out. Then we will have enough access with the github token if pr is not coming from forks. 
@@ -854,7 +875,7 @@ Based on the results, the tool may be useful, but lacks .... More development is
 
 \section{Acknowledgments}
 \label{acknowledgements}
-First of all, a big thanks to my supervisor Hallvard Trætteberg for advice, useful discussions and for help in getting in touch with experienced developers. Thanks to JavaBin Trondheim for letting me have a presentation, showing the prototype. Also, thanks to the participants of the semi-structured interview.
+First of all, a big thanks to my supervisor Hallvard Trætteberg for advice, useful discussions and for help in getting in touch with experienced developers. Also a, thanks to JavaBin Trondheim for letting me have a presentation, showing the prototype. Also, thanks to the participants of the semi-structured interview.
 
 \printbibliography
 
