@@ -401,6 +401,11 @@ Later on, it was discovered that the performance of the application was bad due 
     \item [\textbf{OS6:}] Good performance
 \end{itemize}
 
+After the evaluation of the final prototype it was discovered that additional features in the integration part of the tool needs to further reduce the impact of false-positives. 
+\begin{itemize}
+    \item [\textbf{OS7:}] Features in integration for reducing impact of false-positives
+\end{itemize}
+
 
 
 
@@ -486,8 +491,6 @@ The different prototypes are described and their evaluation are described in the
     \label{fig:radar-chart}
 \end{figure}
 
-
-\todo{Update, removing a width value from the horizontal prototype.}
 
 \section{Initial prototype}
 \subsection*{Why and how it was created}
@@ -616,7 +619,7 @@ Images of the final artifact can be seen in section \ref{final-artifact}. Compar
 
 
 \section{Evaluation}
-\todo{write something here}
+\todo{Have i answered all the objectives of a solution?}
 Following is the evaluation of the final prototype working as a \gls{mvp}. The evaluation is divided into sections based on the source of the feedback and is ending with an overall evaluation of the product.
 
 
@@ -757,7 +760,7 @@ In this chapter i will answer the research questions and give my interpretations
 
 \section{Answering the research question}
 
-It was an assumption that the more important the rule or design principle is, the higher rate of noise we can accept to avoid design issues in software. This is one important premise that need to be true for this tool to succeed. It seems logical as reducing the amount of design issues in software will increase its internal quality, thus reducing the total development time. By following this reasoning, as long as the positive impact of the true-positives are greater than the negative impact from the false-positives, the tool will contribute to reduced development time. From the evaluation of the tool, it seems like this assumption was false, at least to a certain degree. Inspection of the rule invocations found true-positives, and based on what we know about internal quality and its importance for reducing the total development time it is unlikely that the false-positives would take more time to sort out than the positive impact of fixing the detected design issues. Still, feedback mainly focused on the tool having too many false positives, and that the amount needs to be lowered for the tool to be considered adopted. The reason is probably that most developers dislikes manual tasks, and that sorting out false-positives is a highly manual task, that will get ignored quite fast. Even if the rule is of high importance and would in total impact (considering all the true-positives and the false-positives) improve the internal quality, it will get ignored and dismissed. This lead to the identification of two important requirements for creating a tool for \gls{ddpv}, and helps us answer the research question. 
+It was an assumption that the more important the rule or design principle is, the higher rate of noise we can tolerate to avoid design issues in software. This is one important premise that need to be true for this tool to succeed. It seems logical as reducing the amount of design issues in software will increase its internal quality, thus reducing the total development time. By following this reasoning, as long as the positive impact of the true-positives are greater than the negative impact from the false-positives, the tool will contribute to reduced development time. From the evaluation of the tool, it seems like this assumption was false, at least to a certain degree. Inspection of the rule invocations found true-positives, and based on what we know about internal quality and its importance for reducing the total development time it is unlikely that the false-positives would take more time to sort out than the positive impact of fixing the detected design issues. Still, feedback mainly focused on the tool having too many false positives, and that the amount needs to be lowered for the tool to be considered adopted. The reason is probably that most developers dislikes manual tasks, and that sorting out false-positives is a highly manual task, that will get ignored quite fast. Even if the rule is of high importance and would in total impact (considering all the true-positives and the false-positives) improve the internal quality, it will get ignored and dismissed. This lead to the identification of two important requirements for creating a tool for \gls{ddpv}, and helps us answer the research question. 
 
 The research question was as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
 The results tell us that by extending a tool for static code analysis, and combining it with another tool for automatic comments on \gls{pr} - a tool for \gls{ddpv} can be created. The two identified requirements with utmost importance when developing a tool for \gls{ddpv} is as following. First, it needs to have as accurate rules as possible for \gls{ddpv}. This requires extensive insight into design principles and the architecture and design of software systems. Secondly, for supporting the rules, the integration adding comments to the \gls{pr} needs additional features and mechanisms for reducing the impact and the amount of false-invocations. 
@@ -860,6 +863,12 @@ The tool is not limited to just targeting design principles. Rules can be create
 
 \section{Conclusion}
 \label{conclusion}
+
+This research aimed to answer how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from the noise by false-positives. By following the design science methodology, multiple iterations of product development was carried out, and resulted in multiple prototypes and a working \gls{mvp}, using comments on \gls{pr}'s to report possible design issues. The \gls{mvp} was evaluated internally and using the open-source community. The results show that using comments on \gls{pr} will reduce the impact of noise by false-positives, but needs to be accompanied by accurate rules and smart mechanisms for reducing the amount of comments. 
+
+Initially, it was assumed that increasing the importance of the executed analysis would increase the tolerance for noise. This research shows that the importance of executed analysis will not increase the tolerance for noise drastically. Therefore, when developing a tool for \gls{ddpv} the reduction of noise is of greatest importance.
+
+With continued research on accurate heuristics for \gls{ddpv} and more development on mechanisms for reducing the amount of comments, a new category of tools supporting the development of maintainable code is possible.
 
 
 \section{Acknowledgments}
