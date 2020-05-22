@@ -60,15 +60,15 @@
 \textbf{Background:} Studies computer science at \gls{ntnu} with a specialization in computers and systems software. Has experience with developing apps for iOS and web and back-end development. Interested in Software Architecture and writing software of high quality. \\
 \textbf{Experience with design principles:} Some \\\\
 
-\noindent UseCompositionInsteadOfInheritance: Could be useful, but potentially have too many false positives. For testing Eirik often creates Mock objects that inherits from the class he wants to Mock, and then overrides methods. Eirik think there is too few cases where this rule will be useful. Suggestions: Reduce the amount of positives by disabling checks for classes with names; Mock. User could specify which class names or a pattern to ignore. Should revisit sentence number two about composition, it could be misleading.\\\\
+\noindent \gls{coi}: Could be useful, but potentially have too many false positives. For testing Eirik often creates Mock objects that inherits from the class he wants to Mock, and then overrides methods. Eirik think there is too few cases where this rule will be useful. Suggestions: Reduce the amount of positives by disabling checks for classes with names; Mock. User could specify which class names or a pattern to ignore. Should revisit sentence number two about composition, it could be misleading.\\\\
 
 \noindent LCOM1: Very useful because calculating such a value is'nt something you do while coding. Positive that you can change the threshold of the rule. Suggestion: Which fields and methods could i extract? A comment that suggests a solution. \\\\
 
-\noindent LCOM2: Look more at further analysis to find out what can be extracted. Look into dependencies between function calls as well. Diagram looks cool, but does not give any more value than some plain text explaining what can be extracted. \\\\
+\noindent LCOM2 (With refactoring visualization): Look more at further analysis to find out what can be extracted. Look into dependencies between function calls as well. Diagram looks cool, but does not give any more value than some plain text explaining what can be extracted. \\\\
 
-\noindent OCP: Somewhat useful. Should have a more specific comment saying if you are doing enum switching or instanceOf checking. \\\\
+\noindent \gls{ocp}: Somewhat useful. Should have a more specific comment saying if you are doing enum switching or instanceOf checking. \\\\
 
-\noindent ISP: Could be useful. Suggestion to count number of usages of calls in the interface to see which method calls that is not used by any of the classes that implement the interface. \\\\
+\noindent \gls{isp}: Could be useful. Suggestion to count number of usages of calls in the interface to see which method calls that is not used by any of the classes that implement the interface. \\\\
 
 \noindent Other: Tools for detecting complicated expressions that can be extracted out as a separate method with a descriptive name. Blocks of code should be extracted out as separate methods so that lines of code that belongs together has its own scope. 
 \clearpage
@@ -79,13 +79,13 @@
 \textbf{Background:} Works as a software developer for Netlight, x years of experience with Kotlin.\\
 \textbf{Experience with design principles:} Yes \\\\
 
-\noindent UseCompositionInsteadOfInheritance: Positive about the rule, but is concerned about not showing warnings when deriving from third party libraries. This is a case where one also should think about using composition instead of inheritance. Suggests to remove this logic, and instead provide configuration options for packages that should not be reported as violations when derived from.  \\\\
+\noindent \gls{coi}: Positive about the rule, but is concerned about not showing warnings when deriving from third party libraries. This is a case where one also should think about using composition instead of inheritance. Suggests to remove this logic, and instead provide configuration options for packages that should not be reported as violations when derived from.  \\\\
 
-\noindent LCOM: Nothing special. \\\\
+\noindent \gls{lcom}: Nothing special. \\\\
 
-\noindent OCP: Useful for both instance of checking and enum switching. Enums in Kotlin are powerful, so switching on them is in many cases not needed and polymorphism is used instead.\\\\
+\noindent \gls{ocp}: Useful for both instance of checking and enum switching. Enums in Kotlin are powerful, so switching on them is in many cases not needed and polymorphism is used instead.\\\\
 
-\noindent ISP: Could be useful. May need to handle TODO's specially. \\\\
+\noindent \gls{isp}: Could be useful. May need to handle TODO's specially. \\\\
 
 \noindent Other: In general positive to the tool, and think it has potential. Good that it is easy to ignore warnings, with just a click. It needs more rules before considering using it. For example including detection of Java antipatterns and ensuring that Kotlin code is idiomatic. For example static methods and places where data-classes could be used. The tool could be used as "training wheels" in a team, where one gradually could disable more rules to not create unnecessary noise in the development.
 \clearpage
