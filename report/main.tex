@@ -451,7 +451,6 @@ The most important aspect of demonstrating the prototypes, is to try to create a
 
 %Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.
 
-\todo{By creating \gls{pr}'s in open-source projects and advertising the tool through backlinks to the repository on GitHub, more feedback could be gathered. Analysis of old \gls{pr}'s in public projects could also be done to give results that could be evaluated manually. }
 
 A specific description of how the demonstration of each prototype was done can be seen in the results section.
 \todo{tried to get feedback by: posted in slack channels work work, kotlin etc, updating the readme for better seo and to show off the product, creating Prs in muliple repositories to advertise. creating issues in related repositories., reddit, hackernews.}
@@ -748,7 +747,7 @@ The way we see it there are mainly 4 problems with the current implementation th
 The developed solution is a static analysis tool that gives the developers guidelines or hints on how to follow design principles. To better understand the developed tool, its strength and weaknesses, implications and limitations a technical description is provided. Following is a description of the different components and ending with a description of how they interact with each other.
 
 \subsection{Detekt}
-Detekt is a static analysis tool for kotlin. Detekt is comprised of a set of rules for analysis of Kotlin source code. Part of Detekt is also the detekt-api, which gives access to a framework for creating rules, configuring rules, and for analyzing the source code. Under the hood it gives us access to IntelliJ \gls{psi} for code analysis. The PSI is built on top of the \gls{ast} provided by the Kotlin compiler, and enables modification, querying and navigation of the underlying \gls{ast}. Detekt is made extensible, and plugins (with new rule-sets) can easily be added.   
+Detekt is a static analysis tool for kotlin. Detekt is comprised of a set of rules for analysis of Kotlin source code. Part of Detekt is also the detekt-api, which gives access to a framework for creating rules, configuring rules, and for analyzing the source code. Under the hood it gives us access to IntelliJ \gls{psi} for code analysis. The PSI is built on top of the \gls{ast} provided by the Kotlin compiler, and enables modification, querying and navigation of the underlying \gls{ast}. Detekt is made extensible, and plugins (new rule-sets) can easily be added. It is easily invoked using the \gls{cli} interface.
 
 Figure \ref{fig:psi} shows a simplified example \gls{psi} that detekt-hint would use to find violations of \gls{isp}. The analysis would simply look in the PSI for classes that implement interfaces, and see if the overridden methods of that interface are empty or only throws exceptions. 
 
@@ -759,10 +758,10 @@ Figure \ref{fig:psi} shows a simplified example \gls{psi} that detekt-hint would
     \label{fig:psi}
 \end{figure}
 
-When detekt is running, it looks at all the implemented rules (and the configuration of them) and does analysis of the source code. When issues are found, the line number is noted, together with the comment to be added, and added to a report, which is the final output of the program. 
+When detekt is executed, it looks at all the rule-sets (and the configuration of them) and does analysis of the source code. When issues are found, the line number is noted, together with the comment to be added, and added to a report, which is the final output of the program. 
 
-\subsection{Detekt-hint}
-A plugin for Detekt is exactly what detekt-hint is. It is a new rule set that can be added to detekt. What is different from Detekt is that it creates rules with more context and is integrated with Danger to support showing issues directly in the \gls{pr}.
+\subsection{Detekt-hint ruleset}
+The Detekt-hint ruleset is a plugin to Detekt, and contains the implemented rules for \gls{ddpv}. The rules are described in detail below.
 
 \subsubsection{Detekt-hint specification}
 The final artifact consists of four rules. Below follows a technical description of the implemented rules.
@@ -772,20 +771,19 @@ The final artifact consists of four rules. Below follows a technical description
     \item Interface Segregation Principle (\gls{isp}). A rule that looks for classes that implement methods it does not need. It looks for classes that implement interfaces and that contains either empty methods, or methods that only throws exceptions.
     \item Open-Closed-Principle (\gls{ocp}). A rule that looks for instance of checking and switching on enums. It is a common sign of violating the Open-Closed Principle. Will not warn when checking on instances provided by a third party framework or library.
 \end{itemize}
-
-detekt-hint is published to mvnrepository for easy access and integration with detekt.
+\todo{can find source code where?}
 
 %Final source code can be found on Github\cite{detekt-hint-repository}. Developed as a plugin to detekt. Is built as a jar and either included in the gradle build script as a detekt plugin or run separately as a command line interface.
 
 \subsection{Danger}
-Danger is a system which is created for the purpose of commenting directly on \gls{pr}'s. It provides an easy to use \gls{api} for extracting the required information from git, and provides methods for commenting directly on pull requests. It is run in your \gls{ci} environment on every commit to pull requests that is made. When the rules are adhered to, the comments are amended to reflect the current state of the pull request. Danger is extensible through the use of plugins.
+Danger is a system which is created for the purpose of commenting directly on \gls{pr}'s. It provides an easy to use \gls{api} for extracting the required information from git, and provides methods for commenting directly on pull requests. It is configured to run in your \gls{ci} environment on every commit to pull requests that is made. When the rules are adhered to, the comments are amended to reflect the current state of the pull request. 
 
-\subsection{Danger detekt plugin}
+\subsection{Github Actions}
 \todo{rewrite this to mention the github action docker thingy}
-The Danger-detekt plugin is a simple plugin which takes a gradle task which is executing detekt. The generated report from Detekt is parsed and comments on the \gls{pr} is added.
+Github actions is ... 
 
-\subsection{Integration}
-In a proper setup, everything is set up to run within the \gls{ci} environment. First, Danger is executed. Danger runs the Danger-detekt-plugin which runs the specified gradle task for running detekt on the repository. Since detekt-hint is added as a ruleset to detekt, the rules from detekt-hint will be executed and a report containing issues will be generated. The Danger-detekt plugin will then parse the results and output the results in the form of comments on \gls{pr}'s. A diagram of how everything interacts with each other can be seen in figure \ref{fig:integration}. 
+\subsection{Detekt-hint}
+Detekt-hint is added to any repository on Github by using the pre-built Github Action called Detekt-hint docker action(? link). Using a .github workflow file, it executes the Github action, which again executes the analysis using the Detekt \gls{cli} using the detekt-hint ruleset. The output report (containing the comments) which is generated from the detekt analysis is then saved to a file. Danger is then executed and picks up the file with the comments, parses it and adds a comment on the github pull request for every comment in the file. A diagram of how everything interacts with each other can be seen in figure \ref{fig:integration}. 
 
 
 \begin{figure}
@@ -794,11 +792,6 @@ In a proper setup, everything is set up to run within the \gls{ci} environment. 
     \caption{The overall architecture and execution flow of the solution}
     \label{fig:integration}
 \end{figure}
-
-
-\subsubsection{Getting started}
-A setup guide can be found at \cite{detekt-hint-repository}.
-
 
 
 
@@ -810,27 +803,21 @@ In this chapter i will answer the research questions and give my interpretations
 \section{Answering the research question}
 
 The research question was as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
-The results tell us that by extending a tool for static code analysis, and combining it with another tool for automatic comments on \gls{pr} - a tool for \gls{ddpv} can be created. The two identified requirements with utmost importance when developing a tool for \gls{ddpv} is as following. First, it needs to have as accurate rules as possible for \gls{ddpv}. This requires extensive insight into design principles and the architecture and design of software systems. Secondly, for supporting the rules, the integration adding comments to the \gls{pr} needs additional features and mechanisms for reducing the impact and the amount of false-invocations. Depending on the success of the additional features and mechanisms mentioned in section \ref{evaluation-overall}, the rules may fit or not into the tool. The rules with high accuracy, will suit the approach commenting directly on \gls{pr}'s. For the rules where the amount of false-positives cannot be reduced to an acceptable amount another less obtrusive approach is needed. 
-
-The high rate of false-positives and the low acceptance for noise brings the questions if creating a successful tool for \gls{ddpv} is feasible. Generally, machines need to be considerably better than humans, for humans to trust and use them. It is unsure if we ever will be able to develop accurate heuristics for \gls{ddpv}, for such a tool to be widely adopted. Maybe, the research question should have asked the question "if" a tool for \gls{ddpv} could be created first, before considering "how" to create it. One could even question if it makes sense to detect violations of "principles". If violations were to be detected, they maybe would have been called design rules instead. That however, does not mean that tools could not support design principles, but maybe another approach for supporting them is needed. Changing the focus from violation detection to supporting in helping developers in following, learning or be more aware of design principles is suggested. An example of such an approach is presented in section \ref{futurework}.
+The results tell us that by extending a tool for static code analysis, and integrating it with another tool adding comments on \gls{pr} - a tool for \gls{ddpv} can be created. The two identified requirements with utmost importance when developing a tool for \gls{ddpv} is as following. First, it needs to have as accurate rules as possible for \gls{ddpv}. This requires extensive insight into design principles and the architecture and design of software systems. Secondly, for supporting the rules, the integration adding comments to the \gls{pr} needs additional features and mechanisms for reducing the impact and the amount of false-invocations. Depending on the success of the additional features and mechanisms mentioned in section \ref{evaluation-overall}, rules for \gls{ddpv} may fit or not into the tool. The rules with high or medium accuracy, will most probably suit the approach commenting directly on \gls{pr}'s. For the rules where the amount of false-positives cannot be reduced to an acceptable amount another less obtrusive approach is needed. 
 
 
+Most developed rules were created to support the detection of \textit{indications} that a design principle was violated. One may therefore question if \gls{ddpv} was actually achieved. The rules did not target the design principles directly due to lack of accurate heuristics. Even when targeting indications of design principle violations, the rate of false-positives was high. This brings up the question if creating a successful tool for \gls{ddpv} is feasible. It is unsure if we ever will be able to develop accurate heuristics for \gls{ddpv}, for such a tool to be widely adopted. Maybe, the research question should have asked the question "if" a tool for \gls{ddpv} could be created first, before considering "how" to create it. One could even question if it makes sense to detect violations of "principles". If violations were to be detected, they maybe would have been called design rules instead. That however, does not mean that tools could not support design principles. At least for rules with low accuracy another approach is suggested. Changing the focus from violation detection to support in adhering to and learning about design principles. An example of such an approach is presented in section \ref{futurework}.
 
-
-
-
+%Generally, machines need to be considerably better than humans, for humans to trust and use them. 
 
 %This is one important premise that need to be true for this tool to succeed. It seems logical as reducing the amount of design issues in software will increase its internal quality, thus reducing the total development time. By following this reasoning, as long as the positive impact of the true-positives are greater than the negative impact from the false-positives, the tool will contribute to reduced development time. From the evaluation of the tool, it seems like this assumption was false, at least to a certain degree. Inspection of the rule invocations found true-positives, and based on what we know about internal quality and its importance for reducing the total development time it is unlikely that the false-positives would take more time to sort out than the positive impact of fixing the detected design issues. Still, feedback mainly focused on the tool having too many false positives, and that the amount needs to be lowered for the tool to be considered adopted. The reason is probably that most developers dislikes manual tasks, and that sorting out false-positives is a highly manual task, that will get ignored quite fast. Even if the rule is of high importance and would in total impact (considering all the true-positives and the false-positives) improve the internal quality, it will get ignored and dismissed.
 
-\todo{man vil ikke bli kontrollert av værktøy/maskinen, men heller styre maskinen. Skal ha mye tiltro til maskiner for å godta dem. fly-ai. Er værktøyet mer transparent så kan man få mer tollerance, i motsetning til en magisk sort boks. }
-\section{Impact}
-\todo{bruk impact }
 
-At current state, the implications of the tool are minor. It serves as a proof of concept of a tool that is able to detect some violation of design principles, and that handles the reporting of false-positives in a new way. It adds comments consisting of possible solutions and that references directly to the involved code constructs in code, which is not seen before. The development of the tool lead to the identification of two central requirements for a tool executing \gls{ddpv}. The identification of these requirements would be useful for further development.
+\section{Impact}
+
+At current state, the impact of the tool are minor. It serves as a proof of concept of a tool that is able to detect some indications of violation of design principles, and that handles the reporting of false-positives in a new way. It adds comments consisting of possible solutions and that references directly to the involved code constructs in code, which is not seen before. The development of the tool lead to the identification of two central requirements for a tool executing \gls{ddpv}, and insights into the domain of \gls{ddpv}. The identification of these requirements would be useful for further development.
 
 With continued development on both increasing the accuracy and the number of rules, together with implementing more mechanisms for reducing the impact and the amount of false-invocations, there are possibly big implications on the development of maintainable software. It may contribute to an increase in internal quality of developed software, reducing time and development cost. Especially in teams consisting of junior developers, not used to design principles, the tool could be particularly useful. As seen in the evaluation, it may also contribute to design discussions and learning within the team.
-
-%The adoption of a tool for \gls{ddpv} will force developers to get used to a certain amount of noise in the workflow, which according to the evaluation results could be a hard task.  
 
 
 \section{Limitations}
@@ -844,15 +831,14 @@ First, a solution to the limitation related to Github permissions needs to be re
 Secondly as previously mentioned, feedback from experienced developers in the open-source community indicated problems related to the tool generating too much noise. The internal evaluation, looking at the number of invocations and analysis of the individual rules supports this finding. Because of this focus on false-positives, the positive impact of the true-positives has received little focus in the evaluation.  
 
 \subsection*{Limitations of the evaluation}
-During all the phases of development, many attempts at gathering informants have been done. It has been hard to find experienced developers in Kotlin, that have both the time and will to assist, without getting any benefits. Attempts include advertisements on social media, presenting prototypes at developer meetings, speaking with different companies doing Kotlin development and circulating requests to colleagues in various channels and in open-source communities. The lack of informants have impacted the evaluation and the development of the tool from the initial prototypes, through development and to the evaluation of the final prototype. Given the high requirements for insights into design principles, and the development of heuristics for detecting the violation of them, the lack of informants have affected the quality of developed rules and the evaluation of them. Also, evaluation activities that were initially planned (workshop) could not be completed. The evaluation of the prototypes was therefore mainly based on a few peoples input and perspective, and is therefore a big limitation. The evaluations were mostly informal, and spawned good discussions about \gls{ddpv}. However, more formal and structured evaluations would have been a good addition to get more quantitative results which could complement the informal evaluation.
+During all the phases of development, many attempts at gathering informants have been done. It has been hard to find experienced developers in Kotlin, that have both the time and will to assist, without getting any benefits. Attempts include advertisements on social media, creating back-links to project in multiple Github repositories, presenting prototypes at developer meetings, speaking with different companies doing Kotlin development and circulating requests to colleagues in various channels and in open-source communities. The lack of informants have impacted the evaluation and the development of the tool from the initial prototypes, through development and to the evaluation of the final prototype. Given the high requirements for insights into design principles, and the development of heuristics for detecting the violation of them, the lack of informants have affected the quality of developed rules and the evaluation of them. Also, evaluation activities that were initially planned (workshop) could not be completed. The evaluation of the prototypes were therefore mainly based on a few peoples input and perspective, and is therefore a big limitation. The evaluations were mostly informal, and spawned good discussions about \gls{ddpv}. However, more formal and structured evaluations would have been a good addition to get more quantitative results which could complement the informal evaluation.
 
 
 \subsection*{Limitation of author and methodical choices}
 There were some limitations related to the knowledge of the author, and the methodical choices that were taken during development. As the author only have limited experience on design principles and had limited amount of resources to get insights into heuristics for \gls{ddpv} from informants, the results may be showing a rule-set with a lower accuracy than what would have been possible. Also, the development phase included a trade-off between focusing on creating enough rules for the tool to provide any value, and the accuracy and features for reducing the impact of the false-positives. Creating a set of rules became more important, due to a belief that it would be hard to evaluate the tool having only a single rule. In retrospect, spending more effort on experimenting with features reducing generated noise, instead of implementing multiple rules, would have been beneficial for reaching the aims of the research. Also, in hindsight it appeared that the author had an assumption that the more important the rule or design principle is, a higher rate of noise could be tolerated. The results from the evaluation show that this rate of accepted noise was lower than what was initially expected by the author. This may also have contributed to a focus on implementing rules instead of focusing on experimenting on new features for reducing the noise. 
 
-Another limitation was that the early prototypes was focused around the idea of automatically adding comments to pull-requests. The challenge regarding false-positives were presented, but any numbers on its accuracy were not available at that point and may have given the impression that the tool would be more accurate than it actually is. This may have given false-expectations, making many people overly positive to such a tool. Especially targeting the horizontal prototype, more of its width and content dimensions should have been prototyped to better demonstrate the impact of false-positives. It should have included samples that demonstrates the false-positives as well as true-positives. Then, a more realistic view of the tool would have been presented.
+Another limitation was that the early prototypes was focused around the idea of automatically adding comments to pull-requests. The challenge regarding false-positives were presented, but any numbers on its accuracy were not available at that point and may have given the impression that the tool would be more accurate than it actually was. This may have given false-expectations, making many people overly positive to such a tool. Especially targeting the horizontal prototype, more of its width and content dimensions should have been prototyped to better demonstrate the impact of false-positives. It should have included samples that demonstrates the false-positives as well as true-positives. Then, a more realistic view of the tool would have been presented.
 
-\todo{har man stillt de riktige forskningsspørsmålet?= Hvor mye kan man få maskinen til å gjøre for oss. når maskiner blir veldig gode tiltror vi dem. -fly ai analagi. maskiner skal være veldig gode for at de skal erstatte et menneske}
 
 
 \section{Future work}
@@ -874,13 +860,13 @@ There are mainly two ways of continuing the work on the tool, either by improvin
 \subsubsection{Possible solutions to Github Actions limitations}
 
 \label{possible-solutions}
-To understand the limitation that was found one needs to understand how \gls{pr}'s works across forks on Github. When a user have their own fork of another repository, pull requests to the repository runs on the forked repository. Because secrets/tokens private to a repository are not available to forks, one needs to use the \textit{GITHUB\_TOKEN} provided by Github for authentication against the Github API. Unfortunately this token does not have write access to pull requests against the main repository when running on a forked repository. Pull requests against the main repository running on the forked repository will therefore not be able to write comments on the pull request. Possible solutions to this limitation are: 
+To understand the limitation that was found one needs to understand how \gls{pr}'s works across forks on Github. When a user have their own fork of another repository, build pipelines caused by pull requests to the destination repository runs on the forked repository. Because secrets/tokens private to a repository are not available to forks, one needs to use the \textit{GITHUB\_TOKEN} provided by Github for authentication against the Github API. Unfortunately this token does not have write access to pull requests against the destination repository when running on a forked repository. Pull requests against the destination repository running on the forked repository will therefore not be able to write comments on the \gls{pr}. Possible solutions to this limitation are: 
 \begin{itemize}
     \item A work around using a cron job that runs on the \gls{pr} destination repository. A demo is provided by Yuri Astrakhan \cite{workaround-demo}. 
     
     \item Create an integration working with another \gls{ci} provider like Travis or CircleCI. 
     
-    \item A full blown Github app that could be installed on the repository. This would require a backend service and could be a good solution going forward and extending the tool with the more involved features presented below.
+    \item A Github app that could be installed on the repository. This would require a backend service and could be a good solution going forward and extending the tool with the more involved features presented below.
 \end{itemize}
 
 \label{futurework}
@@ -888,12 +874,12 @@ To understand the limitation that was found one needs to understand how \gls{pr}
 
 \subsection{Enhancement \& new features}
 
-The success of the tool has mainly been evaluated on the basis of its accuracy. There are other properties that also might be important for a tool to succeed, and that could be improved and enhanced. 
+The usefulness of the tool has mainly been evaluated on the basis of its accuracy. In addition to accuracy, there are other properties that also might be important for a tool to succeed, and that could be improved and enhanced. 
 
 \begin{itemize}
-    \item The transparency of the tool. If we know how the tool works, we may tolerate its faults. For other developers we will accept faults, but this is not true for machines. At current state the tool works as a magic black box that act as a human, commenting on \gls{pr}'s, with low transparency. Therefore, increasing the transparency of a tool may contribute to accepting its faults.
+    \item The transparency of the tool. If we know how the tool works, we may tolerate its faults. By opening up the internals of the tool, not treating the tool as a magic black box, more noise or faults could be accepted.
     
-    \item The obtrusiveness of the tool. For the inaccurate rules or design principles that is hard to detect a new approach that makes the developer in control is suggested. For example for the \gls{coi} rule, which is considered the most inaccurate, the \gls{ide} could show hints when hovering over class-names. This is sketched in figure \ref{fig:a-new-beginning}. This way, the user can get hints on possible design principle violations when the user wants it, and not when the bot wants it. 
+    \item The obtrusiveness of the tool. For the inaccurate rules or design principles that is hard to detect a new approach that makes the developer in control is suggested. For example for the \gls{coi} rule, which is considered the most inaccurate, the \gls{ide} could show hints when hovering over class-names. This is sketched in figure \ref{fig:a-new-beginning}. This way, the user can get hints on possible design principle violations when the user wants it, making the user in control of when invocations should happen and the number of invocations.
 
 \end{itemize}
 
@@ -901,12 +887,12 @@ The success of the tool has mainly been evaluated on the basis of its accuracy. 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{report/a-new-beginning (2).png}
-    \caption{Hovering over the class will present hints on unaccurate rules in an unobtrusive way, directly in the \gls{ide}.}
+    \caption{Hovering over the class will present hints on inaccurate rules in an unobtrusive way, directly in the \gls{ide}. Shifts the focus from bot-invocation to user invocation.}
     \label{fig:a-new-beginning}
 \end{figure}
 
 
-One obvious entry point of enhancing the current tool is to enhance the existing ruleset, either by enhancing existing rules, or implementing new rules. Following are some new rules that were considered during development.
+One obvious entry point of enhancing the current tool is to enhance the existing ruleset, either by enhancing existing rules, or implementing new rules. Enhancements to existing rules is presented in the evaluation of the rules in section \ref{rule-evaluation}. Following are some new rules and enhancements that were considered during development. It was a focus on finding rules that were not targeted in other tools. To the best of the authors knowledge, the below suggested rules is not found in other tools. 
 
 \begin{itemize}
     \item Improving the comments that is posted on the \gls{pr}, giving more in depth suggestions or alternative code changes. Refactoring suggestions and reasoning for required changes.  
@@ -916,7 +902,6 @@ One obvious entry point of enhancing the current tool is to enhance the existing
     \item Notify whenever a new enum is created. Misuse of enums is a common design smell.
 \end{itemize}
 
-Enhancements to existing rules is presented in the evaluation of the rules in section \ref{rule-evaluation}. q
 
 Another entry point for enhancing the tool, which is considered more important is introducing new mechanisms for reducing the amount of noise. A list of enhancements that is considered the most important was presented in section \ref{evaluation-overall}. As new enhancements and mechanisms for reducing the noise is introduced the existing rules needs to be reconsidered. For many of the rules a trade-off between rate of false-positives and the rate of false-negatives have been done in favor of the false-positives. This trade-off must be considered together with the mechanisms for reduction of false-positives. For example for the \gls{isp} rule, the rate of false-positives have been limited by only invoking the rule when empty or methods that only throws exceptions is found. However, this principle can also be broken by adding a method to an interface (interface pollution), without creating any empty implementations. To reduce the rate of false-negatives to zero, one could have invoked the rule every time a new method was added to any interface. This however, would drastically increase the number of false-positives. A decision on reducing the rate of false-positives was therefore made. However, with new mechanisms for reducing the rate of false-positives, such trade-offs should be reconsidered. 
 
