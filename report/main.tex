@@ -98,7 +98,7 @@ The design principles, on the other hand are mostly informal and have limited su
 Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and thus reduce the time required for restructuring badly designed code.  
 
 % Present the goal and then how to reach it
-The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. Using the assumption that the more important the rule or design principle is, the higher rate of noise can be accepted to avoid design issues. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow.
+The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow.
 
 To help with specific guidelines for development and evaluation of such a tool, the design science methodology will be followed.
 
@@ -258,7 +258,9 @@ Simple and advanced analysis and automatic refactoring options is often included
 Developers also have their own preferences for workflows and when to execute and use tools. Making a tool configurable or fit in multiple execution points in the development process is therefore often appreciated.
 
 \section{Prototyping}
-Prototyping is an important activity to get feedback from users as early as possible, to better understand the problem at hand, and its requirements. Prototypes mainly have two dimensions, horizontal and vertical. \textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{Vertical prototypes} on the other hand focuses on the technical challenges and a small subset of functionality of the final system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low fidelity} or \textit{high fidelity} prototype. According to \cite{prototype-dimensions}, there are five independent dimensions to every prototype, visual, interaction, breadth, depth and content.
+Prototyping is an important activity to get feedback from users as early as possible, to better understand the problem at hand, and its requirements. Prototypes are often described using the two dimensions, horizontal and vertical. \textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{Vertical prototypes} on the other hand focuses on the technical challenges and a small subset of functionality of the final system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low fidelity} or \textit{high fidelity} prototype. 
+
+In addition to the widely used definitions of vertical and horizontal prototypes, \cite{prototype-dimensions} describes five dimensions that can be used to describe every prototype. The five dimensions are visual, interaction, breadth, depth and content. In this thesis we will use the standard definitions of vertical and horizontal prototypes together with the five dimensions.  
 
 \begin{itemize}
     \item The \textit{visual} dimension describes how much the prototype looks like the finished product. 
@@ -305,9 +307,7 @@ There exists a lot of theory and knowledge on how to design and build maintainab
 \todo{(hal: Tror ikke "study" er riktig uttrykk når du bygger et verktøy)}
 
 
-The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. 
-
-Using the assumption that the more important the rule or design principle is, the higher rate of noise can be accepted to avoid design issues. 
+The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code.
 
 By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. 
 
@@ -447,9 +447,7 @@ The evaluation of the prototypes, and why and how the different prototypes were 
 % General about demonstration. Specific demonstration details is found in results section.
 The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. For the low fidelity prototypes, interviews and visual presentations will be used, while for the higher fidelity prototypes functional testing of the developed prototypes will be executed. 
 
-The most important aspect of demonstrating the prototypes, is to try to create an environment that is as similar as possible to the environment that the final product will be used in. This way, the feedback will be as accurate as possible.
-
-This also involves getting users (other developers) to test the prototypes. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles.
+The most important aspect of demonstrating the prototypes, is to try to create an environment that is as similar as possible to the environment that the final product will be used in. This way, the feedback will be as accurate as possible. This also involves getting users (other developers) to test the prototypes. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles.
 
 %Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.
 
@@ -461,11 +459,14 @@ A specific description of how the demonstration of each prototype was done can b
  
 \section{Evaluation}
 % General about evaluation. Specific evaluation details is found in results section.
-In the evaluation phase we will observe and measure how well the developed artifact solves the problem. We will compare the artifact with the objectives of a solution, and use different techniques for evaluation based on the type of artifact and at which stage in development we are. Evaluation methods includes qualitative methods and quantitative methods. The qualitative methods include feedback gathered from having conversations with experienced developers and through presentation of prototypes. The quantitative methods include interest measurement and analysis of rule-invocations executing the final artifact on different code-bases.  
+In the evaluation phase we will observe and evaluate how well the developed artifact solves the problem. We will compare the artifact with the objectives of a solution, and use different techniques for evaluation based on the type of artifact and at which stage in development we are. Evaluation methods includes qualitative methods and quantitative methods. The qualitative methods include feedback gathered from having conversations with experienced developers and through presentation of prototypes. The quantitative methods include interest measurement and analysis of rule-invocations executing the final artifact on different code-bases.  
 
+\todo{can this be deleted?}
 The methods were mostly informal as formal methods were impossible to organize. This is a flaw of the study and is targeted in section \ref{discussion}. Informal evaluation methods were easier to organize and caused useful discussions, possible features and useful feedback. 
 
-Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. After each evaluation activity, based on how the artifact compares to the objectives of a solution it is decided if another iteration is required. The results from the evaluations is presented in the result chapter.
+Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. After each evaluation activity, based on how the artifact compares to the objectives of a solution it is decided if another iteration is required.
+
+The results from the evaluations is presented in the result chapter.
 
 \section{Communication}
 The end result and the developed knowledge about \gls{ddpv} is diffused in this master thesis, for others to consume. It should provide a general contribution to the research field of improving the maintainability of code through code analysis. It should communicate the results and provide insight in what could be improved and areas subject for more research. The final artifact is available for use and further development on GitHub\cite{detekt-hint-repository}.
@@ -617,7 +618,9 @@ The schema used for the semi-structured interview, the participants answers/feed
 \section{Final prototype}
 
 \subsection*{Why and how it was created}
-The final prototype is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. One can consider this a \gls{mvp}. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. Because earlier approaches for feedback gave limited amounts of feedback on the actual value of a tool for \gls{ddpv}, it was decided that the next step is to develop a functional prototype that would detect actual design issues in code. It was focused on implementing features and enhancements that were mentioned by the participants during the presentation of the horizontal prototype. However, due to limited time not all of the received feedback could be addressed in the final prototype. General feedback from the earlier prototypes included two concerns. First, for getting people to consider testing the tool, it needs to provide more than a couple of rules, and secondly the rules needs to have a low rate of false-positives. Having limited amount of time, a trade-off between number of rules and mechanisms for reducing the amount of false-positives had to be made. Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
+The final prototype is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. One can consider this a \gls{mvp}. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. It can be beneficial to read that section first to get a better understanding of the developed solution.
+
+Because earlier approaches for feedback gave limited amounts of feedback on the actual value of a tool for \gls{ddpv}, it was decided that the next step is to develop a functional prototype that would detect actual design issues in code. It was focused on implementing features and enhancements that were mentioned by the participants during the presentation of the horizontal prototype. However, due to limited time not all of the received feedback could be addressed in the final prototype. General feedback from the earlier prototypes included two concerns. First, for getting people to consider testing the tool, it needs to provide more than a couple of rules, and secondly the rules needs to have a low rate of false-positives. Having limited amount of time, a trade-off between number of rules and mechanisms for reducing the amount of false-positives had to be made. Also, to facilitate evaluation of the final artifact, effort in creating a seamless way of integrating the tool into open-source projects was done. 
 
 To get further get some insight in how accurate rules need to be to provide any value, the rules were having different accuracy, ranging from almost none, to pretty accurate. \todo{Refer to this in the discussion/conclusion} The final artifact consists of 4 rules, \gls{coi}, \gls{isp}, \gls{lcom} and \gls{ocp}. Images from the final prototype can be seen in \ref{final-artifact}.
 
@@ -631,7 +634,7 @@ Images of the final artifact can be seen in section \ref{final-artifact}. Compar
 
 
 \section{Evaluation of the final prototype}
-The evaluation is divided into 4 sections. The first two sections will evaluate the tool, based on the source of the feedback, from external evaluation in the open-source community, or from internal evaluation. The third section will for the sake of completeness consider each of the defined OS, and reference where the evaluation is described or add what is missing.  The fourth section will consider both the external, the internal and the evaluation against the \gls{os} and evaluate the tool as a whole. 
+The evaluation is divided into 4 sections. The first two sections will evaluate the tool, based on the source of the feedback, from external evaluation in the open-source community, or from internal evaluation. The third section will for the sake of completeness consider each of the defined \gls{os}, and reference where the evaluation is described or add what is missing.  The fourth section will consider both the external, the internal and the evaluation against the \gls{os} and evaluate the tool as a whole. 
 
 \subsection{External evaluation}
 \label{evaluation-open-source}
@@ -742,8 +745,7 @@ The way we see it there are mainly 4 problems with the current implementation th
 \label{technical-solution}
 \todo{update this section with the new solution}
 
-The developed solution is a static analysis tool that gives the developers guidelines or hints on how to follow design principles. Following is a description of the different components and ending with a description of how they interact with each other.
-
+The developed solution is a static analysis tool that gives the developers guidelines or hints on how to follow design principles. To better understand the developed tool, its strength and weaknesses, implications and limitations a technical description is provided. Following is a description of the different components and ending with a description of how they interact with each other.
 
 \subsection{Detekt}
 Detekt is a static analysis tool for kotlin. Detekt is comprised of a set of rules for analysis of Kotlin source code. Part of Detekt is also the detekt-api, which gives access to a framework for creating rules, configuring rules, and for analyzing the source code. Under the hood it gives us access to IntelliJ \gls{psi} for code analysis. The PSI is built on top of the \gls{ast} provided by the Kotlin compiler, and enables modification, querying and navigation of the underlying \gls{ast}. Detekt is made extensible, and plugins (with new rule-sets) can easily be added.   
@@ -807,21 +809,28 @@ In this chapter i will answer the research questions and give my interpretations
 
 \section{Answering the research question}
 
-It was an assumption that the more important the rule or design principle is, the higher rate of noise we can tolerate to avoid design issues in software. This is one important premise that need to be true for this tool to succeed. It seems logical as reducing the amount of design issues in software will increase its internal quality, thus reducing the total development time. By following this reasoning, as long as the positive impact of the true-positives are greater than the negative impact from the false-positives, the tool will contribute to reduced development time. From the evaluation of the tool, it seems like this assumption was false, at least to a certain degree. Inspection of the rule invocations found true-positives, and based on what we know about internal quality and its importance for reducing the total development time it is unlikely that the false-positives would take more time to sort out than the positive impact of fixing the detected design issues. Still, feedback mainly focused on the tool having too many false positives, and that the amount needs to be lowered for the tool to be considered adopted. The reason is probably that most developers dislikes manual tasks, and that sorting out false-positives is a highly manual task, that will get ignored quite fast. Even if the rule is of high importance and would in total impact (considering all the true-positives and the false-positives) improve the internal quality, it will get ignored and dismissed. This lead to the identification of two important requirements for creating a tool for \gls{ddpv}, and helps us answer the research question. 
-
 The research question was as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
-The results tell us that by extending a tool for static code analysis, and combining it with another tool for automatic comments on \gls{pr} - a tool for \gls{ddpv} can be created. The two identified requirements with utmost importance when developing a tool for \gls{ddpv} is as following. First, it needs to have as accurate rules as possible for \gls{ddpv}. This requires extensive insight into design principles and the architecture and design of software systems. Secondly, for supporting the rules, the integration adding comments to the \gls{pr} needs additional features and mechanisms for reducing the impact and the amount of false-invocations. 
+The results tell us that by extending a tool for static code analysis, and combining it with another tool for automatic comments on \gls{pr} - a tool for \gls{ddpv} can be created. The two identified requirements with utmost importance when developing a tool for \gls{ddpv} is as following. First, it needs to have as accurate rules as possible for \gls{ddpv}. This requires extensive insight into design principles and the architecture and design of software systems. Secondly, for supporting the rules, the integration adding comments to the \gls{pr} needs additional features and mechanisms for reducing the impact and the amount of false-invocations. Depending on the success of the additional features and mechanisms mentioned in section \ref{evaluation-overall}, the rules may fit or not into the tool. The rules with high accuracy, will suit the approach commenting directly on \gls{pr}'s. For the rules where the amount of false-positives cannot be reduced to an acceptable amount another less obtrusive approach is needed. 
 
-%Projects with already high internal quality may not benefit as much from this tool, as the impact of the false-positives will be larger than the impact of true-positives.
+The high rate of false-positives and the low acceptance for noise brings the questions if creating a successful tool for \gls{ddpv} is feasible. Generally, machines need to be considerably better than humans, for humans to trust and use them. It is unsure if we ever will be able to develop accurate heuristics for \gls{ddpv}, for such a tool to be widely adopted. Maybe, the research question should have asked the question "if" a tool for \gls{ddpv} could be created first, before considering "how" to create it. One could even question if it makes sense to detect violations of "principles". If violations were to be detected, they maybe would have been called design rules instead. That however, does not mean that tools could not support design principles, but maybe another approach for supporting them is needed. Changing the focus from violation detection to supporting in helping developers in following, learning or be more aware of design principles is suggested. An example of such an approach is presented in section \ref{futurework}.
 
-\section{Implications}
+
+
+
+
+
+
+%This is one important premise that need to be true for this tool to succeed. It seems logical as reducing the amount of design issues in software will increase its internal quality, thus reducing the total development time. By following this reasoning, as long as the positive impact of the true-positives are greater than the negative impact from the false-positives, the tool will contribute to reduced development time. From the evaluation of the tool, it seems like this assumption was false, at least to a certain degree. Inspection of the rule invocations found true-positives, and based on what we know about internal quality and its importance for reducing the total development time it is unlikely that the false-positives would take more time to sort out than the positive impact of fixing the detected design issues. Still, feedback mainly focused on the tool having too many false positives, and that the amount needs to be lowered for the tool to be considered adopted. The reason is probably that most developers dislikes manual tasks, and that sorting out false-positives is a highly manual task, that will get ignored quite fast. Even if the rule is of high importance and would in total impact (considering all the true-positives and the false-positives) improve the internal quality, it will get ignored and dismissed.
+
+\todo{man vil ikke bli kontrollert av værktøy/maskinen, men heller styre maskinen. Skal ha mye tiltro til maskiner for å godta dem. fly-ai. Er værktøyet mer transparent så kan man få mer tollerance, i motsetning til en magisk sort boks. }
+\section{Impact}
+\todo{bruk impact }
+
 At current state, the implications of the tool are minor. It serves as a proof of concept of a tool that is able to detect some violation of design principles, and that handles the reporting of false-positives in a new way. It adds comments consisting of possible solutions and that references directly to the involved code constructs in code, which is not seen before. The development of the tool lead to the identification of two central requirements for a tool executing \gls{ddpv}. The identification of these requirements would be useful for further development.
 
-With continued development on both increasing the accuracy and the number of rules, together with implementing more mechanisms for reducing the impact and the amount of false-invocations, there are possibly big implications on the development of maintainable software. It may contribute to an increase in internal quality of developed software, reducing time and development cost. As seen in the evaluation, it may also contribute to design discussions and learning within the team.
+With continued development on both increasing the accuracy and the number of rules, together with implementing more mechanisms for reducing the impact and the amount of false-invocations, there are possibly big implications on the development of maintainable software. It may contribute to an increase in internal quality of developed software, reducing time and development cost. Especially in teams consisting of junior developers, not used to design principles, the tool could be particularly useful. As seen in the evaluation, it may also contribute to design discussions and learning within the team.
 
-The adoption of a tool for \gls{ddpv} will force developers to get used to a certain amount of noise in the workflow, which according to the evaluation results could be a hard task.  
-
-%Implication: With continued development and solutions to the integration problems, the tool can be helpful. Especially in teams where there are many junior developers not used to or haven't learned design principles. The tool may be gradually phased out, when the rules become part of internal team culture. 
+%The adoption of a tool for \gls{ddpv} will force developers to get used to a certain amount of noise in the workflow, which according to the evaluation results could be a hard task.  
 
 
 \section{Limitations}
@@ -835,15 +844,16 @@ First, a solution to the limitation related to Github permissions needs to be re
 Secondly as previously mentioned, feedback from experienced developers in the open-source community indicated problems related to the tool generating too much noise. The internal evaluation, looking at the number of invocations and analysis of the individual rules supports this finding. Because of this focus on false-positives, the positive impact of the true-positives has received little focus in the evaluation.  
 
 \subsection*{Limitations of the evaluation}
-During all the phases of development, many attempts at gathering informants have been done. It has been hard to find experienced developers in Kotlin, that have both the time and will to assist, without getting any benefits. Attempts include advertisements on social media, presenting prototypes at developer meetings, speaking with different companies doing Kotlin development and circulating requests to colleagues in various channels and in open-source communities. The lack of informants have impacted the evaluation and the development of the tool from the initial prototypes, through development and to the evaluation of the final prototype. Given the high requirements for insights into design principles, and the development of heuristics for detecting the violation of them, the lack of informants have affected the quality of developed rules and the evaluation of them. Also, evaluation activities that were initially planned (workshop) could not be completed. The evaluation of the prototypes was therefore mainly based on a few peoples input and perspective, and is therefore a big limitation. 
-
-\todo{Write about informal evaluations. More structured formal feedback would have been better.}
+During all the phases of development, many attempts at gathering informants have been done. It has been hard to find experienced developers in Kotlin, that have both the time and will to assist, without getting any benefits. Attempts include advertisements on social media, presenting prototypes at developer meetings, speaking with different companies doing Kotlin development and circulating requests to colleagues in various channels and in open-source communities. The lack of informants have impacted the evaluation and the development of the tool from the initial prototypes, through development and to the evaluation of the final prototype. Given the high requirements for insights into design principles, and the development of heuristics for detecting the violation of them, the lack of informants have affected the quality of developed rules and the evaluation of them. Also, evaluation activities that were initially planned (workshop) could not be completed. The evaluation of the prototypes was therefore mainly based on a few peoples input and perspective, and is therefore a big limitation. The evaluations were mostly informal, and spawned good discussions about \gls{ddpv}. However, more formal and structured evaluations would have been a good addition to get more quantitative results which could complement the informal evaluation.
 
 
 \subsection*{Limitation of author and methodical choices}
-There were some limitations related to the knowledge of the author, and the methodical choices that were taken during development. As the author only have limited experience on design principles and had limited amount of resources to get insights into heuristics for \gls{ddpv} from informants, the results may be showing a rule-set with a lower accuracy than what would have been possible. Also, the development phase included a trade-off between focusing on creating enough rules for the tool to provide any value, and the accuracy and features for reducing the impact of the false-positives. Creating a set of rules became more important, due to a belief that it would be hard to evaluate the tool having only a single rule. In retrospect, spending more effort on experimenting with features reducing generated noise would have been beneficial for reaching the aims of the research. Implementing more rules could have been the focus at a later point. 
+There were some limitations related to the knowledge of the author, and the methodical choices that were taken during development. As the author only have limited experience on design principles and had limited amount of resources to get insights into heuristics for \gls{ddpv} from informants, the results may be showing a rule-set with a lower accuracy than what would have been possible. Also, the development phase included a trade-off between focusing on creating enough rules for the tool to provide any value, and the accuracy and features for reducing the impact of the false-positives. Creating a set of rules became more important, due to a belief that it would be hard to evaluate the tool having only a single rule. In retrospect, spending more effort on experimenting with features reducing generated noise, instead of implementing multiple rules, would have been beneficial for reaching the aims of the research. Also, in hindsight it appeared that the author had an assumption that the more important the rule or design principle is, a higher rate of noise could be tolerated. The results from the evaluation show that this rate of accepted noise was lower than what was initially expected by the author. This may also have contributed to a focus on implementing rules instead of focusing on experimenting on new features for reducing the noise. 
 
 Another limitation was that the early prototypes was focused around the idea of automatically adding comments to pull-requests. The challenge regarding false-positives were presented, but any numbers on its accuracy were not available at that point and may have given the impression that the tool would be more accurate than it actually is. This may have given false-expectations, making many people overly positive to such a tool. Especially targeting the horizontal prototype, more of its width and content dimensions should have been prototyped to better demonstrate the impact of false-positives. It should have included samples that demonstrates the false-positives as well as true-positives. Then, a more realistic view of the tool would have been presented.
+
+\todo{har man stillt de riktige forskningsspørsmålet?= Hvor mye kan man få maskinen til å gjøre for oss. når maskiner blir veldig gode tiltror vi dem. -fly ai analagi. maskiner skal være veldig gode for at de skal erstatte et menneske}
+
 
 \section{Future work}
  As presented above, for the tool to provide any value there are some further research and development that is needed. Below i have written a list of possible research, features and enhancements that i consider the most important for the success of this tool. 
@@ -852,7 +862,7 @@ Another limitation was that the early prototypes was focused around the idea of 
 
 \begin{itemize}
     \item False-positives and false-negatives are the two biggest opponents of creating a successful tool. Therefore more research on accurate heuristics for \gls{ddpv} is suggested. An approach looking into combining data-sources e.g git history and/or dynamic-software metrics in addition to static analysis of source code, could give more accurate results. 
-
+    
     \item Case study testing the tool, looking for patterns in use over time and receiving structured and rule-specific feedback. Possible effects on team design decisions and discussions.   
 \end{itemize}
 
@@ -877,7 +887,26 @@ To understand the limitation that was found one needs to understand how \gls{pr}
 
 
 \subsection{Enhancement \& new features}
-There are multiple entry points for enhancing the tool. One obvious entry point is to enhance the existing ruleset, either by enhancing existing rules, or implementing new rules.  4Following are some new rules that were considered during development.
+
+The success of the tool has mainly been evaluated on the basis of its accuracy. There are other properties that also might be important for a tool to succeed, and that could be improved and enhanced. 
+
+\begin{itemize}
+    \item The transparency of the tool. If we know how the tool works, we may tolerate its faults. For other developers we will accept faults, but this is not true for machines. At current state the tool works as a magic black box that act as a human, commenting on \gls{pr}'s, with low transparency. Therefore, increasing the transparency of a tool may contribute to accepting its faults.
+    
+    \item The obtrusiveness of the tool. For the inaccurate rules or design principles that is hard to detect a new approach that makes the developer in control is suggested. For example for the \gls{coi} rule, which is considered the most inaccurate, the \gls{ide} could show hints when hovering over class-names. This is sketched in figure \ref{fig:a-new-beginning}. This way, the user can get hints on possible design principle violations when the user wants it, and not when the bot wants it. 
+
+\end{itemize}
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{report/a-new-beginning (2).png}
+    \caption{Hovering over the class will present hints on unaccurate rules in an unobtrusive way, directly in the \gls{ide}.}
+    \label{fig:a-new-beginning}
+\end{figure}
+
+
+One obvious entry point of enhancing the current tool is to enhance the existing ruleset, either by enhancing existing rules, or implementing new rules. Following are some new rules that were considered during development.
 
 \begin{itemize}
     \item Improving the comments that is posted on the \gls{pr}, giving more in depth suggestions or alternative code changes. Refactoring suggestions and reasoning for required changes.  
@@ -887,14 +916,9 @@ There are multiple entry points for enhancing the tool. One obvious entry point 
     \item Notify whenever a new enum is created. Misuse of enums is a common design smell.
 \end{itemize}
 
-Enhancements to existing rules is presented in the evaluation of the rules in section \ref{rule-evaluation}. 
+Enhancements to existing rules is presented in the evaluation of the rules in section \ref{rule-evaluation}. q
 
 Another entry point for enhancing the tool, which is considered more important is introducing new mechanisms for reducing the amount of noise. A list of enhancements that is considered the most important was presented in section \ref{evaluation-overall}. As new enhancements and mechanisms for reducing the noise is introduced the existing rules needs to be reconsidered. For many of the rules a trade-off between rate of false-positives and the rate of false-negatives have been done in favor of the false-positives. This trade-off must be considered together with the mechanisms for reduction of false-positives. For example for the \gls{isp} rule, the rate of false-positives have been limited by only invoking the rule when empty or methods that only throws exceptions is found. However, this principle can also be broken by adding a method to an interface (interface pollution), without creating any empty implementations. To reduce the rate of false-negatives to zero, one could have invoked the rule every time a new method was added to any interface. This however, would drastically increase the number of false-positives. A decision on reducing the rate of false-positives was therefore made. However, with new mechanisms for reducing the rate of false-positives, such trade-offs should be reconsidered. 
-
-
-
-
-
 
 The tool is not limited to just targeting design principles. Rules can be created to support the detection of architectural and design-anti patterns, anti-idiomatic code, or violations of best practices. Another direction for the tool could be as a semi-smart "checklist", reminding developers of double checking aspects of source code that is easily forgotten. For example adding \gls{pr} comments whenever a new file is added or a file is moved, ensuring proper file organization. Or adding comments to ensure that the the author of the \gls{pr} left the code-base cleaner than the developer found it - following the Boy Scout Rule \cite{boy-scout}.
 
