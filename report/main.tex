@@ -7,6 +7,8 @@
 \usepackage{pgfplots}
 \usepackage{fancyvrb}
 \usepackage{tabularx}
+\usepackage[norsk,english]{babel}
+
 \usepackage{hyperref}
 
 \addbibresource{bibliography.bib}
@@ -56,14 +58,25 @@
 
 \maketitle
 
+
+\selectlanguage{norsk}
+\begin{abstract}
+    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at å bruke kommentarer på \acrfull{pr} vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt kunne ha stor innvirkning på videre utvikling av programvare.  
+    
+\end{abstract}
+
+\selectlanguage{english}
 \begin{abstract}
 	%Sample IMRaD abstract: 
-	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. This study investigates how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives. By combining technologies for code analysis and code review, a tool for \gls{ddpv} was developed using the design science methodology. Multiple prototypes were created, ending with a \gls{mvp}. The \gls{mvp} was then evaluated internally and received feedback from the open-source community. The results show that using comments on \gls{pr} will reduce the impact of false-positives, but \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, the tool could have big implications on the maintainability of developed software. 
+	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detection of design principle violations without creating noise in the developers workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with a \acrfull{mvp}. The \gls{mvp} was then evaluated internally and received feedback from the open-source community. The results show that using comments on \gls{pr} will reduce the impact of false-positives, and therefore reduce the noise significantly. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this could potentially have big implications on the maintainability of developed software. 
 	
 \end{abstract}
 
 
 \clearpage
+
+
+
 \tableofcontents
 \clearpage
 \chapter{Introduction}
@@ -213,7 +226,7 @@ Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis to
 
 
 \section{False positives and false negatives}
-As stated above, most of the design principles are hard to detect violations of. Because one is not totally sure that sure that a design principle is violated our tool will report violations, that isn't. These are false alarms and we call these \textit{false-positives}. We generally would like the rate of false-positives to be as low as possible. A \textit{false-negative} is the opposite, when actual violations goes undetected. We generally also want to keep this rate as low as possible. Together the rate of false-positives and the rate of false-negatives will determine the accuracy of detection. 
+Because good heuristics for \gls{ddpv} is hard to define, a tool for \gls{ddpv}, would not have 100\% accuracy. The tool will therefore report violations, that in reality is not. These are false alarms and we call these \textit{false-positives}. We generally would like the rate of false-positives to be as low as possible. A \textit{false-negative} is the opposite, when actual violations goes undetected. We generally also want to keep this rate as low as possible. Together the rate of false-positives and the rate of false-negatives will determine the accuracy of detection. 
 
 Definition of \textit{true-positives} and \textit{true-negatives} also exists. They are the counterpart of the above definitions. True-positives are the proportion of actual violations that are correctly detected. True-negatives are the proportion of actual non-violations that is not reported. In other words, that violations that does not exist is not reported. 
 
@@ -238,7 +251,7 @@ There are many things to consider when doing a code review. Google even maintain
      \item Is duplicate code introduced? Is this way of solving the problem the way we prefer it to be in this project?
 \end{itemize}
 
-When dealing with large amounts of changed code it is easy to forget some of the bullet points above. The number of false-negatives per changed line usually increases as the number of changed lines in a pull request increases. Especially when dealing with repetitive tasks its easy to overlook issues. Luckily, tools will be able to help us with the first point regarding style and best practices. The rest of the points are currently solved by inspecting the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding design issues that tools are not able to detect. 
+When dealing with large amounts of changed code it is easy to forget some of the bullet points above. The number of false-negatives per changed line usually increases as the number of changed lines in a pull request increases. \todo{Reference} Especially when dealing with repetitive tasks its easy to overlook issues. Luckily, tools will be able to help us with the first point regarding style and best practices. The rest of the points are currently solved by inspecting the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding design issues that tools are not able to detect. 
 
 By detecting issues during code review design defects will be resolved quicker because the developer can fix the issue right away. And fixing issues right away, saves a lot of time.
 
@@ -296,17 +309,13 @@ Regarding the process of code review, services like GitHub\cite{github}\footnote
 
 \chapter{Methodology}
 \label{methodology}
-The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. Then the selected research methodology will be presented, and how it contributes to reaching the goal. Then, a more detailed description of the different steps in the research methodology will be provided. 
+The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. Then the selected research methodology will be presented, and how it contributes to reaching the goal. Then, a brief description of the different steps in the research methodology is provided. 
 
 \section{Goals of the study}
 
 There exists a lot of theory and knowledge on how to design and build maintainable software. The knowledge is used by the developers when writing code, and some of the knowledge could be enforced by tools for code analysis. It helps developers write systems that are maintainable. However, there exists knowledge about design principles that is not used in the current set of tools for code analysis. Design principles is not targeted with the current set of tools, because it is shown hard to detect violations of design principles with high accuracy. High false-positive rates will create noise and disturb the developer.
 
-The main goal is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code.
-
-By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. 
-
-The goals and the sub-goals are summarized below:
+The main goal is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. The goals and the sub-goals are summarized below:
 
 \begin{enumerate}
     \item [\textbf{G1:}] Create a tool for \gls{ddpv} to help developers write maintainable code
@@ -381,7 +390,7 @@ The objectives of a solution is initially specified based on the current knowled
 \label{design-development}
 
 % Generally about design and development
-The design and development phase involves the development of vertical- and horizontal prototypes, with both high and low fidelity, as well as the final prototype. To get feedback on the initial idea as quick as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on the different dimensions. This way, the number of regressions will be reduced. Therefore, low fidelity prototypes will be created first, and then more high fidelity prototypes.
+The design and development phase involves the development of vertical- and horizontal prototypes, with both high and low fidelity, as well as the development of the final prototype. To get feedback on the initial idea as quick as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on the different dimensions. This way, the number of regressions will be reduced. Therefore, to iterate quickly, low fidelity prototypes will be created first, before gradually building more high fidelity prototypes.
 
 The evaluation of the prototypes, and why and how the different prototypes were developed is presented in the result chapter. 
 
@@ -769,8 +778,7 @@ The Detekt-hint ruleset is a plugin to Detekt, and contains the implemented rule
     \item Interface Segregation Principle (\gls{isp}). A rule that looks for classes that implement methods it does not need. It looks for classes that implement interfaces and that contains either empty methods, or methods that only throws exceptions.
     \item Open-Closed-Principle (\gls{ocp}). A rule that looks for instance of checking and switching on enums. It is a common sign of violating the Open-Closed Principle. Will not warn when checking on instances provided by a third party framework or library.
 \end{itemize}
-\todo{can find source code where?}
-\todo{pr - pull request}
+
 %Final source code can be found on GitHub\cite{detekt-hint-repository}. Developed as a plugin to detekt. Is built as a jar and either included in the gradle build script as a detekt plugin or run separately as a command line interface.
 
 \subsection{Danger}
