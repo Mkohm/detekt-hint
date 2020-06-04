@@ -427,7 +427,6 @@ The last step of the design science methodology is to communicate the end result
 In this chapter we will present the results of executing multiple iterations of product development, following the design science methodology. As stated in the design and development section (\ref{design-development}) low-resolution 
 prototypes is created first and then more functional artifacts are developed. The chapter is therefore divided into sections for each of the produced artifacts, ending with the evaluation of the final artifact with the name Detekt-hint. Describing the exact number of iterations and the iteration steps is not possible as one continuously evaluates the product and adjusts the product under development. But seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
 
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{../images/workflow.png}
@@ -435,41 +434,50 @@ prototypes is created first and then more functional artifacts are developed. Th
     \label{fig:workflow}
 \end{figure}
 
-The 4 iterations were focused on 4 different prototypes, with both low and high fidelity, focusing on the different dimensions. An illustrative comparison of the 4 prototypes is presented in figure \ref{fig:radar-chart}. As can be seen on the figure, the development started with low fidelity prototypes, focusing on the different dimensions, gradually preceding against more high fidelity prototypes. One can see that most of the dimensions were explored with high fidelity, using different prototypes. This is a good sign that most of the product was explored with prototypes before spending a lot of time building the functional and finished prototype. 
+The 4 iterations were focused on 4 different prototypes, with both low and high fidelity, focusing on the different dimensions. An illustrative comparison of the 4 prototypes is presented in figure \ref{fig:radar-chart}. As can be seen on the figure, the development started with low fidelity prototypes, focusing on the different dimensions, and ended with the development of a high fidelity prototype. One can see that most of the dimensions were explored with high fidelity, using different prototypes. This is a positive sign, since exploration of the different dimensions is an important part of developing knowledge and understanding how the finished product should be like. The prototypes are described more in detail in sections \ref{initial-prototype}, \ref{vertical-prototype}, \ref{horizontal-prototype}, \ref{final-prototype}. The prototypes are presented in the order the prototypes were created. 
 
-The different prototypes are described and their evaluation are described in the next sections. The results are presented in the order the prototypes were created. A description of the technical solutions and details is found in section \ref{technical-solution}.
+A description of the technical solution of the final prototype is found in section \ref{technical-solution}.
 
 \begin{figure}[h!]%
     \centering
     
-    \subfloat[label 1]{{\includegraphics[width=5cm]{report/images/initial2.png} }}%
+    \subfloat{{\includegraphics[width=5cm]{images/initial2.png} }}%
+    \qquad
+    \subfloat{{\includegraphics[width=5cm]{images/vertical2.png} }}%
     
-    \subfloat[label 1]{{\includegraphics[width=5cm]{report/images/vertical2.png} }}%
-    
-    \subfloat[label 2]{{\includegraphics[width=5cm]{report/images/horizontal2.png} }}
-    
-    \subfloat[label 2]{{\includegraphics[width=5cm]{report/images/final2.png} }}
+    \subfloat{{\includegraphics[width=5cm]{images/horizontal2.png} }}
+    \qquad
+    \subfloat{{\includegraphics[width=5cm]{images/final2.png} }}
     
     
-    \caption{Comparison of the dimensions and their fidelity of the 4 developed prototypes. The fidelity of each dimension is rated internally by the author on a scale from 0-3, where 3 is maximum of what can be expected from a \gls{mvp}. The purpose of the comparison is to illustrate the different focus of each of the prototypes.}
+    \caption{Comparison of the 4 developed prototypes, showing the dimensions and their fidelity. The fidelity of each dimension is rated internally by the author on a scale from 0-3, where 3 is maximum of what can be expected from a \gls{mvp}. The purpose of the comparison is to illustrate the different focus of each of the prototypes.}
     \label{fig:radar-chart}
 \end{figure}
 
-\section{Objectives of a solution}
+\section{Initial objectives of a solution}
 
 The objectives of a solution was found during multiple iterations of the design science methodology. Before each of the prototypes is presented in the next sections, we will look into the objectives of a solution that were initially found, and those who appeared under development.
 
 The initial objectives of a solution were based on the current knowledge about the domain and how the solution should be engineered to best achieve the goals. 
 
-The first objective is that the solution should be able to detect violations of design principles using static code analysis. As discussed in the background, static code analysis is best suited for this task as we search to improve the source code itself, and not dynamic quality aspects of the code. The selection of principles to support should be based on knowledge on which principles that are most important, and which principles that fits code analysis best. 
+The first objective is that the solution should be able to detect violations of design principles using static code analysis. As discussed in the background, static code analysis is best suited for this task as we search to improve the source code itself, and not dynamic quality aspects of the code. The selection of which principles to support is based on three criteria. 
 
-The second objective is that the solution should be designed to reduce eventual noise from false identifications. This is based on the knowledge that current tools suffer from false-positives and that implementations have have been skipped or dropped because they created too much noise. By designing the solution to accept and reduce the amount of noise, more design principles could be considered for implementation.
+\begin{enumerate}
+    \item Principles that are considered most important (i.e principles that will enable rules to detect the most major design issues) should be prioritized.
+    
+    \item Principles that is not targeted in existing tools should be prioritized.
+    
+    \item Principles that fits static code analysis should be prioritized.
+\end{enumerate}
 
-The third objective is that the tool is configurable to fit team preferences at rule level. We know that developers and teams has their own preferences, and to fit different usage, the tool should be configurable at the rule-level. Rule-level meaning that it should be possible to select which rules to enable, and possible configuration options for the different rules.
+The second objective is that the solution should be designed to reduce noise from false identifications. This is based on the knowledge that current tools suffer from false-positives and that we know that the heuristics for \gls{ddpv} would not be 100 percent accurate. By designing the solution to accept and reduce the amount of noise, design principles could be targeted with this new tool.
 
-The fourth objective is that the tool should be included in a existing tool or should be easy to integrate with existing tools. This is based on the knowledge that getting users to adopt a new tools is easier if it is easy to start using, and if others are already using it. It would also drastically reduce the effort required to develop a tool because a framework for code analysis is already provided. 
 
-The objectives of a solution is summarized below:
+The third objective is that the tool is configurable to fit team preferences at rule level. We know that developers and teams has their own preferences, and to fit different usage, the tool should be configurable. It should be possible to select which rules to enable, and to add rule-specific configuration for the different rules.
+
+The fourth objective is that the tool should be based on an existing tool or should be easy to integrate with existing tools. This is important for two reasons. Firstly, basing the tool on an already existing tool will drastically reduce the effort required in creating a tool for \gls{ddpv} because a framework for code analysis already will be provided. Without doing so, it would not have been feasible within the scope of this thesis. Secondly, getting users to adopt a new tool is easier if the effort in start using the tool is low. Basing the tool on another popular tool will help getting potential users and help the ease of adoption.
+
+The initial objectives of a solution is summarized below:
 \begin{itemize}
     \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using code analysis.
     \begin{itemize}
@@ -483,13 +491,17 @@ The objectives of a solution is summarized below:
     \item [\textbf{OS4:}] It can either be included into existing tools or is easy to integrate with existing tools so that adoption of the tool is easy.
 \end{itemize}
 
-As the development progressed, multiple iterations of development, demonstration and evaluation contributed to a better understanding of the problem and objectives was   therefore added or changed. During development of the vertical prototype it appeared harder than initially thought to create and develop accurate rules. A specification of OS1 was therefore made. 
+
+\section{Other objectives}
+As development progressed we got a better understanding of the problem and the objectives of a solution. We therefore had to refine and adjust the objectives. During the development of the vertical prototype it appeared harder than initially thought to create and develop accurate rules. A specification of OS1 was therefore made. The tool should only support a \textbf{limited} set of rules using static code analysis. 
+
+It also appeared during presentation of the horizontal prototype there was found out that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to help with the solution.  
 
 \begin{itemize}
     \item [\textbf{OS1.1:}] It detects violations of \textbf{important} design principles through a \textbf{limited} set of rules using static code analysis.
 \end{itemize}
 
-During presentation of the horizontal prototype there was found out that reported violations should include context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to help with the solution. 
+
 
 \begin{itemize}
         \item [\textbf{OS5:}] Reported violations includes code context to ease the process of deciding if it is a true- or false-positive. 
@@ -507,18 +519,10 @@ After the evaluation of the final prototype it was discovered that additional fe
 \end{itemize}
 
 
-
-
-%It all boils down to time=\$. The tool will only provide value of we can save development time using it. Then, if the sum of time saved by finding design issues earlier is more than the sum of the negative impact of considering the false-positives, the tool will provide value.
-%As a general objective we can say that, the tool will provide value if the value of detecting true-positives is worth more than the negative impact of all the false-positives. 
-%However, to measure the time spared by detecting issues earlier is an impossible task to measure, but we know that it is quite
-
-
-For the individual rules there are also some specific objectives that need to be satisfied: The comments needs to provide value, finding actual design issues in code, be clear and understandable, and should provide suggestions for solutions.
-
-
+For the individual rules there were also some specific objectives that need to be satisfied: The comments needs to be clear and understandable, and should provide suggestions for solutions.
 
 \section{Initial prototype}
+\label{initial-prototype}
 \subsection*{Why and how it was created}
 An initial low resolution prototype was created to see if there was any interest in a tool for detecting design principle violations. The initial idea proposed a design where the tool would report design principle violations by posting comments directly in the \gls{pr}. The prototype was focused at finding a solution to \textbf{OS2} (The solution is designed to reduce eventual noise from false identifications). By having a tool that is executed just before code review, it will not cause any disturbance in early stages of development. False-positives would be easy to ignore and would not require any action to get rid of. Similar tools require effort in suppressing errors, either by polluting the code base with annotations or adding issues to a whitelist/blacklist file. In addition, the idea was that commenting on \gls{pr} will only add comments to modified/added files, reducing the amount of warnings that will appear.  
 
@@ -550,6 +554,7 @@ This feedback was only based on discussions with friends and a handful of commen
 
 For being a low resolution prototype that was created within a couple of hours, it was successful.
 
+\subsection{New OS?}
 
 \section{Vertical prototype}
 \label{vertical-prototype}
@@ -596,6 +601,7 @@ The prototype therefore solves many of the objectives of a solution. However, be
 \end{itemize}
 
 \section{Horizontal prototype}
+\label{horizontal-prototype}
 
 \subsection*{Why and how it was created}
 As the vertical prototype showed; a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design decisions. Looking through a lot of principles, i tried to determine which rules that would be useful. Based on the feedback from the initial prototype, the comments were written in a way that were providing guidance instead of claiming changes because of violations. Since \gls{solid} is considered by many to be the most important set of design principles, the focus was put on those. I also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that had the most value. 
@@ -632,11 +638,12 @@ As general feedback, the rules were understandable and provided clear suggestion
 The general impression was much of the same as for the initial prototype. People like the project, and are generally positive. However, very few suggestions for improvements or other design principles to support were suggested. Other suggestions for features not directly related to design principles were proposed, and is written about in section \ref{futurework}.
 
 \todo{See if the answers in the semi-structured interview is properly referenced in future work or in the developed prototypes}
-The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. \todo{clean up there}
+The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype-images}. The full prototype can be found in the sample repository \cite{sample-repository}. \todo{clean up there}
 
 
 
 \section{Final prototype}
+\label{final-prototype}
 
 \subsection*{Why and how it was created}
 The final prototype is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. One can consider this a \gls{mvp}. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. It can be beneficial to read that section first to get a better understanding of the developed solution.
@@ -680,11 +687,7 @@ Following is a description of the open source kotlin projects that were selected
 
 
 
-The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results from analyzing repositories for violation of design principles, any effort in specific configuration of individual rules were not done. This may result with a slightly higher rate of invocations\todo{use invocations/reports/detections consistently}. For example Detekt will get a higher rate of invocations for the \gls{coi} because it consists of a high number of rules, that all inherits from a base \texttt{Rule} class. Configuring the rule to ignoring the \texttt{Rule} class from this rule would have lowered the amount of invocations significantly. The results from running Detekt-hint on the aforementioned repositories is presented in the chart below. To be com
-
-
-
-It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the added or modified files.
+The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results from analyzing repositories for violation of design principles, any effort in specific configuration of individual rules were not done. This may result with a slightly higher rate of invocations\todo{use invocations/reports/detections consistently}. For example Detekt will get a higher rate of invocations for the \gls{coi} because it consists of a high number of rules, that all inherits from a base \texttt{Rule} class. Configuring the rule to ignoring the \texttt{Rule} class from this rule would have lowered the amount of invocations significantly. The results from running Detekt-hint on the aforementioned repositories is presented in the chart below. It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the added or modified files.
 
 
 \begin{figure}[h!]
@@ -697,7 +700,7 @@ It is important to notice that even the high number of invocations it will not r
 
 \subsubsection{Evaluation of rules}
 \label{rule-evaluation}
-Building on the detections presented in the above chart, the accuracy of the tool is based on the ratio of false-positives combined with the rate of false-negatives. Unfortunately, due to the nature of design principles, it is hard to know if the detections are true or false-positives, and if there is any false-negatives without extensive knowledge about the codebase and the domain. The following evaluation of the importance and the accuracy of the rules are therefore based on simple inspections of the reported issues, without any extensive insight. The importance and accuracy of the rules is rated using three levels, low, medium and high.
+Building on the detections presented in the above chart, the accuracy of the tool is based on the rate of false-positives combined with the rate of false-negatives. Unfortunately, due to the nature of design principles, it is hard to know if the detections are true or false-positives, and if there is any false-negatives without extensive knowledge about the codebase and the domain. The following evaluation of the importance and the accuracy of the rules are therefore based on simple inspections of the reported issues, without any extensive insight. The importance and accuracy of the rules is rated using three levels, low, medium and high.
 
 \begin{itemize}
 
@@ -731,7 +734,7 @@ The final prototype being a \gls{mvp}, can be evaluated against all of the \gls{
 %Since the final prototype is a continuation of the work done on the vertical prototype, most of the evaluation related to the technical aspects is covered in section \ref{vertical-prototype}.
 
 \begin{itemize}
-    \item [\textbf{OS1:}] Building on the evaluation of OS1 presented in section \ref{vertical-os1}, the final prototype contains 4 rules. The \gls{solid} principles were considered the most widely known and used. Therefore, four rules adapted to support the detection of \gls{srp}, \gls{lsp}, \gls{ocp} and \gls{isp} violations were created. An evaluation of the specific rules is presented in section \ref{rule-evaluation}, and responses from the open-source community is written in section \ref{evaluation-open-source}. 
+    \item [\textbf{OS1:}] Building on the evaluation of OS1 presented in section \ref{vertical-os1}, the final prototype contains 4 rules. The \gls{solid} principles were considered the most widely known and used. Therefore, four rules adapted to support the detection of \gls{srp}, \gls{lsp}, \gls{ocp} and \gls{isp} violations were created. An evaluation of the specific rules is presented in section \ref{rule-evaluation}, and responses from the open-source community is written in section \ref{evaluation-open-source}. \todo{target os1.1, 1.2 etc.}
     
     \item [\textbf{OS2:}] The evaluation of how good the design is for reducing the noise from false-positives is based on two factors, the accuracy of the rules and the features for reducing the noise in the Danger integration. See section \ref{rule-evaluation} for analysis of the individual rules, and section \ref{evaluation-comments} for evaluation of the Danger integration. 
     
