@@ -102,8 +102,8 @@ Less formal design principles that targets the structure or design of code at an
 
 % Introduserer hvordan verktøy kan bidra til å følge regler og prinsipper
 Tools for code-analysis have been created to help developers adhere to the rules. They provide an effective way of detecting problems, and can often auto-correct or provide solutions to detected problems. The tools are ranging from separate \gls{cli}s, build plugins, native applications, online services, to \gls{ide}s and \gls{ide} plugins. Based on the use case of the tool, it is integrated into the developer workflow differently. For example directly to the developer while editing code or as automated feedback that is part of a code review.  The tools and their integration into the developer workflow have different advantages and disadvantages.
-
-The design principles, on the other hand are mostly informal and have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are very limited and suffer from false-positives that will create an significant amount of noise during development. Current approaches for detecting violations mostly involve manual code review, which is a time consuming and error-prone task.
+\todo{post prestudy somewhere so the reference works}
+The design principles, on the other hand are mostly informal and have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are very limited. The tools suffer from false-positives that will create an significant amount of noise during development. In addition, the existing tools are not integrated into the developer workflow, which will make the design issues appear a long time after they were introduced.\todo{rephrase} Current approaches for detecting violations of design principles mostly involve manual code review, which is a time consuming and error-prone process.
 
 % Identity the importance of the proposed research
 Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and thus reduce the time required for restructuring badly designed code.  
@@ -266,9 +266,7 @@ Developers have their own workflows which they find useful, and a tool for code-
     \item Anytime the developer wants to execute the tool
 \end{itemize}
 
-Depending on the use case of the tool, the tool executes in different phases. The compiler (parser) would for example execute its code-analysis to find syntax errors on every build. The tool needs to execute at correct point to create the least amount of noise. Reporting issues as early as possible may generally seem like a good idea, but could possibly distract the developer from solving the problem at hand. Especially, if the tool itself creates noise (by introducing false-positives or takes a significant amount of time to execute) reporting issues early in the development phases would annoy the developer. 
-
-Simple and advanced analysis and automatic refactoring options is often included and continuously executed inside more advanced \gls{ide}'s. Examples include data-flow analysis, dead-code detection, null-pointer-analysis and automatic transformation of imperative expressions to functional expressions. Often such analysis will help more than annoy the developer by giving immediate feedback. More resource heavy analysis include dynamic analysis, to find for example performance or security issues. These kinds of tools are typically executed at a later stage, for example before a code review. 
+Depending on the use case and the importance of the tool, the tool executes in different phases. The compiler (parser) would for example execute its code-analysis to find syntax errors on every build. Reporting issues as early as possible may generally seem like a good idea, but could possibly distract the developer from solving the problem at hand. Especially, if the tool itself creates noise (by introducing false-positives or takes a significant amount of time to execute) reporting issues early in the development phases would annoy the developer. Simple and advanced analysis and automatic refactoring options is often included and continuously executed inside more advanced \gls{ide}'s. Examples include data-flow analysis, dead-code detection, null-pointer-analysis and automatic transformation of imperative expressions to functional expressions. These forms of analysis will often help more than annoy the developer by providing automatic fixes and giving immediate feedback. More resource heavy analysis include dynamic analysis, that searches to find performance or security issues. These kinds of tools are typically executed at a later stage, for example before a code review.
 
 Developers also have their own preferences for workflows and when to execute and use tools. Making a tool configurable or fit in multiple execution points in the development process is therefore often appreciated.
 
@@ -293,7 +291,7 @@ By creating prototypes with different focus on the dimensions, one is exploring 
 \label{relatedwork}
 
 % General about tools that is related
-To the best of my knowledge, a tool that directly targets detection of violations of design principles, does not exist. There exists a lot of tools for code analysis, PMD\cite{pmd}, SonarQube\cite{sonarqube} to name two of the most used ones for the Java language. Most of them support detection of violations of style conventions, best practices and finding possible bugs. However, some tools and linters include functionality for detecting violations on a small subset of the design principles. Therefore, developers need to adopt a large suite of tools to only be able to support detection of a few design principles violations. Also, the tools are fundamentally different and have different purpose and supports integration in the development process differently, both with its advantages and disadvantages. The tools are ranging from separate \gls{cli}s, native applications, online services, \gls{ide}s and \gls{ide} plugins. The purpose also varies. Some are used for project level analysis activities, for finding areas in the code base with issues, while other tools are focused at reporting issues at the time of writing or in the \gls{qa} process. 
+To the best of my knowledge, a tool that directly targets the detection of violations of design principles, does not exist. There exists a lot of tools for code analysis, PMD\cite{pmd}, SonarQube\cite{sonarqube} to name two of the most used ones for the Java language. Most of them support detection of violations of style conventions, best practices and finding possible bugs. However, some tools and linters include functionality for detecting violations on a small subset of the design principles. Therefore, developers need to adopt a large suite of tools to only be able to support detection of a few design principles violations. Also, the tools are fundamentally different and have different purpose and supports integration in the development process differently, both with its advantages and disadvantages. The tools are ranging from separate \gls{cli}s, native applications, online services, \gls{ide}s and \gls{ide} plugins. The purpose also varies. Some are used for project level analysis activities, for finding areas in the code base with issues, while other tools are focused at reporting issues at the time of writing or in the \gls{qa} process. 
 
 This thesis is mainly considering two research fields. First, related work on code-analysis regarding detecting design principle violations will be presented. Then other related work and tools related to code review and manual inspection of code will be presented.
 
@@ -315,8 +313,8 @@ The selected research methodology needs to fit the goal of the study. Therefore,
 
 There exists a lot of theory and knowledge on how to design and build maintainable software. The knowledge is used by the developers when writing code, and some of the knowledge could be enforced by tools for code analysis. It helps developers write systems that are maintainable. However, there exists knowledge about design principles that is not used in the current set of tools for code analysis. Design principles is not targeted with the current set of tools, because it is shown hard to detect violations of design principles with high accuracy. High false-positive rates will create noise and disturb the developer.
 
-The main goal is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. An important sub-goal is therefore to find out how to integrate the tool in the developer workflow to reduce the amount of noise. The goals and the sub-goals are summarized below:
-
+The main goal is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow. The first sub-goal is therefore to create a set of rules for \gls{ddpv}. The rules should be as accurate as possible, but we acknowledge that there will be a certain amount of noise that will be generated. The other sub-goal is to design a solution for how and where to integrate it in the developer workflow to reduce noise generated by false-positives. The goals and the sub-goals are summarized below:
+\todo{bruke matte symboler for disse tinga}
 \begin{enumerate}
     \item [\textbf{G1:}] Create a tool for \gls{ddpv} to help developers write maintainable code
     \begin{enumerate}
@@ -325,9 +323,12 @@ The main goal is to create a tool that help developers adhere to the design prin
     \end{enumerate}
 \end{enumerate}
 
+%Avgrensning
+Other quality aspects of tools such as performance and usability will not be considered important, unless it directly contributes to achieving the goals of the study. 
+
 
 \section{Research methodology}
-To reach the goals it will be necessary to have practical approach where an innovative product is designed, developed and evaluated. As the goal is to help developers creating more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a normal choice for such development. However, for this study the end product should also provide a general contribution to the research field of improving maintainability of code. The contribution should include what is learned in the process, to see if such an approach could be expanded and put more work into and possibly being a new way of helping developers create maintainable software. The Design Science research methodology fits that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}.
+To reach the goals it will be necessary to have a practial approach where an innovative product is designed, developed and evaluated. As the goal is to help developers create more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a usual choice for such development. However, for this study the end product should also provide a general contribution to the research field of improving maintainability of code. The contribution should include what is learned in the process, to see if such an approach could be expanded and put more work into and possibly being a new way of helping developers create maintainable software. The Design Science research methodology fits that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{10.2753/MIS0742-1222240302}.
 
 % About the chosen methodology
 Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. The software artifact will be created through a series of iterations that include the following activities; problem identification and motivation, definition of objectives for a solution, design and development, demonstration, evaluation, communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
@@ -368,29 +369,29 @@ The rapid increase in cruft comes from the consequences of neglecting internal q
     \item Fixing familiar code is easier than unfamiliar code. Developers need time to get familiar with code, understand what it does and why. Fixing issues while the developer is in the context of that code will save time.
 \end{enumerate}
 
-Therefore, to reduce the cruft, and thereby the cost, we should improve the internal quality which includes following the design principles.
+Therefore, to reduce the cruft, and thereby the cost, we should improve the internal quality which includes following design principles.
 
 
 %Developers often fail to communicate the positive correlation between internal quality and development cost, which leads \gls{pm}'s to give internal quality less priority in favor of feature development.
 
 
 % Motivation for helping the code review
-There are mainly two techniques for detecting violations of design principles, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to the nature of human failure. Having a tool that could help this process would help both the reviewer and the author of the \gls{pr} with not overlooking possible design issues, and could cause useful design discussions within the team.
+There are mainly two techniques for detecting violations of design principles, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to human failure. Having a tool that could help this process would help both the reviewer and the author of the \gls{pr} with not overlooking possible design issues, and could cause useful design discussions within the team.
 
 % Motivation for designing a solution for integration with the workflow
-Another aspect of such a system is how it should be integrated with the development process to reduce the amount of noise from false positives. If such a system could be created it could possibly be an inspiration for other tools supporting other programming languages or domains that are subject for analysis. \\
+Another aspect of such a system is how it should be integrated in the development process to reduce the amount of noise from false positives. If such a system could be created it could possibly be an inspiration for other tools supporting other programming languages or domains that are subject for analysis. \\
 
 \\ The definition of the specific research problem is based on the two main goals (\textbf{G1.1} and \textbf{G1.2}) of this study. It is as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
 
 \section{Define objectives of a solution}
 \label{objectives-of-solution}
-The objectives of a solution is initially specified based on the current knowledge about how the final product should look and be like. The objectives is then used in the evaluation of the developed prototype or artifact, and further refined based on the findings in the evaluation and the users needs. This is a continuous process that will go on as long as the product is under development. The defined objectives of a solution, its specifications and refinements can be found in the results chapter.
+The objectives of a solution is initially specified based on the current knowledge about how the final product should look and be like. The objectives is then used in the evaluation of the developed prototype or artifact, and further refined based on the findings in the evaluation and the users needs. This is a continuous process that will go on as long as the product is under development. The defined objectives of a solution, its specifications and refinements can be found in section \ref{results}.
 
 \section{Design and development}
 \label{design-development}
 
 % Generally about design and development
-The design and development phase involves the development of vertical- and horizontal prototypes, with both high and low fidelity, as well as the development of the final prototype. To get feedback on the initial idea as quick as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on the different dimensions. This way, the number of regressions will be reduced. Therefore, to iterate quickly, low fidelity prototypes will be created first, before gradually building more high fidelity prototypes.
+The design and development phase involves the development of vertical- and horizontal prototypes, with both high and low fidelity, as well as the development of the final prototype. To get feedback on the initial idea as quickly as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on the different dimensions. This way, the number of regressions will be reduced. Therefore, to iterate quickly, low fidelity prototypes will be created first, before gradually building more high fidelity prototypes.
 
 The evaluation of the prototypes, and why and how the different prototypes were developed is presented in the result chapter. 
 
@@ -434,7 +435,7 @@ prototypes is created first and then more functional artifacts are developed. Th
 
 The 4 iterations were focused on 4 different prototypes, with both low and high fidelity, focusing on the different dimensions. A comparison of the 4 prototypes is presented in figure \ref{fig:radar-chart}. As can be seen on the figure, the development started with low fidelity prototypes, focusing on the different dimensions and gradually preceding against more high fidelity prototypes. One can see that most of the dimensions were explored with high fidelity, using different prototypes. This is a good sign that most of the product was explored with prototypes before spending a lot of time building the functional and finished prototype. 
 
-The different prototypes are described and their evaluation are described in the next sections. The results are presented it the order the prototypes were created. A description of the technical solutions and details is found in section \ref{technical-solution}.
+The different prototypes are described and their evaluation are described in the next sections. The results are presented in the order the prototypes were created. A description of the technical solutions and details is found in section \ref{technical-solution}.
 
 \begin{figure}[h!]
     \centering
@@ -790,12 +791,10 @@ GitHub Actions is a tool created by GitHub for automating software workflows, in
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{report/images/execution-flow.png}
+    \includegraphics[width=\textwidth]{images/detekt-hint-execution.png}
     \caption{The overall architecture and execution flow of the solution}
     \label{fig:integration}
 \end{figure}
-\todo{update figure}
-
 
 
 \chapter{Discussion, further work and conclusion}
