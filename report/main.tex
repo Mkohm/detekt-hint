@@ -573,7 +573,7 @@ Evaluation of the vertical prototype is based on the objectives of a solution, a
 
 \end{itemize}
 
-As a plus, even not being an objective of a solution, the Detekt provides possibility for configuration to fit mainly two developer workflows. It can either be executed directly whenever the developer wants to using the \gls{cli} or Gradle task, or it can be executed before code-review using the Danger integration.
+As a plus, even not being an objective of a solution, Detekt provides possibility for configuration to fit mainly two developer workflows. It can either be executed directly whenever the developer wants to using the \gls{cli} or Gradle task, or it can be executed before code-review using the Danger integration.
 
 In general, it was a successful prototype that solves many of the objectives of a solution. It was a proof of concept and laid the foundations to further development. The main takeaways from evaluating the prototype was as following:
 \begin{itemize}
@@ -586,9 +586,9 @@ In general, it was a successful prototype that solves many of the objectives of 
 \label{horizontal-prototype}
 
 \subsection*{Why and how it was created}
-The vertical prototype showed that a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design decisions. The horizontal prototype tried to answer this question. By looking through a lot of principles, we tried to determine which rules that would be useful, and based on the feedback from the initial prototype, we wrote the comments written in a way that were providing guidance instead of claiming changes because of violations. Since the \gls{solid} principles is considered by many to be the most important set of design principles, and not targeted with other tools, the focus was put on those. We also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that had the most value. 
+The vertical prototype showed that a limited number of rules have to be supported. That raised the question of which rules to implement and how they should support the developer in taking correct design decisions. The horizontal prototype tried to answer this question. By looking through a lot of principles, we tried to determine which rules that would be useful, and based on the feedback from the initial prototype, we wrote the comments in a way that were providing guidance instead of claiming changes because of violations. Since the \gls{solid} principles is considered by many to be the most important set of design principles, and not targeted with other tools, the focus was put on those. We also wanted to test out if a visual representation of violations of design principles and solution is preferred or significantly better than a textual representation. The process ended by creating the horizontal prototype that included the rules that had the most value. 
 
-The horizontal prototype was built by creating sample \gls{pr}'s in a sample repository on GitHub\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:horizontal-prototype}. The full prototype can be found in the sample repository \cite{sample-repository}. Compared to the other prototypes in figure \ref{fig:radar-chart}, this prototype is having a focus on the visuals, the content and the breadth, while having a low depth and is non-interactive.
+The horizontal prototype was built by creating sample \gls{pr}'s in a sample repository on GitHub\cite{sample-repository}, and then commenting on the \gls{pr}'s with the bot user. An example from the prototype is presented in figure \ref{fig:horizontal-prototype} and figure \ref{fig:lcom-image}. The full prototype can be found in the list of \gls{pr}'s in the sample repository \cite{sample-repository}. Compared to the other prototypes in figure \ref{fig:radar-chart}, this prototype is having a focus on the visuals, the content and the breadth, while having a low depth and is non-interactive.
 
 \subsection*{Demonstration}
 Initially, to get structured feedback on the prototype, it was planned to present the prototype to a group of people using a semi structured interview. To get informants to the semi-structured interview, a presentation for approximately 20 participants at Javabin\footnote{A user group for persons interested in software development on the Java and \gls{jvm} platform, and related technologies.} Trondheim was held. Search for informants also included asking companies with Kotlin developers, including Bekk and Netlight, but with limited success. 6 participants signed up for joining the semi-structured interview, but we were only able to get in touch with 2 of them to actually join the semi structured interview. The interview followed the semi-structured interview schema that can be found in the appendix \ref{semi-structured-interview-schema}.
@@ -602,24 +602,31 @@ Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, a
     \label{fig:horizontal-prototype}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{images/comment_lackOfCohesion.png}
+    \caption{Screenshot of the horizontal prototype showing the \gls{lcom} rule, with a visual representation of the lack of cohesion. The figure shows which fields that are referenced from the each of the methods in the class. }
+    \label{fig:lcom-image}
+\end{figure}
+
 
 \subsection*{Evaluation}
 
 The horizontal prototype searched to answer the rule-specific objectives of a solution: If the rules would be useful, and if the comments are clear and understandable, and if they provide good suggestions for solutions to detected design issues. 
 
-In the semi structured interview, each rule were presented and discussed. In summary the evaluation showed:
+In the semi structured interview, each rule were presented and discussed. In summary the evaluation of each of the rules was:
 \begin{itemize}
     \item \gls{coi} - Useful rule, but may be impacted by too many false-positives and false-negatives. Should possibly contain configuration options to exclude certain classes from analysis.
 \item \gls{ocp} - Could be useful, but should further specify whether it is class checking or enum switching which has triggered the invocation in the comment. 
-\item \gls{isp} - Could be a useful rule, but should possibly handle TODO'S specially, or would else cause some false-positives.
-\item \gls{lcom} - It was found out that visual representation of violations was showing useful, especially when including refactoring hints, but would act more as showoff than provide more value. The implementation costs of generating images was higher than the value of visual representation. More rules should be prioritized instead, and a textual representation of refactoring possibilities would be almost just as good.
+\item \gls{isp} - Could be a useful rule, but should possibly handle Kotlin "TODO'S" specially, or would else cause some false-positives.
+\item \gls{lcom} - Possibly useful. It was found out that visual representation of violations was showing useful, especially when including refactoring hints or suggestion for solutions. However, an approach generating images with refactoring hints would have much higher implementation costs than providing the same information using a textual representation. It should therefore not have first priority. More rules should be prioritized instead.
 \end{itemize}
 
 As general feedback, the rules were understandable and provided clear suggestions for solutions. However, it was suggested that reported violations should include even more context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to suggest fixes to the detected design issues. This resulted in a refinement of OS2. \\\\OS2: The solution is designed to reduce eventual noise from false identifications. In addition, the comments should include code context to ease the process of deciding if it is a true- or false-positive, or for suggesting fixes to design issues. \\
 
-However, there was a concern related to too few rules implemented, and that the tool would give limited value because of too few true-positives reported. Participants also mentioned that showing warnings in the PR makes it easy to ignore eventual false-positives. 1 participant were more concerned about false-positives than the other.
+There was also a concern related to too few rules implemented, and that the tool would give limited value because of too few true-positives reported. Participants also mentioned that using comments in the \gls{pr} makes it easy to ignore eventual false-positives. 1 participant were more concerned about false-positives than the other.
 
-The general impression was much of the same as for the initial prototype. People like the project, and are generally positive. However, few suggestions for improvements or other design principles to support were suggested. Other suggestions for features not directly related to design principles were proposed, and is written about in section \ref{futurework}.
+Feedback on the prototype received through other channels than the semi-structured interview included much of the same as for the initial prototype. People like the project, and are generally positive. However, few suggestions for improvements of the developed rules or other design principles to support was received. Other for features not directly related to design principles were proposed, and is written about in section \ref{futurework}.
 
 The schema used for the semi-structured interview, the participants answers/feedback and selected images of the prototype can be found in appendix \ref{horizontal-prototype-images}. The full prototype can be found in the sample repository \cite{sample-repository}. \todo{clean up there}
 
@@ -713,7 +720,7 @@ Unfortunately, the integration using comments on \gls{pr} is not problem free. D
 \subsection{Overall evaluation}
 \label{evaluation-overall}
 
-Considering a pull request size with 500 modified \gls{lloc}, having four rules enabled, with no specific configuration, the tool will on average generate 6.6 comments on each pull request. This is not an awful lot, but considering only 4 rules, with the possibility of adding many more, it is considered too much and would lead to developers ignoring the hints. The results from the external evaluation in the open-source community confirms this.
+Using the numbers from the above evaluation, a pull request with 500 modified \gls{lloc}, having four rules enabled, with no specific configuration, will on average generate 6.6 comments on each pull request. This is not an awful lot, but considering only 4 rules, with the possibility of adding many more, it is considered too much and would lead to developers ignoring the hints. The results from the external evaluation in the open-source community confirms this.
 \todo{Is this understandable?, eirik?}
 The way we see it there are mainly 4 problems with the current implementation that needs to be resolved for the tool to be useful. They are refinements of OS1, OS2 and OS3. 
 
@@ -734,7 +741,7 @@ The first three of the problems is related to what we would like to define as "m
 All in all, the final prototype was successful. It revealed many existing problems, bugs and limitations and gave insights in what needed to be resolved in future prototypes or products. 
 
 
-\subsection{Evaluation against the Objectives of a Solution}
+\subsection{Evaluation of the Objectives of a Solution}
 
 The final prototype being an early functional prototype, can be evaluated against all of the \gls{os} presented in section \ref{objectives-of-solution}. The evaluation of all the objectives for the final prototype is mainly covered in the above sections (\ref{evaluation-open-source}, \ref{evaluation-internal}, \ref{evaluation-comments} and \ref{evaluation-overall}). For the sake of completeness, and to make sure that each \gls{os} is evaluated, we will look at each OS, and reference to the evaluation presented above. 
 
@@ -835,7 +842,7 @@ First, a solution to the limitation related to GitHub permissions needs to be re
 Secondly as previously mentioned, feedback from experienced developers in the open-source community indicated problems related to the tool generating too much noise. The internal evaluation, looking at the number of invocations and analysis of the individual rules supports this finding. Because of this focus on false-positives, the positive impact of the true-positives has received little focus in the evaluation.  
 
 \subsection*{Limitations of the evaluation}
-During all the phases of development, many attempts at gathering informants have been done. It has been hard to find experienced developers in Kotlin, that have both the time and will to assist, without getting any benefits. Attempts include advertisements on social media, creating back-links to project in multiple GitHub repositories, presenting prototypes at developer meetings, speaking with different companies doing Kotlin development and circulating requests to colleagues in various channels and in open-source communities. The lack of informants have impacted the evaluation and the development of the tool from the initial prototypes, through development and to the evaluation of the final prototype. Given the high requirements for insights into design principles, and the development of heuristics for detecting the violation of them, the lack of informants have affected the quality of developed rules and the evaluation of them. Also, evaluation activities that were initially planned (workshop) could not be completed. The evaluation of the prototypes were therefore mainly based on a few peoples input and perspective, and is therefore a big limitation. The evaluations were mostly informal, and spawned good discussions about \gls{ddpv}. However, more formal and structured evaluations would have been a good addition to get more quantitative results which could complement the informal evaluation.
+During all the phases of development, many attempts at gathering informants have been done. It has been hard to find experienced developers in Kotlin, that have both the time and will to assist, without getting any benefits. Attempts include advertisements on social media, creating back-links to the project in multiple GitHub repositories, presenting prototypes at developer meetings, speaking with different companies doing Kotlin development and circulating requests to colleagues in various channels and in open-source communities. The lack of informants have impacted the evaluation and the development of the tool from the initial prototypes, through development and to the evaluation of the final prototype. Given the high requirements for insights into design principles, and the development of heuristics for detecting the violation of them, the lack of informants have affected the quality of developed rules and the evaluation of them. Also, evaluation activities that were initially planned (workshop) could not be completed. The evaluation of the prototypes were therefore mainly based on a few peoples input and perspective, and is therefore a big limitation. The evaluations were mostly informal, and spawned good discussions about \gls{ddpv}. However, more formal and structured evaluations would have been a good addition to get more quantitative results which could complement the informal evaluation.
 
 
 \subsection*{Limitation of author and methodical choices}
