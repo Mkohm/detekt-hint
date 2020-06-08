@@ -16,6 +16,8 @@
 
 
 \makeglossaries
+\input{report/glossary.tex}
+
 
 \addbibresource{bibliography.bib}
 % Development of a tool for detection of design principle violations
@@ -24,10 +26,6 @@
 \title{Detekt-hint -- A tool for detection of design principle violations}
 \author{Marius Kohmann}
 \date{June 2020}
-
-
-\input{report/glossary}
-
 
 
 \begin{document}
@@ -55,12 +53,9 @@
 
 
 \tableofcontents
+
 \clearpage
 \chapter{Introduction}
-
-
-\todo{fix referanser}
-\todo{run proselint}
 
 
 
@@ -78,7 +73,7 @@ Less formal design principles that targets the structure or design of code at an
 % Introduserer hvordan verktøy kan bidra til å følge regler og prinsipper
 Tools for code-analysis have been created to help developers adhere to the rules. They provide an effective way of detecting problems, and can often auto-correct or provide solutions to detected problems. The tools are ranging from separate \gls{cli}s, build plugins, native applications, online services, to \gls{ide}s and \gls{ide} plugins. Based on the use case of the tool, it is integrated into the developer workflow differently. For example directly to the developer while editing code or as automated feedback that is part of a code review.  The tools and their integration into the developer workflow have different advantages and disadvantages.
 
-The design principles, on the other hand are mostly informal and have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are limited. The tools suffer from false-positives that will create an significant amount of noise during development. In addition, the existing tools are not integrated into the developer workflow, which will make the design issues appear a long time after they were introduced.\todo{rephrase} Current approaches for detecting violations of design principles mostly involve manual code review, which is a time consuming and error-prone process.
+The design principles, on the other hand are mostly informal and have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are limited. The tools suffer from false-positives that will create an significant amount of noise during development. In addition, the existing tools are not integrated into the developer workflow, which will make the design issues appear a long time after they were introduced. Current approaches for detecting violations of design principles mostly involve manual code review, which is a time consuming and error-prone process.
 
 % Identity the importance of the proposed research
 Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and thus reduce the time required for restructuring badly designed code.  
@@ -224,7 +219,7 @@ There are many things to consider when doing a code review. Google even maintain
      \item Is duplicate code introduced? Is this way of solving the problem the way we prefer it to be in this project?
 \end{itemize}
 
-When dealing with large amounts of changed code it is easy to forget some of the bullet points above. The number of false-negatives per changed line usually increases as the number of changed lines in a pull request increases. \todo{Reference} Especially when dealing with repetitive tasks its easy to overlook issues. Luckily, tools will be able to help us with the first point regarding style and best practices. The rest of the points are currently solved by inspecting the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding design issues that tools are not able to detect. 
+When dealing with large amounts of changed code it is easy to forget some of the bullet points above. An article by Gregory Szorc\cite{gregory}, points out that "Research by Google, Microsoft and others has shown an inverse correlation with review unit size and defect rate." This means that the number of false-negatives (i.e the amount of undetected issues) usually increase as the number of changed lines in a \gls{pr} increases. Luckily, tools will be able to help us with some of the tasks regarding style and best practices. The rest have to be targeted by manual inspection of the source code. Tools should therefore help us by automating most tasks, such that the manual review is focused on finding issues that tools are not able to detect. 
 
 By detecting issues during code review design defects will be resolved quicker because the developer can fix the issue right away. And fixing issues right away, saves a lot of time.
 
@@ -329,7 +324,7 @@ As Martin Fowler explains in his article "Is High Quality Software Worth the Cos
     \label{fig:internal-quality-graph}
 \end{figure}
 
-The rapid increase in cruft comes from the consequences of neglecting internal quality attributes. As discussed in section \ref{achieving-maintainable-code} an essential part of developing software with high internal quality software is to follow or adhere to the design principles. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects (that is introduced by f.example not following design principles). Below is a short summary of the most important arguments inspired by that article:
+The rapid increase in cruft comes from the consequences of neglecting internal quality attributes. As discussed in section \ref{achieving-maintainable-code} an essential part of developing software with high internal quality software is to follow or adhere to the design principles. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects (that is introduced by e.g not adhering to the design principles). Below is a short summary of the most important arguments inspired by that article:
 
 \begin{enumerate}
     \item Unfixed design defects may hide other design defects. Fixing the design defects can solve upcoming problems, that would have been harder to find at a later point.
@@ -908,9 +903,12 @@ I would firstly like to thank my supervisor, associate professor Hallvard Trætt
 
 Thanks to JavaBin Trondheim and the participants that were present and gave feedback during the presentation of the prototype. Also, thanks to the participants of the semi-structured interview and the contributors of the open-source projects where Detekt-hint was integrated and tested. Lastly, i would like to thank Eirik Vale Aase for his dedication and for being an active sparring partner during the development of this masters thesis.
 
+\printglossary[type=\acronymtype]
 \printbibliography
 
 \appendix
 \label{appendix}
 \input{appendix.tex}
+
+
 \end{document}
