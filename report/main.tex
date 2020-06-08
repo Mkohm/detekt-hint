@@ -18,8 +18,9 @@
 \makeglossaries
 
 \addbibresource{bibliography.bib}
+% Development of a tool for detection of design principle violations
 
-
+% Automating the code review through automatic detection of design principles 
 \title{Detekt-hint -- A tool for detection of design principle violations}
 \author{Marius Kohmann}
 \date{June 2020}
@@ -36,14 +37,15 @@
 
 \selectlanguage{norsk}
 \begin{abstract}
-    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at å bruke kommentarer på \acrfull{pr} vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt kunne ha stor innvirkning på videre utvikling av programvare.  
+    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en tidlig versjon av et \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at det å bruke kommentarer på \acrfull{pr} for å informere utvikleren om mulige design-problemer 
+    vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt kunne ha stor innvirkning på videre utvikling av programvare.  
     
 \end{abstract}
 
 \selectlanguage{english}
 \begin{abstract}
 	%Sample IMRaD abstract: 
-	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detection of design principle violations without creating noise in the developers workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with a \acrfull{mvp}. The \gls{mvp} was then evaluated internally and received feedback from the open-source community. The results show that using comments on \gls{pr} will reduce the impact of false-positives, and therefore reduce the noise significantly. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this could potentially have big implications on the maintainability of developed software. 
+	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detection of design principle violations without creating noise in the developers workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with an early version of a \acrfull{mvp}. The product was then evaluated internally and received feedback from the open-source community. The results show that using comments on \gls{pr} to inform the developer about posible design issues will reduce the impact of false-positives, and therefore reduce the noise significantly. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this could potentially have big implications on the maintainability of developed software. 
 	
 \end{abstract}
 
@@ -56,13 +58,10 @@
 \clearpage
 \chapter{Introduction}
 
-\todo{Define hints somewhere and use it instead of invocations/comments ? }
-\todo{Sjekk at alle begreper som brukes i teksten tidligre er definert i f.eks bakgrunn}
+
 \todo{fix referanser}
 \todo{run proselint}
-\todo{where/was}
-\todo{replace i with we}
-\todo{all chapters have introduction telling what is in the sections?}
+
 
 
 % https://student.unsw.edu.au/introductions - Nice resource for seeing what should be in the introdcution!
@@ -71,14 +70,14 @@
 Writing software that is easy to modify and extend is an important part of software engineering. Software that have this attribute (quality) is often referred to as maintainable. Non-maintainable software is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
 
 % Introduserer best practices etc. Low level code hjelp.
-To help developers write code that is maintainable, well defined rules, best practices and conventions for writing code have been developed. The rules targets low-level code constructs, only covering small amounts of code. I will, refer to these as \textit{rules}.
+To help developers write code that is maintainable, well defined rules, best practices and conventions for writing code have been developed. The rules targets low-level code constructs, only covering small amounts of code. We will, refer to these as \textit{rules}.
 
 % Introduserer høyere nivås prinsipper som angriper på et høyere nivå
 Less formal design principles that targets the structure or design of code at an architectural level have also been developed. The design principles are not formal and is often open for interpretation and subject for debate. Therefore, correct appliance of the principles often requires reasoning about the business domain and predicting future changes to the codebase. 
 
 % Introduserer hvordan verktøy kan bidra til å følge regler og prinsipper
 Tools for code-analysis have been created to help developers adhere to the rules. They provide an effective way of detecting problems, and can often auto-correct or provide solutions to detected problems. The tools are ranging from separate \gls{cli}s, build plugins, native applications, online services, to \gls{ide}s and \gls{ide} plugins. Based on the use case of the tool, it is integrated into the developer workflow differently. For example directly to the developer while editing code or as automated feedback that is part of a code review.  The tools and their integration into the developer workflow have different advantages and disadvantages.
-\todo{post prestudy somewhere so the reference works}
+
 The design principles, on the other hand are mostly informal and have limited support in tools for code-analysis. According to a pre-study on the current state on tools for improvement of code quality \cite{prestudy}, the tool support for detecting violations of design principles are very limited. The tools suffer from false-positives that will create an significant amount of noise during development. In addition, the existing tools are not integrated into the developer workflow, which will make the design issues appear a long time after they were introduced.\todo{rephrase} Current approaches for detecting violations of design principles mostly involve manual code review, which is a time consuming and error-prone process.
 
 % Identity the importance of the proposed research
@@ -281,7 +280,7 @@ Regarding the process of code review, services like GitHub\cite{github}\footnote
 
 \chapter{Methodology}
 \label{methodology}
-The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. Then the selected research methodology will be presented, and how it contributes to reaching the goal. Then, a brief description of the different steps in the research methodology is provided. 
+The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. The selected research methodology will then be presented, and how it contributes to reaching the goal. Then, a brief description of the different steps in the research methodology is provided. 
 
 \section{Goals of the study}
 
@@ -314,7 +313,7 @@ Design science is a research methodology that focuses on getting knowledge about
     \label{fig:designScience}
 \end{figure}
 
-As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required. I will elaborate on how the different activities is applied to the study below. 
+As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required. We will elaborate on how the different activities is applied to the study below. 
 
 \section{Problem identification and motivation}
 \label{problem-identification-and-motiviation}
@@ -423,22 +422,22 @@ The fourth objective is that the tool should be based on an existing tool for co
 \todo{make look nice}
 
 
-The initial objectives of a solution is summarized below:
+The initial \gls{os} is summarized below:
 \begin{itemize}
-    \item [\textbf{OS1:}] It detects violations of design principles through a set of rules using code analysis.
+    \item [(\(OS_{1}\))] It detects violations of design principles through a set of rules using code analysis.
     \begin{itemize}
         
-        \item [\textbf{OS1.1:}] Most important design principles prioritized.
+        \item [(\(OS_{1.1}\))] Most important design principles prioritized.
         
-        \item [\textbf{OS1.2:}] Principles that is not targeted in existing tools should be prioritized.
+        \item [(\(OS_{1.2}\))] Principles that is not targeted in existing tools should be prioritized.
         
-        \item [\textbf{OS1.3:}] Design principles that fits static code analysis prioritized.
+        \item [(\(OS_{1.3}\))] Design principles that fits static code analysis prioritized.
     \end{itemize}
-    \item [\textbf{OS2:}] The solution is designed to reduce eventual noise from false identifications. 
+    \item [(\(OS_{2}\))] The solution is designed to reduce eventual noise from false identifications. 
     
-    \item [\textbf{OS3:}] It is configurable. Selection of rules to enable/disable, and possibilities for configuration of individual rules.  
+    \item [(\(OS_{3}\))] It is configurable. Selection of rules to enable/disable, and possibilities for configuration of individual rules.  
     
-    \item [\textbf{OS4:}] It can either be included into existing tools or is easy to integrate with existing tools.
+    \item [(\(OS_{4}\))] It can either be included into existing tools or is easy to integrate with existing tools.
 \end{itemize}
 
 For the individual rules and there were also some specific objectives that need to be satisfied: The rules needs to be valuable, give feedback which is clear and understandable and should provide suggestions for solutions.
@@ -494,7 +493,7 @@ The initial prototype was posted on the subforum of Kotlin\cite{kotlin-reddit} a
 
 \subsection*{Evaluation}
 
-The general feedback was that there was an interest in a tool like this, and that it would solve some of the issues with false-positives. It confirmed that the initial idea focused on finding a solution to OS2, should be further looked into. However, some did still point out that reducing the amount of false-positives still would be one of the most important focus points. Other suggestions for improvement included: 
+The general feedback was that there was an interest in a tool like this, and that it would solve some of the issues with false-positives. It confirmed that the initial idea focused on finding a solution to (\(OS_{2}\)), should be further looked into. However, some did still point out that reducing the amount of false-positives still would be one of the most important focus points. Other suggestions for improvement included: 
 \begin{itemize}
     \item Do not claim that the developer is wrong when there can be a lot of false-positives, instead present it as it \textit{might} be a violation of a design principle, and guide the developer to taking the correct decision.
     \item Identifications and even false-positives could create useful discussions within the developer team.
@@ -528,19 +527,18 @@ The prototype was mainly demonstrated and continuously evaluated during developm
 
 \subsection*{Evaluation}
 Evaluation of the vertical prototype is based on the objectives of a solution, and a evaluation of the applicable objectives is presented below.
-\todo{Provide a short description of os1 etc at the side? Or footnote? }
 \begin{itemize}
-    \item [\textbf{OS1:}] Using Detekt as a platform, we are able to write detection-rules by analysis of the Kotlin \gls{ast} by using the Detekt rule framework and the  Jetbrains \gls{psi}. Using the Detekt \gls{api} was a highly manageable task due to good documentation and a large amount of sample rules to look at. The analysis itself using the Jetbrains \gls{psi} \gls{api} was shown to be more difficult and time consuming. It involves programming in a complex environment with a huge API with lack of documentation. In addition, creating inspections for programming languages involves handling a lot of edge-cases that can take time to cover. Writing test cases for all the different scenarios ensured the proper handling of edge-cases. As development progressed the \gls{api} got more manageable and looking into other platforms or solutions for analysis were therefore not considered. However, this new knowledge about the difficulties of rule-development proposed a refinement of OS1. The adjusted objective was then as following: \\\\OS1: The tool should  support a \textbf{limited} set of rules using static code analysis. \label{vertical-os1}
+    \item [(\(OS_{1}\))] Using Detekt as a platform, we are able to write detection-rules by analysis of the Kotlin \gls{ast} by using the Detekt rule framework and the  Jetbrains \gls{psi}. Using the Detekt \gls{api} was a highly manageable task due to good documentation and a large amount of sample rules to look at. The analysis itself using the Jetbrains \gls{psi} \gls{api} was shown to be more difficult and time consuming. It involves programming in a complex environment with a huge API with lack of documentation. In addition, creating inspections for programming languages involves handling a lot of edge-cases that can take time to cover. Writing test cases for all the different scenarios ensured the proper handling of edge-cases. As development progressed the \gls{api} got more manageable and looking into other platforms or solutions for analysis were therefore not considered. However, this new knowledge about the difficulties of rule-development proposed a refinement of (\(OS_{1}\)). The adjusted objective was then as following: \\\\(\(OS_{1}\)): The tool should  support a \textbf{limited} set of rules using static code analysis. \label{vertical-os1}
     
     Because of being a vertical prototype that only supported 1 rule any evaluation of the actual usefulness of the rule were not considered. This was decided to be the focus of the horizontal prototype.
     
-    \item [\textbf{OS2:}] By having a Danger integration, violations reported by the tool can be commented on pull requests, exactly as proposed in the initial prototype. The noise will therefore be significantly reduced. In addition, rules can be written with high accuracy using the Detekt-api. Code context referring to actual constructs in code can also be provided to ease the process of deciding whether an invocation is a true or false-positive. The amount and impact of false positives can then be held to a minimum. This design will facilitate further development that will reduce the noise from false-positives. 
+    \item [(\(OS_{2}\))] By having a Danger integration, violations reported by the tool can be commented on pull requests, exactly as proposed in the initial prototype. The noise will therefore be significantly reduced. In addition, rules can be written with high accuracy using the Detekt-api. Code context referring to actual constructs in code can also be provided to ease the process of deciding whether an invocation is a true or false-positive. The amount and impact of false positives can then be held to a minimum. This design will facilitate further development that will reduce the noise from false-positives. 
     
-    \item [\textbf{OS3:}] The Detekt framework provides configuration options for rules through the use of a configuration file. The rules can therefore be configured to fit the developers or teams best. The configuration file can contain custom configuration of individual rules, (e.g threshold values for rules, and files excluded from analysis). This facilitates fine grained tuning of each rule.  \label{vertical-os3}
+    \item [(\(OS_{3}\))] The Detekt framework provides configuration options for rules through the use of a configuration file. The rules can therefore be configured to fit the developers or teams best. The configuration file can contain custom configuration of individual rules, (e.g threshold values for rules, and files excluded from analysis). This facilitates fine grained tuning of each rule.  \label{vertical-os3}
     
-    \item [\textbf{OS4:}] The tool is easy to use with Detekt, as the developed rules for \gls{ddpv} is a Detekt-ruleset. However, to use the rule-set with Danger to support comments on \gls{pr}, an integration that requires a lot of additional setup and configuration is needed. This is not an optimal solution, and approaches looking to improve this should be considered. 
+    \item [(\(OS_{4}\))] The tool is easy to use with Detekt, as the developed rules for \gls{ddpv} is a Detekt-ruleset. However, to use the rule-set with Danger to support comments on \gls{pr}, an integration that requires a lot of additional setup and configuration is needed. This is not an optimal solution, and approaches looking to improve this should be considered. 
     
-    On the plus side, all the tools ands plugins that are used are open-source, making it possible for everyone to adopt the tool. \label{vertical-os4}
+    On the plus side, all the tools and plugins that are used are open-source, making it possible for everyone to adopt the tool. \label{vertical-os4}
 
 \end{itemize}
 
@@ -569,7 +567,7 @@ Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, a
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/final_isp.png}
-    \caption{Screenshot of horizontal prototype - Showing the \gls{isp} rule}
+    \caption{Screenshot of horizontal prototype - Showing the \gls{isp} rule that has detected an empty method, which is a sign of violating the \gls{isp}.}
     \label{fig:horizontal-prototype}
 \end{figure}
 
@@ -593,23 +591,23 @@ In the semi structured interview, each rule were presented and discussed. In sum
 \item \gls{lcom} - Possibly useful. It was found out that visual representation of violations was showing useful, especially when including refactoring hints or suggestion for solutions. However, an approach generating images with refactoring hints would have much higher implementation costs than providing the same information using a textual representation. It should therefore not have first priority. More rules should be prioritized instead.
 \end{itemize}
 
-As general feedback, the rules were understandable and provided clear suggestions for solutions. However, it was suggested that reported violations should include even more context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to suggest fixes to the detected design issues. This resulted in a refinement of OS2. \\\\OS2: The solution is designed to reduce eventual noise from false identifications. In addition, the comments should include code context to ease the process of deciding if it is a true- or false-positive, or for suggesting fixes to design issues. \\
+As general feedback, the rules were understandable and provided clear suggestions for solutions. However, it was suggested that reported violations should include even more context of the code (referring to actual constructs in the code) to ease the process of deciding if a detection is a true- or false-positive or to suggest fixes to the detected design issues. This resulted in a refinement of (\(OS_{2}\)). \\\\(\(OS_{2}\)) The solution is designed to reduce eventual noise from false identifications. In addition, the comments should include code context to ease the process of deciding if it is a true- or false-positive, or for suggesting fixes to design issues. \\
 
 There was also a concern related to too few rules implemented, and that the tool would give limited value because of too few true-positives reported. Participants also mentioned that using comments in the \gls{pr} makes it easy to ignore eventual false-positives. 1 participant were more concerned about false-positives than the other.
 
 Feedback on the prototype received through other channels than the semi-structured interview included much of the same as for the initial prototype. People like the project, and are generally positive. However, few suggestions for improvements of the developed rules or other design principles to support was received. Other features not directly related to design principles were proposed, and is written about in section \ref{futurework}.
 
-The schema used for the semi-structured interview, the participants feedback and images of the prototype can be found in the appendix (\ref{semi-structured-interview-schema}, \ref{horizontal-prototype-interview-results}, \ref{horizontal-prototype-images}).
+The schema used for the semi-structured interview, the participants feedback and images of the prototype can be found in the appendix (\ref{horizontal-prototype-images}, \ref{semi-structured-interview-schema}, \ref{horizontal-prototype-interview-results}).
 
 \section{Final prototype}
 \label{final-prototype}
 
 \subsection*{Why and how it was created}
-The final prototype is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. One can consider this an early \gls{mvp}. A more technical in depth description of the final artifact is found in section \ref{technical-solution}. It can be beneficial to read that section first to get a better understanding of the developed solution.
+The final prototype is a continuation of the work done on the vertical prototype, supplemented with the findings from the initial and horizontal prototype. One can consider this an early \gls{mvp}. A more technical description of the final artifact and the implemented rules is found in section \ref{technical-solution}. It can be beneficial to read that section first to get a better understanding of the developed solution.
 
-Because the earlier prototypes gave limited amounts of feedback on the actual value of a tool for \gls{ddpv}, it was decided that the next step was to develop a functional prototype that would detect actual design issues in code, and present the findings using comments on \gls{pr}. Considering OS1 and OS2 the most important for answering the research question, the main focus was put on those. Firstly, the prototype targeted OS1, by creating a set of rules for \gls{ddpv}, using the feedback from earlier prototypes. Secondly, the prototype targeted OS2, by continuing the work on designing the solution to reduce the noise from false-identifications. However, due to the outbreak of \gls{covid19}, to facilitate evaluation from the open-source community, a focus on OS4, creating a solution for easy integration into open-source projects needed to be prioritized. This unfortunately resulted in less focus on OS1 and OS2, due to unexpected integration problems, further explained in the next section. Therefore, having limited development time, not all of the received feedback received in earlier prototypes could be addressed in the final prototype. 
+Because the earlier prototypes gave limited amounts of feedback on the actual value of a tool for \gls{ddpv}, it was decided that the next step was to develop a functional prototype that would detect actual design issues in code, and present the findings using comments on \gls{pr}. Considering (\(OS_{1}\)) and (\(OS_{2}\)) the most important for answering the research question, the main focus was put on those. Firstly, the prototype targeted OS1, by creating a set of rules for \gls{ddpv}, using the feedback from earlier prototypes. Secondly, the prototype targeted (\(OS_{2}\)), by continuing the work on designing the solution to reduce the noise from false-identifications. However, due to the outbreak of \gls{covid19}, to facilitate evaluation from the open-source community, a focus on (\(OS_{4}\)), creating a solution for easy integration into open-source projects needed to be prioritized. This unfortunately resulted in less focus on (\(OS_{1}\)) and (\(OS_{2}\)), due to unexpected integration problems, further explained in the next section. Therefore, having limited development time, not all of the received feedback received in earlier prototypes could be addressed in the final prototype. 
 
-The final prototype consists of the same rules as the horizontal prototype, \gls{coi}, \gls{isp}, \gls{lcom} and \gls{ocp}. Images of the final prototype can be seen in \ref{final-artifact}.
+The final prototype consists of the same rules as the horizontal prototype, \gls{coi}, \gls{isp}, \gls{lcom} and \gls{ocp}. Images of the final prototype can be found in \ref{final-artifact}.
 
 \subsection*{Demonstration}
 
@@ -623,16 +621,22 @@ The evaluation is divided into 4 sections. The first two sections will evaluate 
 
 \subsection{External evaluation}
 \label{evaluation-open-source}
+The external evaluation is based on creating issues (with requests to create an integration with the tool) or \gls{pr}'s (actual integrations of the tool). Below we will describe the feedback received in the process of discussing and integrating Detekt-hint into open-source repositories on Github. 
 
-\gls{pr}'s with the integration of Detekt-hint received mixed feedback. Maintainers of Detekt and Javalin was positive for an integration testing out the tool. Despite the limitations with the GitHub token, it was merged and used in the Detekt repository. The feedback pointed out the noise, as well as additional suggestions for improving the comments and ways of reducing the noise. In general, it revealed that the tool was a too early prototype for being used without further development.
+The maintainer of the Javalin repository was positive for an integration testing out the tool. It lead to the \gls{pr} containing the integration, to be merged. It was then the Github Token limitation was discovered, which caused the \gls{pr} to be reverted short time after. Any feedback from running the tool on the Javalin repository was therefore not received. 
 
-One contributor of Leakcanary was interested in testing out the tool on a separate fork, while the owner of the repository wrote that he was more conservative than most when it comes to checks, and did not accept any false-positives. 
+Despite the limitations with the GitHub token, it was merged and used in the Detekt repository. The tool was executed on a couple of \gls{pr}'s created by the maintainer of the Detekt repository. The feedback pointed out a too high level of noise, as well as suggestions for improving the comments and new mechanisms for reducing the noise. Some functional limitations and bugs were also discovered. In general, the feedback proposed that the tool was a too early prototype for being used without further development.
 
-The maintainer of Tusky\cite{tusky} ran the tool on the codebase using the \gls{cli} and did not find the tool particularly useful, and were generally concerned that the tool would generate too much noise. This may be a sign that the rules are weak and/or have too many false-positives. Further communication with the maintainer of Tusky revealed that they currently did not have any linter set up for their build pipeline, and that a tool discovering possible bugs and crashes would be prioritized first. Later, a tool looking for design principle violations could be looked into.
+Having created an issue asking to integrate Detekt-hint on the Leakcanary project, one contributor was interested in testing out the tool on a separate fork. The owner of the repository shortly after wrote that he was more conservative than most when it comes to checks, and did not accept any false-positives. The tool were therefore not considered for integration.
 
-The maintainer of openhab-android\cite{openhab} read through a report from Detekt-hint finding issues on their master branch. He was also of the impression that the tool was generating too many false-positives. However, he noted that reading through the report, he found some issues that should be fixed. He especially mentioned an invocation of the \gls{ocp} rule and the wondered how the code should be modified to adhere to the \gls{ocp}. We explained what changes needed to be done. Then, a third contributor to the project mentioned that our solution may solve the problem with not adhering to \gls{ocp}, but would introduce another problem - not separating the model from the presentation. Therefore, in this case one had to consider a trade-off between adhering to the \gls{ocp} or keeping the model separated from the presentation. In this case, an agreement on model and presentation separation was considered more important. One could therefore consider this \gls{ocp} invocation a false-positive. However, what is interesting is that the false-positive spawned an architectural design discussion, which contributed to the observation of another design issue in the system. In addition, this discussion contributed to knowledge sharing and learning for the involved participants. This discussion was also useful for continued development of Detekt-hint, since model and presentation separation was not considered a conflicting principle with the \gls{ocp}. Such discussions could therefore lead to discovering edge cases, that could lead to insights that can be utilized for developing more accurate rules. 
+The maintainer of Tusky\cite{tusky} ran the tool on the codebase using the \gls{cli} and did not find the tool particularly useful, and were generally concerned that the tool would generate too much noise. Further communication with the maintainer of Tusky revealed that they currently did not have any linter set up for their build pipeline, and that a tool discovering possible bugs and crashes would be prioritized first. Later, a tool looking for design principle violations could be looked into.
 
-Generally, it seems like the tool generates too many false-positives, making most people concerned that the tool would generate too much noise. However, due to the limitations with the integration most of the received feedback was based on running the tool on the codebase using the \gls{cli}. This is  is not how the tool is supposed to work, and will increase the impression that the tool generates too much noise for three reasons. First, using the \gls{cli} will defeat Detekt-hint's  purpose since it does not make use of the GitHub integration. Secondly, running the tool directly on the codebase without spending time configuring it, may increase the rate of invocations. Thirdly, reading through a report generated by the \gls{cli}, the rules that generates most of the noise may "destroy" the impression of the tool. Therefore, with limited feedback on each of the single rules and with limited feedback from testing an actual integration, the results from the evaluation using the open-source community are generally inconclusive.
+The maintainer of openhab-android\cite{openhab} read through a report from Detekt-hint finding issues on their master branch. He was also of the impression that the tool was generating too many false-positives. However, he noted that reading through the report, he found some issues that should be fixed. He especially mentioned an invocation of the \gls{ocp} rule and wondered how the code should be modified to adhere to the \gls{ocp}. We then explained came up with a solution on what changes needed to be done. Then, a third contributor to the project mentioned that our solution may solve the problem with not adhering to \gls{ocp}, but would introduce another problem - not separating the model from the presentation. Therefore, in this case one had to consider a trade-off between adhering to the \gls{ocp} or keeping the model separated from the presentation. In this case, an agreement on model and presentation separation was considered more important. One could therefore consider this \gls{ocp}-rule invocation a false-positive.  However, there were three positive outcomes of this discussion. Firstly, the false-positive spawned a new architectural design discussion, which contributed to the observation of another design issue in the system. Secondly, the discussion contributed to knowledge sharing and learning for the involved participants.
+Thirdly, this discussion was useful for the continued development of Detekt-hint, since model and presentation separation was not considered a conflicting principle with the \gls{ocp}. The false-positives could therefore lead to new insights that can be utilized for developing more accurate rules. 
+
+Generally, it seems like the tool generates too many false-positives, making most people concerned that the tool would generate too much noise. However, due to the limitations with the integration most of the received feedback was based on running the tool on the codebase using the \gls{cli}. This is not how the tool is supposed to work, and will give the impression that the tool generates more noise than it actually will for three reasons. First, using the \gls{cli} will defeat Detekt-hint's  purpose since it does not make use of the GitHub integration. Secondly, running the tool directly on the codebase without spending time configuring it, may increase the rate of invocations. Thirdly, reading through a report generated by the \gls{cli}, the rules that generates most of the noise may "destroy" the impression of the tool, making the more accurate rules less significant. 
+
+More testing of actual integrations of Detekt-hint should have been done to give better insights in the value of the tool. However, the results from the evaluation of the tool using the open-source community are quite clear. More development on reducing the noise is needed, together with a focus on resolving the discovered bugs and limitations.
  
 \subsection{Internal evaluation}
 \label{evaluation-internal}
@@ -640,11 +644,11 @@ Generally, it seems like the tool generates too many false-positives, making mos
 Six popular open-source projects including three Android apps were selected to evaluate the results of running Detekt-hint on the codebase, using the \gls{cli}. The rationale for selecting Android apps were that the author have some insights in the architecture of Android systems, and therefore true design issues could easier be verified. The other three open-source projects are the projects were the Detekt-hint integration has been discussed or opened \gls{pr} to. 
 
 
-Following is a description of the open source kotlin projects that were selected for analysis: \textbf{Detekt} is a linter which Detekt-hint is an plugin to. \textbf{Ktor} is an asyncronous web framework for Kotlin. \textbf{tachiyomi} is an open source manga reader for Android. \textbf{iosched} is an Android app from google, that is supposed to show best practices in Android development. It is believed that this app is well architecturally well designed and does not contain much design issues. \textbf{Tusky} is an Android client for the microblogging server Mastodon. \textbf{Javalin} is a Java and Kotlin web framework. 
+Following is a description of the open source kotlin projects that were selected for analysis: \textbf{Detekt} is a linter which Detekt-hint is an plugin to. \textbf{Ktor} is an asyncronous web framework for Kotlin. \textbf{Tachiyomi} is an open source manga reader for Android. \textbf{Iosched} is an Android app from google, that is supposed to show best practices in Android development. It is believed that this app is well architecturally well designed and does not contain much design issues. \textbf{Tusky} is an Android client for the microblogging server Mastodon. \textbf{Javalin} is a Java and Kotlin web framework. 
 
 
 
-The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results from analyzing repositories for violation of design principles, any effort in specific configuration of individual rules were not done. This may result with a slightly higher rate of invocations\todo{use invocations/reports/detections consistently}. For example Detekt will get a higher rate of invocations for the \gls{coi} because it consists of a high number of rules, that all inherits from a base \texttt{Rule} class. Configuring the rule to ignoring the \texttt{Rule} class from this rule would have lowered the amount of invocations significantly. The results from running Detekt-hint on the aforementioned repositories is presented in the chart below. It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the added or modified files.
+The analysis were run with all rules enabled, default configuration and with a \gls{lcom} threshold of 0.8. To be able to compare the results from analyzing repositories for violation of design principles, any effort in specific configuration of individual rules were not done. This may result with a slightly higher rate of invocations. For example Detekt will get a higher rate of invocations for the \gls{coi} because it consists of a high number of rules, that all inherits from a base \texttt{Rule} class. Configuring the rule to ignoring the \texttt{Rule} class from this rule would have lowered the amount of invocations significantly. The results from running Detekt-hint on the aforementioned repositories is presented in the chart below. It is important to notice that even the high number of invocations it will not reflect the actual number of comments that will appear on a \gls{pr}. Comments on PR will only appear on the added or modified files.
 
 
 \begin{figure}[h!]
@@ -657,7 +661,7 @@ The analysis were run with all rules enabled, default configuration and with a \
 
 \subsubsection{Evaluation of rules}
 \label{rule-evaluation}
-Building on the detections presented in the above chart, the accuracy of the tool is based on the rate of false-positives combined with the rate of false-negatives. Unfortunately, due to the nature of design principles, it is hard to know if the detections are true or false-positives, and if there is any false-negatives without extensive knowledge about the codebase and the domain. The following evaluation of the importance and the accuracy of the rules are therefore based on simple inspections of the reported issues, without any extensive insight. The importance and accuracy of the rules is rated using three levels, low, medium and high. Note that the evaluation of the rules is based on the accuracy and importance of the rules alone, and is not considering other functional limitations that exist in the tool. Therefore, a rule itself may be considered useful, even if it is not in the current state of the tool.
+Building on the detections presented in the above chart, the accuracy of the tool is based on the rate of false-positives combined with the rate of false-negatives. Unfortunately, due to the nature of design principles, it is hard to know if the detections are true or false-positives, and if there is any false-negatives without extensive knowledge about the codebase and the domain. The following evaluation of the importance and the accuracy of the rules are therefore based on simple inspections of the reported issues, without any extensive insight. The importance and accuracy of the rules is therefore rated using only three levels, low, medium and high. Note that the evaluation of the rules is based on the accuracy and importance of the rules alone, and is not considering other functional limitations that exist in the tool. Therefore, a rule itself may be considered useful, even if it is not in the current state of the tool.
 
 
 \begin{itemize}
@@ -675,23 +679,22 @@ Building on the detections presented in the above chart, the accuracy of the too
 
 
 
-\subsubsection{Evaluation of using comments on \gls{pr} to reduce impact of reporting false-positives}
+\subsection{Evaluation of using comments on \gls{pr} to reduce impact of reporting false-positives}
 \label{evaluation-comments}
 In general, automatically adding comments to \gls{pr}'s works as a good way of exposing possible design flaws late in the development process. With informative comments that is having references to the code, possible false-positives are sorted out in a matter of seconds, and easily closed with the "resolve conversation" option. Invocation of most rules ends with informative comments, with the exception of the \gls{lcom} rule that only presents the \gls{lcom} value. However, giving a lot of context and suggestion for solutions may not always be necessary, especially after getting known with the tool. Ways of providing a short succinct comment while having the possibility of reading more about possible solutions should be looked into.
 
-Compared to traditional linters, that would need suppression or baseline files containing warnings or errors to ignore false-positives, Detekt-hint requires no change in the source code or further actions than pressing "resolve conversation", or simply ignoring the comment.  
+Compared to traditional linters, that would need suppression or baseline files containing warnings or errors to ignore false-positives, Detekt-hint requires no change in the source code or further actions than pressing "resolve conversation" or simply ignoring the comment.  
 
-Another interesting insight is that if determining whether the reported issue is a true or false-positive takes more than a few seconds it is likely that the developer did not consider the design principle during development. In that case the comment serves as a reminder and would be good for learning purposes that is constructive for further development. On the other hand, knowing that repetitive manual inspection is prone to human-failure, too many false-positives will make the developers skip all the comments.
+Another interesting insight is that if determining whether the reported issue is a true or false-positive takes more than a few seconds it is likely that the developer did not consider the design principle during development. In that case the comment serves as a reminder and would be good for learning purposes that is constructive for further development. On the other hand, knowing that repetitive manual inspection is prone to human-failure, too many false-positives will make the developers skip the comments.
 
 Unfortunately, the integration using comments on \gls{pr} is not problem free. Due to a limitation in Danger, the real rate of invocations per \gls{pr} is higher than what was presented in section \ref{rule-evaluation}. This is because all warnings found within a modified or added file will be added as comments to the pr, including warnings that is from lines in the file that is not present in the diff. This needs to be resolved to reduce the rate of invocations to what is presented in figure \ref{fig:distribution}.
 
 %For illustration, a sample where detekt-hint was run on a \gls{pr} in the detekt repository showed 4 comments on a \gls{pr} with only 159 \gls{lloc} (changed minus deleted). This is similar to an invocation rate of 25, being a lot more than presented when running the cli. HHowever, these numbers are not direcly comparable due to added, modified and deleted lines of codedo not take this number for this one sample  
 
-\todo{use hints consistently? Define hints somewhere?}
 \subsection{Overall evaluation}
 \label{evaluation-overall}
 
-Using the numbers from the above evaluation, a pull request with 500 modified \gls{lloc}, having four rules enabled, with no specific configuration, will on average generate 6.6 comments on each pull request. This is not an awful lot, but considering only 4 rules, with the possibility of adding many more, it is considered too much and would lead to developers ignoring the hints. The results from the external evaluation in the open-source community confirms this. The way we see it there are mainly 4 problems with the current implementation that needs to be resolved for the tool to be useful. They are refinements of OS1, OS2 and OS3. 
+Using the numbers from the above evaluation, a pull request with 500 modified \gls{lloc}, having four rules enabled, with no specific configuration, will on average generate 6.6 comments on each pull request. This is not an awful lot, but considering only 4 rules, with the possibility of adding many more, it is considered too much and would lead to developers ignoring the comments. The results from the external evaluation in the open-source community confirms this. The way we see it there are mainly 4 problems with the current implementation that needs to be resolved for the tool to be useful. They are refinements of (\(OS_{1}\)), (\(OS_{2}\)) and (\(OS_{3}\)). 
 
 The first three of the problems is related to what we would like to define as "mechanisms for reducing generated noise". They are mechanisms that is supporting the lack of accuracy of the developed rules.
 
@@ -718,13 +721,13 @@ The final prototype being an early functional prototype, can be evaluated agains
 %Since the final prototype is a continuation of the work done on the vertical prototype, most of the evaluation related to the technical aspects is covered in section \ref{vertical-prototype}.
 
 \begin{itemize}
-    \item [\textbf{OS1:}] Building on the evaluation of OS1 presented in section \ref{vertical-os1}, the final prototype contains 4 rules. The \gls{solid} principles were considered the most widely known and used. Therefore, four rules adapted to support the detection of \gls{srp}, \gls{lsp}, \gls{ocp} and \gls{isp} violations were created. An evaluation of the specific rules is presented in section \ref{rule-evaluation}, and responses from the open-source community is written in section \ref{evaluation-open-source}. \todo{target os1.1, 1.2 etc.}
+    \item [(\(OS_{1}\))] Building on the evaluation of OS1 presented in section \ref{vertical-os1}, the final prototype contains 4 rules. The \gls{solid} principles were considered the most widely known and used. Therefore, four rules adapted to support the detection of \gls{srp}, \gls{lsp}, \gls{ocp} and \gls{isp} violations were created. An evaluation of the specific rules is presented in section \ref{rule-evaluation}, and responses from the open-source community is written in section \ref{evaluation-open-source}.
     
-    \item [\textbf{OS2:}] The evaluation of how good the design is for reducing the noise from false-positives is based on two factors, the accuracy of the rules and the features for reducing the noise in the Danger integration. See section \ref{rule-evaluation} for analysis of the individual rules, and section \ref{evaluation-comments} for evaluation of the Danger integration. 
+    \item [(\(OS_{2}\))] The evaluation of how good the design is for reducing the noise from false-positives is based on two factors, the accuracy of the rules and the features for reducing the noise in the Danger integration. See section \ref{rule-evaluation} for analysis of the individual rules, and section \ref{evaluation-comments} for evaluation of the Danger integration. 
     
-    \item [\textbf{OS3:}] The tool is configurable at the rule level. As presented in \ref{rule-evaluation}, all rules can be enabled/disabled and a globing pattern can be used to exclude files. As described in \ref{rule-evaluation}, more rule-specific configuration options should be introduced to further reduce the amount of noise. In addition to being configurable at the rule level, the tool can also be executed using the \gls{cli}, making it fit other developer workflows. 
+    \item [(\(OS_{3}\))] The tool is configurable at the rule level. As presented in \ref{rule-evaluation}, all rules can be enabled/disabled and a globing pattern can be used to exclude files. As described in \ref{rule-evaluation}, more rule-specific configuration options should be introduced to further reduce the amount of noise. In addition to being configurable at the rule level, the tool can also be executed using the \gls{cli}, making it fit other developer workflows. 
     
-    \item [\textbf{OS4:}] The final prototype can be added do any project on GitHub using GitHub Workflows, and only requires two files for being set up. This includes one configuration file for configuration of the tool, and one workflow file that will load and execute the developed GitHub Action. This is a major improvement of what was done in the vertical prototype. The tool is therefore very easy to adopt, and to run as part of \gls{ci}.
+    \item [(\(OS_{4}\))] The final prototype can be added do any project on GitHub using GitHub Workflows, and only requires two files for being set up. This includes one configuration file for configuration of the tool, and one workflow file that will load and execute the developed GitHub Action. This is a major improvement of what was done in the vertical prototype. The tool is therefore very easy to adopt, and to run as part of \gls{ci}.
 
 \end{itemize}
 
@@ -749,7 +752,7 @@ When Detekt is executed, it looks at all the rule-sets (and the configuration of
 
 \subsection{Detekt-hint ruleset}
 The Detekt-hint ruleset is a plugin to Detekt, and contains the implemented rules for \gls{ddpv}. The final artifact consists of four rules. The rules are described briefly below.
-\todo{Forklare tanken bak regelen. Hvorfor den er viktig. Hvordan/når regelen spottes og invokes. Hvor denne innsikten kommer fra. (referere artikklene som er funnet) }
+
 \begin{itemize}
     \item\gls{coi} (Liskov substitution). It promotes the use of composition instead of inheritance, since composition often allows for more flexible design \cite{composition-over-inheritance-wiki}. The rule will fire when inheritance is introduced, and help test for Liskov substitution, as presented in \cite{composition-over-inheritance-stackoverflow}. The rule will not fire if you derive from a class that exists in a third party package. This will reduce the amount of warnings created where the framework or library one is using is forcing you to introduce inheritance.
     
@@ -757,7 +760,7 @@ The Detekt-hint ruleset is a plugin to Detekt, and contains the implemented rule
     
     \item Interface Segregation Principle (\gls{isp}). It helps with reducing side-effects in the application and helps us adhere to the \gls{srp} \cite{isp-violation}. The rule looks for classes that implement methods it does not need, either by finding empty methods or methods that only throws exceptions.
     
-    \item Open-Closed-Principle (\gls{ocp}). Promotes the use of abstractions for extending the functionality instead of modifying current functionality to implement new behavior. This will help to reduce unwanted behavior (bugs), and prevent "Shotgun surgery" in existing code when new behavior or features are added. It is often spotted with long if/else chains, switching or by using abstract classes, but is checking for the concrete implementations to control flow\cite{ocp3}. The rule will look for checks of concrete implementations and switching on enums inside Kotlin \texttt{when} constructs.
+    \item Open-Closed-Principle (\gls{ocp}). Promotes the use of abstractions for extending the functionality instead of modifying existing functionality to implement new behavior. This will help to reduce unwanted behavior (bugs), and prevent "Shotgun surgery" in existing code when new behavior or features are added. It is often spotted with long if/else chains, switching or by using abstract classes, but is checking for the concrete implementations to control flow\cite{ocp3}. The rule will look for checks of concrete implementations and switching on enums inside Kotlin \texttt{when} constructs. Kotlin \texttt{when} constructs is the more powerful equivalent of Java's switch statement.
 \end{itemize}
 
 %Final source code can be found on GitHub\cite{detekt-hint-repository}. Developed as a plugin to detekt. Is built as a jar and either included in the gradle build script as a detekt plugin or run separately as a command line interface.
@@ -766,13 +769,13 @@ The Detekt-hint ruleset is a plugin to Detekt, and contains the implemented rule
 Danger is a system which is created for the purpose of commenting directly on \gls{pr}'s. It provides an easy to use \gls{api} for extracting the required information from Git, and provides methods for commenting directly on \gls{pr}'s. It is configured to run in your \gls{ci} environment on every commit to \gls{pr}'s that is created. When the rules are adhered to, the comments are amended to reflect the current state of the \gls{pr}. 
 
 \subsection{GitHub Actions}
-GitHub Actions is a tool created by GitHub for automating software workflows, including \gls{ci}/\gls{cd}. A custom GitHub Action workflow is created for Detekt-hint, which executes the Detekt-\gls{cli} together with the Detekt-hint ruleset, generating the report containing all the hints to be added. Danger is then executed and picks up the file with the hints, parses it and adds a comment on the GitHub \gls{pr} for every comment in the file. A diagram of how everything interacts with each other can be seen in figure \ref{fig:integration}. 
+GitHub Actions is a tool created by GitHub for automating software workflows, including \gls{ci}/\gls{cd}. A custom GitHub Action workflow is created for Detekt-hint, which executes the Detekt-\gls{cli} together with the Detekt-hint ruleset, generating the report containing all the comments to be added on the \gls{pr}. Danger is then executed and picks up the file with the hints, parses it and adds a comment on the GitHub \gls{pr} for every comment in the file. A diagram of how everything interacts with each other can be seen in figure \ref{fig:integration}. 
 
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{images/detekt-hint-execution.png}
-    \caption{The overall execution flow of the solution}
+    \caption{The overall execution flow of the solution.}
     \label{fig:integration}
 \end{figure}
 
@@ -780,7 +783,7 @@ GitHub Actions is a tool created by GitHub for automating software workflows, in
 \chapter{Discussion, further work and conclusion}
 \label{discussion}
 % Start by rewriting the research questions.
-In this chapter i will answer the research questions and give my interpretations, before discussing its implications, its limitations and some recommendations for future research and development. The chapter ends with a conclusion of the study.
+In this chapter we will answer the research questions and give our interpretations, before discussing its implications, its limitations and some recommendations for future research and development. The chapter ends with a conclusion of the study.
 
 \section{Answering the research question}
 
@@ -788,7 +791,7 @@ The research question was as following: \textbf{How to create a tool for \gls{dd
 The results tell us that by extending a tool for static code analysis, and integrating it with another tool adding comments on \gls{pr} - a tool for \gls{ddpv} can be created. The two identified requirements with utmost importance when developing a tool for \gls{ddpv} is as following. First, it needs to have as accurate rules as possible for \gls{ddpv}. This requires extensive insight into design principles and the architecture and design of software systems. Secondly, for supporting the rules, the integration adding comments to the \gls{pr} needs additional features and mechanisms for reducing the impact and the amount of false-invocations. Depending on the success of the additional features and mechanisms mentioned in section \ref{evaluation-overall}, rules for \gls{ddpv} may fit or not into the tool. The rules with high or medium accuracy, will most probably suit the approach commenting directly on \gls{pr}'s. For the rules where the amount of false-positives cannot be reduced to an acceptable amount another less obtrusive approach is needed. 
 
 
-Most developed rules were created to support the detection of \textit{indications} that a design principle was violated. One may therefore question if \gls{ddpv} was actually achieved. The rules did not target the design principles directly due to lack of accurate heuristics. Even when targeting indications of design principle violations, the rate of false-positives was high. This brings up the question if creating a successful tool for directly targeting violations of design principles is feasible. It is unsure if we ever will be able to develop accurate heuristics for directly targeting the violations of design principles. Maybe, the research question should have asked the question "if" a tool for \gls{ddpv} could be created first, before considering "how" to create it. One could even question if it makes sense to detect violations of "principles". If violations were to be detected, they maybe would have been called design rules instead. That however, does not mean that tools could not support design principles. With the developed tool we show that indirect detection of design principle violations is possible, and could be useful, but for the rules with low accuracy another approach is suggested. Changing the focus from violation detection to support in adhering to and learning about design principles. An example of such an approach is presented in section \ref{futurework}.
+Most developed rules were created to support the detection of \textit{indications} that a design principle was violated. One may therefore question if \gls{ddpv} was actually achieved. The rules did not target the design principles directly due to lack of accurate heuristics. Even when targeting indications of design principle violations, the rate of false-positives was high. This brings up the question if creating a successful tool for directly targeting violations of design principles is feasible. It is unsure if we ever will be able to develop accurate heuristics for directly targeting the violations of design principles. Maybe, the research question should have asked the question "if" a tool for \gls{ddpv} could be created first, before considering "how" to create it. One could even question if it makes sense to detect violations of "principles". If violations were to be detected, they maybe would have been called design rules instead. That however, does not mean that tools could not support design principles. With the developed tool we show that indirect detection of design principle violations is possible, and could be useful. However, for the rules with low accuracy another approach is suggested. An approach where the focus is changed from violation detection to support in adhering to and learning about design principles. An example of such an approach is presented in section \ref{futurework}.
 
 %Generally, machines need to be considerably better than humans, for humans to trust and use them. 
 
@@ -824,7 +827,7 @@ Another limitation was that the early prototypes was focused around the idea of 
 
 
 \section{Future work}
- As presented above, for the tool to provide any value there are some further research and development that is needed. Below i have written a list of possible research, features and enhancements that i consider the most important for the success of this tool. 
+ As presented above, for the tool to provide any value there are some further research and development that is needed. Below we have written a list of possible research, features and enhancements that we consider the most important for the success of this tool. 
  
 
 
