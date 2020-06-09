@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass[pdftex,10pt,b5paper,twoside]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[acronym, toc]{glossaries}
 \usepackage{biblatex}
@@ -9,8 +9,6 @@
 \usepackage{tabularx}
 \usepackage[norsk,english]{babel}
 \usepackage{subfig}
-
-
 \usepackage{hyperref}
 
 
@@ -23,38 +21,32 @@
 % Development of a tool for detection of design principle violations
 
 % Automating the code review through automatic detection of design principles 
-\title{Detekt-hint -- A tool for detection of design principle violations}
-\author{Marius Kohmann}
-\date{June 2020}
+
 
 
 \begin{document}
 
-\maketitle
 
 
 \selectlanguage{norsk}
 \begin{abstract}
-    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en tidlig versjon av et \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at det å bruke kommentarer på \acrfull{pr} for å informere utvikleren om mulige design-problemer 
-    vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt ha stor innvirkning på videre utvikling av programvare.  
+    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en tidlig versjon av et \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at det å automatisk legge til kommentarer på \acrfull{pr} for å informere utvikleren om mulige design-problemer vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Dette gjør at man kan utvikle regler for deteksjon av brudd på designprinsipper med lavere krav til treffsikkerhet enn tidligere. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt ha stor innvirkning på videre utvikling av programvare.  
     
 \end{abstract}
 
 \selectlanguage{english}
 \begin{abstract}
 	%Sample IMRaD abstract: 
-	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detection of design principle violations without creating noise in the developers workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with an early version of a \acrfull{mvp}. The product was then evaluated internally and received feedback from the open-source community. The results show that using comments on \gls{pr} to inform the developer about posible design issues will reduce the impact of false-positives, and therefore reduce the noise significantly. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this could have big implications on the maintainability of developed software. 
+	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detecting design principle violations without creating noise in the developer workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with an early version of a \acrfull{mvp}. The product was then evaluated internally and received feedback from the open-source community. The results show that using automated comments on \gls{pr} to inform the developer about possible design issues will reduce the noise from false-positives significantly. This will enable the development of rules for \gls{ddpv} with lower requirements on accuracy than what is traditionally accepted. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this this could have big implications on the maintainability of developed software. 
 	
 \end{abstract}
-
-
 \clearpage
 
 
 
 \tableofcontents
 
-\clearpage
+\cleardoublepage
 \chapter{Introduction}
 
 
@@ -62,7 +54,7 @@
 % https://student.unsw.edu.au/introductions - Nice resource for seeing what should be in the introdcution!
 
 % State the general topic and give some background about its importance
-Writing software that is easy to modify and extend is an important part of software engineering. Software that have this attribute (quality) is often referred to as maintainable. Non-maintainable software is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
+Writing software that is easy to modify and extend is an important part of software engineering. Software that have these attributes (qualities) is often referred to as maintainable. Non-maintainable software is often a breeding ground for bugs, refactoring\footnote{From Wikipedia: Process of restructuring existing code without changing its external behavior \cite{refactoring}} tasks and technical debt\footnote{From Wikipedia: Concept in software development that reflects the implied cost of additional rework caused by choosing an easy (limited) solution now instead of using a better approach that would take longer \cite{technicalDebt}.}. Consequences include increased development time, inaccurate estimations causing lost deadlines and higher costs of introducing new developers to the project.
 
 % Introduserer best practices etc. Low level code hjelp.
 To help developers write code that is maintainable, well defined rules, best practices and conventions for writing code have been developed. The rules targets low-level code constructs, only covering small amounts of code. We will, refer to these as \textit{rules}.
@@ -79,17 +71,18 @@ The design principles, on the other hand are mostly informal and have limited su
 Given the limitations in current approaches for detecting violation of design principles, more research is proposed. The importance of adhering to the design principles cannot be neglected as the architecture and design of code lay the foundation for further development. By having tools help us adhere to the design principles, we can help ensure that correct design decisions are taken and thus reduce the time required for restructuring badly designed code.  
 
 % Present the goal and then how to reach it
-The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \gls{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow.
+The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \acrfull{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow.
 
 To help with specific guidelines for development and evaluation of such a tool, the design science methodology will be followed.
 
 
-The outline of the paper is as follows; Chapter \ref{background} gives some background information and an introduction to the topics maintainable code and code analysis. Chapter \ref{relatedwork} gives some insight in related work in the area. Chapter \ref{methodology} describes the methodology of the research process, and chapter \ref{results} presents the results from developing and evaluating the prototypes. Chapter \ref{discussion} discusses the results ending with the conclusion of the study.  
+The outline of the paper is as follows; Chapter \ref{background} gives some background information and an introduction to the topics maintainable code, code analysis and developer workflow. Chapter \ref{relatedwork} gives some insight in related work in the area. Chapter \ref{methodology} presents the goal of the study and the research question. Then a description of the selected research methodology and the required steps is provided. \ref{results} presents the results from developing and evaluating the prototypes. Chapter \ref{discussion} discusses the results ending with the conclusion of the study.  
 
+\cleardoublepage
 \chapter{Background}
 
 \label{background}
-To see why achieving maintainable code is important, and why a new tool for detecting design principle violations is needed, some background information on what maintainable code is and how we can achieve it is provided. The following sections will give a brief introduction to it. Note that parts of sections \ref{maintainable-code} - \ref{code-analysis} is taken from the authors prestudy on the current state of tools for code analysis\cite{prestudy}, but is modified to fit the contents of this thesis.
+To see why achieving maintainable code is important, and why a new tool for detecting design principle violations is needed, some background information is provided. We will look into what maintainable code is, how we can achieve it and how code analysis and developer workflow relates to these topics. Note that parts of sections \ref{maintainable-code} - \ref{code-analysis} is taken from the authors prestudy on the current state of tools for code analysis\cite{prestudy}, but is modified to fit the contents of this thesis.
 
 \section{What is maintainable code?}
 \label{maintainable-code}
@@ -118,14 +111,14 @@ An \textit{architectural pattern} is a general, reusable solution to a commonly 
 
 A \textit{design pattern} is similar to an architectural pattern, but more limited in scope. An example is the Adapter pattern \cite{Adapterp54:online}. Detection of design patterns is possible through mining \cite{TEKIN2014406}. The absence of patterns is harder to detect as the absence of a design pattern is not clearly defined.
 
-Definitions of \textit{architectural anti-patterns} and \textit{design anti-patterns} have also been made. They are the opposite of architectural-patterns and design-patterns. In other words ways one should {\em not} solve a common problem. They are often called architecture-smells and design-smells. An example of architectural anti-pattern is the Cyclic Dependency \cite{cyclicdependency} and could be detected through dependency analysis. An example of design anti-pattern is the God-Object \cite{Godobjec14:online}, and is as stated about design patterns, not easily verifiable. However, metrics such as a high value of coupling and \gls{loc} could imply possible violations.
+Definitions of \textit{architectural anti-patterns} and \textit{design anti-patterns} have also been made. They are the opposite of architectural-patterns and design-patterns. In other words ways one should {\em not} solve a common problem. They are commonly referred to as architecture-smells and design-smells. An example of architectural anti-pattern is the Cyclic Dependency \cite{cyclicdependency} and could be detected through dependency analysis. An example of design anti-pattern is the God-Object \cite{Godobjec14:online}, and is as stated about design patterns, not easily verifiable. However, metrics such as a high value of coupling and \gls{loc} could imply possible violations.
 
 
 \textit{Design principles} are a set of guidelines that programmers should follow to avoid bad design. Because the design principles is of most importance in this study, a more in depth description is provided in section \ref{design-principles}.
 
-\textit{Metrics} are measurements of particular characteristics of a program. They are often used as a tool for determining the code quality. Examples include cyclomatic complexity and coupling. \textit{Coupling} is the degree of interdependence between software modules \cite{Coupling2:online}. \textit{Cyclomatic complexity} is used to indicate the complexity of a program \cite{Cyclomat54:online}. They are calculated using code analysis.
+\textit{Metrics} are measurements of particular characteristics of a program. They are often used as a tool for determining the code quality. Examples include cyclomatic complexity and coupling. \textit{Coupling} is the degree of interdependence between software modules \cite{coupling}. \textit{Cyclomatic complexity} is used to indicate the complexity of a program \cite{Cyclomat54:online}. They are calculated using code analysis.
 
-\textit{Best practices} are informal rules that have been learned over time, or practice that have become part of the language ``culture''. The best practices can in some ways be equal to the design principles, but are often simpler and more limited in scope. Even if limited in scope, the range of different best practices is huge. Best practices includes but is not limited to, code patterns that are probable bugs, styling of code and readability. An example of best-practice in the Java language could be to use camel case (camelCase) \cite{camelcase} on variable-names, or to not have empty else-blocks. They are well defined and are verified using code analysis tools like SonarQube \cite{sonarqube}. This category of tools is commonly referred to as \textit{linters}.
+\textit{Best practices} are informal rules that have been learned over time, or practice that have become part of the language ``culture''. The best practices can in some ways be equal to the design principles, but are often simpler and more limited in scope. Even if limited in scope, the range of different best practices is huge. Best practices includes but is not limited to, code patterns that are probable bugs, styling of code and readability. An example of best-practice in the Java language could be to use camel case (camelCase) \cite{camelcase} on variable-names, or to not have empty else-blocks. They are often well defined and are verified using tools for code static analysis. Tools enforcing best-practices is commonly referred to as \textit{linters}.
 
 \section{Design principles}
 \label{design-principles}
@@ -254,7 +247,7 @@ In addition to the widely used definitions of vertical and horizontal prototypes
 \end{itemize}
 
 By creating prototypes with different focus on the dimensions, one is exploring the problem domain and will learn and understand the requirements of a solution.
-
+\cleardoublepage
 \chapter{Related work}
 \label{relatedwork}
 
@@ -272,6 +265,7 @@ Detecting similar snippets of code to find violations of the \textbf{\gls{dry}} 
 Other design principles like \textbf{\gls{isp}}, \textbf{\gls{ocp}} and \textbf{\gls{lsp}} are not targeted at all in tools, but several articles and forum posts on how one can spot violations have been found. Composition over inheritance is tightly related to the \gls{lsp} and \cite{composition-over-inheritance-stackoverflow} has been useful in providing hints. Articles about spotting violations of the \gls{ocp} and \gls{isp} principles have also been found, and has been useful for the process of implementing rules that are not targeted in the current set of tools \cite{ocp-violations} \cite{ocp2} \cite{isp-violation} \cite{ocp3}. Also, one article in the article series written by Trisha Gee on "What to look for in a code review", targeting the \gls{solid} principles have been useful \cite{whattolookforincodereview}.  
 
 Regarding the process of code review, services like GitHub\cite{github}\footnote{From Wikipedia: "..company that provides hosting for software development version control using Git"\cite{github-wiki}} provides useful features and integration with other tools for code review. Especially a tool called Danger\cite{danger} provides the possibility of automating comments on \gls{pr}'s. It supports development of plugins to support different kinds of automation. No tools that support finding design defects have been found, but plugins that enable such development have been found. Most notable are the plugins that enables automatically commenting on issues found using various linters. Examples include the danger-eslint-plugin\cite{danger-eslint-plugin} and the danger-detekt-plugin\cite{danger-detekt-plugin} which enables comments on \gls{pr}'s based on warnings created by eslint\cite{eslint} and Detekt\cite{detekt}, respectively. 
+\cleardoublepage
 
 \chapter{Methodology}
 \label{methodology}
@@ -312,7 +306,6 @@ As can be seen in the figure is important to notice that the activities is not d
 
 \section{Problem identification and motivation}
 \label{problem-identification-and-motiviation}
-\todo{use design issues / design defects consistently}
 
 % Motivation for detecting design issues is that it is cheaper to develop high quality code
 As Martin Fowler explains in his article "Is High Quality Software Worth the Cost?"\cite{is-high-quality-softaware-worth-it}, the common trade-off between quality and cost does not apply to software. High quality software is actually cheaper to produce because "Neglecting internal quality leads to rapid build up of cruft\footnote{Cruft is the difference between how the system is, and how it ideally would be.}, which slows down feature development. Even great teams produces cruft, but by keeping internal quality high, one is able to keep it under control. High internal quality keeps cruft to a minimum, allowing a team to add features with less effort, time, and cost." It is visualized in figure \ref{fig:internal-quality-graph} taken from the same article.
@@ -351,7 +344,7 @@ Another aspect of such a system is how it should be integrated in the developmen
 
 \\ The definition of the specific research problem is based on the two sub goals (\(G_{1.1}\)) and (\(G_{1.2}\)) of this study. It is as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
 
-\section{Define objectives of a solution}
+\section{Define the objectives of a solution}
 \label{objectives-of-solution}
 The objectives of a solution is initially specified based on the current knowledge about how the final product should look and be like. The objectives is then used in the evaluation of the developed prototype or artifact, and further refined based on the findings in the evaluation and the users needs. This is a continuous process that will go on as long as the product is under development. The defined objectives of a solution, its specifications and refinements can be found in section \ref{results}.
 
@@ -386,6 +379,8 @@ The results from the evaluations is presented in the result chapter.
 
 \section{Communication}
 The last step of the design science methodology is to communicate the end result and the developed knowledge about \gls{ddpv}. The general contribution and the developed knowledge of improving the maintainability of code through \gls{ddpv} is provided through this thesis. The final artifact is available for use and further development on GitHub\cite{detekt-hint-repository}.
+\cleardoublepage
+
 
 \chapter{Results}
 \label{results}
@@ -414,7 +409,6 @@ The second objective is that the solution should be designed to reduce noise fro
 The third objective is that the tool is configurable to fit team preferences at rule level. We know that developers and teams has their own preferences, and to fit different usage, the tool should be configurable. It should be possible to select which rules to enable, and to add rule-specific configuration for the different rules.
 
 The fourth objective is that the tool should be based on an existing tool for code analysis or should be easy to integrate with existing tools. This is important for two reasons. Firstly, basing the tool on an already existing tool will drastically reduce the effort required in creating a tool for \gls{ddpv} because a framework for code analysis already will be provided. Without doing so, it would not have been feasible within the scope of this thesis. Secondly, getting users to adopt a new tool is easier if the effort in start using the tool is low. Basing the tool on another popular tool will help getting potential users and help the ease of adoption.
-\todo{make look nice}
 
 
 The initial \gls{os} is summarized below:
@@ -708,7 +702,7 @@ The first three of the problems is related to what we would like to define as "m
 All in all, even with the limitations that made integration and testing using the open-source community difficult, the final prototype was successful. It revealed many existing problems, bugs and limitations that have given insights in what needs to be resolved in future prototypes. 
 
 
-\subsection{Evaluation of the Objectives of a Solution}
+\subsection{Evaluation of the objectives of a solution}
 
 The final prototype being an early functional prototype, can be evaluated against all of the \gls{os} presented in section \ref{objectives-of-solution}. The evaluation of all the objectives for the final prototype is mainly covered in the above sections (\ref{evaluation-open-source}, \ref{evaluation-internal}, \ref{evaluation-comments} and \ref{evaluation-overall}). For the sake of completeness, and to make sure that each \gls{os} is evaluated, we will look at each OS, and reference to the evaluation presented above. 
 
@@ -774,11 +768,11 @@ GitHub Actions is a tool created by GitHub for automating software workflows, in
     \label{fig:integration}
 \end{figure}
 
-
+\cleardoublepage
 \chapter{Discussion, further work and conclusion}
 \label{discussion}
 % Start by rewriting the research questions.
-In this chapter we will answer the research questions and give our interpretations, before discussing its implications, its limitations and some recommendations for future research and development. The chapter ends with a conclusion of the study.
+In this chapter we will answer the research questions and give our interpretations, before discussing the impact of our work, its limitations and some recommendations for future research and development. The chapter ends with a conclusion of the study.
 
 \section{Answering the research question}
 
@@ -795,7 +789,9 @@ Most developed rules were created to support the detection of \textit{indication
 
 \section{Impact}
 
-At current state, the impact of the tool are minor. It serves as a proof of concept of a tool that is able to detect some indications of violation of design principles, and that handles the reporting of false-positives in a new way. It adds comments consisting of possible solutions and that references directly to the involved code constructs in code, which is not seen before. The development of the tool lead to the identification of two central requirements for a tool executing \gls{ddpv}, and insights into the domain of \gls{ddpv}. The identification of these requirements would be useful for further development.
+At current state, the direct impact of the tool are minor. It serves as a proof of concept of a tool that is able to detect some indications of violation of design principles, and that handles the reporting of false-positives in a new way. Also, the development of the tool lead to the identification of two central requirements for a tools for \gls{ddpv}, and insights into the domain of \gls{ddpv}. The identification of these requirements would be useful for further development.
+
+However, the new approach automatically adding comments to the \gls{pr}, could potentially have big impact on tools for code-analysis. It will enable the development of rules for code-analysis with lower accuracy than what is traditionally accepted. Therefore, with this new approach, new domains that has received low focus from the development community can be targeted with code analysis. This ranges from \gls{ddpv} as seen in this thesis, and also enables the development of rules in other domains to support the detection of e.g architectural and design-anti patterns. Also, the approach adding comments consisting of possible solutions and that references directly to code constructs in code is not seen before.  
 
 With continued development on both increasing the accuracy and the number of rules, together with implementing more mechanisms for reducing the impact and the amount of false-invocations, there are possibly big implications on the development of maintainable software. It may contribute to an increase in internal quality of developed software, reducing time and development cost. Especially in teams consisting of junior developers, not used to design principles, the tool could be particularly useful. As seen in the evaluation, it may also contribute to design discussions and learning within the team.
 
@@ -891,7 +887,10 @@ The tool is not limited to just targeting design principles. Rules can be create
 \label{conclusion}
 
 
-This research aimed to answer how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from the noise by false-positives. By following the design science methodology, multiple iterations of product development was carried out, and resulted in multiple prototypes and a working \gls{mvp}, using comments on \gls{pr}'s to report possible design issues. The \gls{mvp} was evaluated internally and using the open-source community. The results show that using comments on \gls{pr} will reduce the impact of noise by false-positives, but needs to be accompanied by more accurate rules and new mechanisms for reduction of noise. 
+This research aimed to answer how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from the noise by false-positives. By following the design science methodology, multiple iterations of product development was carried out, and resulted in multiple prototypes and a working \gls{mvp}, using comments on \gls{pr}'s to report possible design issues. The \gls{mvp} was evaluated internally and using the open-source community. 
+
+
+The results show that using automated comments on \gls{pr} to inform the developer about possible design issues will reduce the noise from false-positives significantly. This will enable the development of rules for \gls{ddpv} with lower requirements on accuracy than what is traditionally accepted. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise, and research on accurate heuristics for \gls{ddpv} is needed.
 
 Initially, it was assumed that increasing the importance of the executed analysis would increase the tolerance for noise. This research shows that the importance of executed analysis will not increase the tolerance for noise drastically. Therefore, when developing a tool for \gls{ddpv} the reduction of noise is of greatest importance. 
 
