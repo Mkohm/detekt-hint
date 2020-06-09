@@ -137,7 +137,6 @@ A common set of design principles that often is referred to is the \gls{solid} p
 \begin{itemize}
     \item \gls{srp} -- "... states that every module or class should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class, module or function." \cite{srp}
     
-    Not following this principle .. 
     \item \gls{ocp} -- "... states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification"; that is, such an entity can allow its behavior to be extended without modifying its source code." \cite{ocp}
     \item \gls{lsp} -- "Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program." \cite{lsp}
     \item \gls{isp} -- "... states that no client should be forced to depend on methods it does not use." \cite{isp}
@@ -161,18 +160,13 @@ We differentiate between two types of code analysis, dynamic code analysis and s
 Runtime properties     & \begin{tabular}[c]{@{}l@{}}- Performance \\(memory leak etc..)\\ - Correctness\\ - Security analysis\\ ...\end{tabular} & \begin{tabular}[c]{@{}l@{}}- Performance \\(memory leak etc..)\\ - Correctness\\ - Security analysis\\ ...\end{tabular} \\ \hline
 Design time properties & \begin{tabular}[c]{@{}l@{}}- Design principles \\ - Style\\ - Metrics\\ ...\end{tabular}                              & - Dynamic software metrics                                                                                            \\ \hline
 \end{tabularx}
-\caption{A non-exhaustive table of static and dynamic analysis showing their runtime and design-time properties}
+\caption{A non-exhaustive table of static and dynamic analysis showing their runtime and design-time properties.}
 \label{table:static-dynamic}
 \end{table}
 
-Since dynamic analysis is based on program execution it has the advantage of being able to measure the actual \gls{cpu}, memory and energy performance, and to target other dynamic aspects of programs. However, that does not mean that static code analysis is not able to target performance or dynamic aspects of source code. As seen in table \ref{table:static-dynamic} there is a great overlap between static and dynamic code-analysis. Null-pointer analysis is a form of static code-analysis that runtime properties of source code, without directly executing it.
+Since dynamic analysis is based on program execution it has the advantage of being able to measure the actual \gls{cpu}, memory and energy performance, and to target other dynamic aspects of programs. However, that does not mean that static code analysis is not able to target performance or dynamic aspects of source code. As seen in table \ref{table:static-dynamic} there is a great overlap between static and dynamic code-analysis. Null-pointer analysis is a form of static code-analysis that targets runtime properties of source code, without directly executing it.
 
-As we want to improve the source code, we have chosen to focus on static code analysis with the focus on design time properties. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing it.
-
-
-The tools for code analysis in this thesis will do analysis for violations of the aforementioned principles, concepts and conventions. Other tools with automatic refactoring possibilities might include transformation of the \gls{ast} to support text manipulation in a safe way compared to direct string manipulation. 
-
-
+As we want to improve the source code, we have chosen to focus on static code analysis with the focus on design time properties. The static analysis is done by parsing the source code, creating an \gls{ast} and then analyzing it for violations of the aforementioned principles, concepts and conventions. Some static code analysis tools also provide automatic refactoring possibilities through transformation of the \gls{ast}.
 
 
 Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis tools could detect that the expression \texttt{x == 1} always evaluates to \texttt{true} and that the variable \texttt{y} is never used. The tool could then suggest that the branching is unnecessary and that the \texttt{y} variable is removed.  
@@ -180,7 +174,7 @@ Figure \ref{fig:ast} shows a simple example \gls{ast} where a static analysis to
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth/2]{report/images/ast.png}
-	\caption{Simple \gls{ast} of x=1; if (x == 1) \{y = 10;\}}
+	\caption{Simple \gls{ast} of: \texttt{x=1; if (x == 1) \{y = 10;\}}}
 	\label{fig:ast}
 \end{figure}
 
@@ -234,16 +228,17 @@ Developers also have their own preferences for workflows and when to execute and
 \section{Prototyping}
 Prototyping is an important activity to get feedback from users as early as possible, to better understand the problem at hand, and its requirements. Prototypes are often described using the two dimensions, horizontal and vertical. \textit{Horizontal prototypes} covers a broad view of the entire system and focuses more on user interaction with the system, rather than low level details. \textit{Vertical prototypes} on the other hand focuses on the technical challenges and a small subset of functionality of the final system. Depending on the precision, or how much it looks and works like the finished product, it is either a \textit{low fidelity} or \textit{high fidelity} prototype. 
 
-In addition to the widely used definitions of vertical and horizontal prototypes, \cite{prototype-dimensions} describes five dimensions that can be used to describe every prototype. The five dimensions are visual, interaction, breadth, depth and content. In this thesis we will use the standard definitions of vertical and horizontal prototypes together with the five dimensions.  
+In addition to the widely used definitions of vertical and horizontal prototypes, we would like to further describe the prototypes using the visual, interaction and content dimensions. These dimensions were introduced by Kyle Murphy in his article about describing prototypes \cite{prototype-dimensions}. The five dimensions of prototype fidelity are therefore visual, interaction, breadth, depth and content.
 
 \begin{itemize}
     \item The \textit{visual} dimension describes how much the prototype looks like the finished product. 
-    
     \item The \textit{interaction} dimension describes the level of interactivity the prototype has. 
     
     \item The \textit{breadth} dimension describes how much of the final products surface area that is covered. 
     
     \item The \textit{depth} dimension describes to what degree the user is constrained at a given level of breadth.
+    
+    \item The \textit{content} dimension describes to what degree the content (data) in the prototype represents the data that will exist in the final product.     
 \end{itemize}
 
 By creating prototypes with different focus on the dimensions, one is exploring the problem domain and will learn and understand the requirements of a solution.
@@ -252,24 +247,24 @@ By creating prototypes with different focus on the dimensions, one is exploring 
 \label{relatedwork}
 
 % General about tools that is related
-To the best of my knowledge, a tool that directly targets the detection of violations of design principles, does not exist. There exists a lot of tools for code analysis, PMD\cite{pmd}, SonarQube\cite{sonarqube} to name two of the most used ones for the Java language. Most of them support detection of violations of style conventions, best practices and finding possible bugs. However, some tools and linters include functionality for detecting violations on a small subset of the design principles. Therefore, developers need to adopt a large suite of tools to only be able to support detection of a few design principles violations. Also, the tools are fundamentally different and have different purpose and supports integration in the development process differently, both with its advantages and disadvantages. The tools are ranging from separate \gls{cli}s, native applications, online services, \gls{ide}s and \gls{ide} plugins. The purpose also varies. Some are used for project level analysis activities, for finding areas in the code-base with issues, while other tools are focused at reporting issues at the time of writing or in the \gls{qa} process. 
+To the best of my knowledge, a tool that directly targets the detection of violations of design principles, does not exist. There exists a lot of tools for code analysis, PMD\cite{pmd}, SonarQube\cite{sonarqube} to name two of the most used ones for the Java language. Most of them support detection of violations of style conventions, best practices and finding possible bugs. However, some tools and linters include functionality for detecting violations on a small subset of the design principles. Therefore, developers need to adopt a large suite of tools to only be able to support detection of a few design principles violations. Also, the tools are fundamentally different and have different purpose and supports integration in the development process differently. The tools are ranging from separate \gls{cli}s, native applications, online services, \gls{ide}s and \gls{ide} plugins. The purpose also varies. Some are used for project level analysis activities, for finding areas in the code-base with issues, while other tools are focused at reporting issues at the time of writing or in the \gls{qa} process. 
 
-This thesis is mainly considering two research fields. First, related work on code-analysis regarding detecting design principle violations will be presented. Then other related work and tools related to code review and manual inspection of code will be presented.
+This thesis is mainly considering two research areas, code-analysis and code-review. First, related work on code-analysis regarding detecting design principle violations will be presented. Then other related work and tools related to code review will be presented.
 
 PMD \cite{pmd} is one of many tools that calculates multiple metrics to indirectly support detecting design issues. Examples of metrics could be \gls{loc}, \gls{cc} and \gls{nof}. The principle of \textbf{High Cohesion - Low Coupling} is a principle that has support in multiple tools, in the form of calculating a metric, including but not limited to JArchitect \cite{jarchitect} and CodeMR \cite{codemr}. JArchitect \cite{jarchitect} also includes functionality for visualizing High Cohesion - Low Coupling using a \gls{dsm}. Another example of indirectly detecting design principle violations by using metrics is JArchitect. JArchitect uses the \gls{dsm} to find violations of \textbf{\gls{srp}} by looking at how many different types a class uses. Ndepend \cite{ndepend} calculates the \gls{lcom} value to find whether the class is cohesive or not, and therefore possibly breaking \gls{srp}. 
 
-IntelliJ \cite{IntelliJ} (for Java) and \cite{pmd} has support for detecting violations of the \textbf{\gls{lod}} principle through extensive analysis of the source code.
+IntelliJ \cite{IntelliJ} and \cite{pmd} has support for detecting violations of the \textbf{\gls{lod}} principle through extensive analysis of the source code.
 
 Detecting similar snippets of code to find violations of the \textbf{\gls{dry}} principle is targeted by many tools including, but not limited to IntelliJ\cite{IntelliJ}, PMD\cite{pmd} and Code Climate\cite{codeclimate}. However, code can violate \gls{dry} without looking similar, and tools that can detect more complicated cases have not been found.  
 
-Other design principles like \textbf{\gls{isp}}, \textbf{\gls{ocp}} and \textbf{\gls{lsp}} are not targeted at all in tools, but several articles and forum posts on how one can spot violations have been found. Composition over inheritance is tightly related to the \gls{lsp} and \cite{composition-over-inheritance-stackoverflow} has been useful in providing hints. Articles about spotting violations of the \gls{ocp} and \gls{isp} principles have also been found, and has been useful for the process of implementing rules that are not targeted in the current set of tools \cite{ocp-violations} \cite{ocp2} \cite{isp-violation} \cite{ocp3}. Also, one article in the article series written by Trisha Gee on "What to look for in a code review", targeting the \gls{solid} principles have been useful \cite{whattolookforincodereview}.  
+Other design principles like \textbf{\gls{isp}}, \textbf{\gls{ocp}} and \textbf{\gls{lsp}} are not targeted at all in tools, but several articles and forum posts on how one can spot violations have been found. The principle of Composition over inheritance is tightly related to the \gls{lsp} and \cite{composition-over-inheritance-stackoverflow} has been useful in providing automated comments. Articles about spotting violations of the \gls{ocp} and \gls{isp} principles have also been found, and has been useful for the process of implementing rules that are not targeted in the current set of tools \cite{ocp-violations} \cite{ocp2} \cite{isp-violation} \cite{ocp3}. Also, one article in the article series written by Trisha Gee on "What to look for in a code review", targeting the \gls{solid} principles have been useful \cite{whattolookforincodereview}.  
 
-Regarding the process of code review, services like GitHub\cite{github}\footnote{From Wikipedia: "..company that provides hosting for software development version control using Git"\cite{github-wiki}} provides useful features and integration with other tools for code review. Especially a tool called Danger\cite{danger} provides the possibility of automating comments on \gls{pr}'s. It supports development of plugins to support different kinds of automation. No tools that support finding design defects have been found, but plugins that enable such development have been found. Most notable are the plugins that enables automatically commenting on issues found using various linters. Examples include the danger-eslint-plugin\cite{danger-eslint-plugin} and the danger-detekt-plugin\cite{danger-detekt-plugin} which enables comments on \gls{pr}'s based on warnings created by eslint\cite{eslint} and Detekt\cite{detekt}, respectively. 
+Regarding the process of code review, services like GitHub\cite{github}\footnote{From Wikipedia: "..company that provides hosting for software development version control using Git"\cite{github-wiki}} provides useful features and integration with other tools for code review. Especially a tool called Danger\cite{danger} provides the possibility of automating comments on \gls{pr}'s. It supports development of plugins to support different kinds of automation. No tools that support finding design defects have been found, but plugins that enable such development have been found. Most notable are the plugins that enables automatic commenting on pull requests based on issues found using linters. Examples include the danger-eslint-plugin\cite{danger-eslint-plugin} and the danger-detekt-plugin\cite{danger-detekt-plugin} which enables comments on \gls{pr}'s based on warnings created by eslint\cite{eslint} and Detekt\cite{detekt}, respectively. 
 \cleardoublepage
 
 \chapter{Methodology}
 \label{methodology}
-The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. The selected research methodology will then be presented, and how it contributes to reaching the goal. Then, a brief description of the different steps in the research methodology is provided. 
+The selected research methodology needs to fit the goal of the study. Therefore, the goal of the study will first be presented. The selected research methodology will then be presented together with how it contributes to reaching the goal. Then, a brief description of the different steps in the research methodology is provided. 
 
 \section{Goals of the study}
 
@@ -293,31 +288,34 @@ Other quality aspects of tools such as performance and usability will not be con
 To reach the goals it will be necessary to have a practical approach where an innovative product is designed, developed and evaluated. As the goal is to help developers create more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a usual choice for such development. However, for this study the end product should also provide a general contribution to the research field of improving maintainability of code. The contribution should include what is learned in the process, to see if such an approach could be put more work into and possibly being a new way of helping developers create maintainable software. The Design Science research methodology fits that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{Peffers2007ADS}.
 
 % About the chosen methodology
-Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. The software artifact will be created through a series of iterations that include the following activities; problem identification and motivation, definition of objectives for a solution, design and development, demonstration, evaluation and communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
+Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. The software artifact will be created through a series of iterations that include the following activities: Problem identification and motivation, definition of objectives of a solution, design and development, demonstration, evaluation and communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{report/images/designScience.png}
-    \caption{The process of the design science research methodology}
+    \caption{The process of the design science research methodology.}
     \label{fig:designScience}
 \end{figure}
 
-As can be seen in the figure is important to notice that the activities is not done in any particular order, but in that order as seen required. We will elaborate on how the different activities is applied to the study below. 
+As can be seen in the figure, the activities are not required to be done in any strict order, but in the order as seen required. For example, at any point in the process, one could take a step back and redefine the objectives of a solution when new insights into the problem domain is gained. We will elaborate on how each of the different activities is applied to the study below. 
 
 \section{Problem identification and motivation}
 \label{problem-identification-and-motiviation}
 
 % Motivation for detecting design issues is that it is cheaper to develop high quality code
-As Martin Fowler explains in his article "Is High Quality Software Worth the Cost?"\cite{is-high-quality-softaware-worth-it}, the common trade-off between quality and cost does not apply to software. High quality software is actually cheaper to produce because "Neglecting internal quality leads to rapid build up of cruft\footnote{Cruft is the difference between how the system is, and how it ideally would be.}, which slows down feature development. Even great teams produces cruft, but by keeping internal quality high, one is able to keep it under control. High internal quality keeps cruft to a minimum, allowing a team to add features with less effort, time, and cost." It is visualized in figure \ref{fig:internal-quality-graph} taken from the same article.
+As Martin Fowler explains in his article "Is High Quality Software Worth the Cost?"\cite{is-high-quality-softaware-worth-it}, the common trade-off between quality and cost does not apply to software. High quality software is actually cheaper to produce. As Martin Fowler explains in his article:
+
+\begin{quote}
+    ``Neglecting internal quality leads to rapid build up of cruft\footnote{Cruft is the difference between how the system is, and how it ideally would be.}, which slows down feature development. Even great teams produces cruft, but by keeping internal quality high, one is able to keep it under control. High internal quality keeps cruft to a minimum, allowing a team to add features with less effort, time, and cost."
+\end{quote} 
+It is visualized in figure \ref{fig:internal-quality-graph} which is taken from the same article. The rapid increase in cruft comes from the consequences of neglecting internal quality attributes. As discussed in section \ref{achieving-maintainable-code} an essential part of developing software with high internal quality software is to follow or adhere to the design principles. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects. Below is a short summary of the most important arguments inspired by that article:
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{report/internal-quality-graph.png}
-    \caption{Taken from \cite{is-high-quality-softaware-worth-it} - Visualization of how software evolves over time, and how high/low internal quality affects development speed and cost.}
+    \caption{Visualization of how software evolves over time, and how high/low internal quality affects development speed and cost.}
     \label{fig:internal-quality-graph}
 \end{figure}
-
-The rapid increase in cruft comes from the consequences of neglecting internal quality attributes. As discussed in section \ref{achieving-maintainable-code} an essential part of developing software with high internal quality software is to follow or adhere to the design principles. Andy Glover \& Matt Archer have written an article with 10 arguments why you should fix bugs as soon as you find them\cite{10reasons}, and the same arguments applies to design defects (that is introduced by e.g not adhering to the design principles). Below is a short summary of the most important arguments inspired by that article:
 
 \begin{enumerate}
     \item Unfixed design defects may hide other design defects. Fixing the design defects can solve upcoming problems, that would have been harder to find at a later point.
@@ -325,55 +323,49 @@ The rapid increase in cruft comes from the consequences of neglecting internal q
   
     \item Unfixed design defects suggest internal quality is not important. If a software developer is working on poorly written software, it is likely that more code of the same style is added, continuing to degrade the system quality.
    
-    \item Unfixed design defects lead to inaccurate estimates. Having design defects in code will make it hard to modify and extend. New requirements that incur changes to the code-base may break unexpected parts of the system. The estimation will then be hard to do.
+    \item Unfixed design defects lead to inaccurate estimates. Having design defects in code will make it hard to modify and extend the current behavior of the system. New requirements that incur changes to the code-base may break unexpected parts of the system. The estimation will then be hard to do.
    
     \item Fixing familiar code is easier than unfamiliar code. Developers need time to get familiar with code, understand what it does and why. Fixing issues while the developer is in the context of that code will save time.
 \end{enumerate}
 
-Therefore, to reduce the cruft, and thereby the cost, we should improve the internal quality which includes following design principles.
-
+Therefore, to reduce the cruft, and thereby the cost, we should write code with high internal quality which includes adhering to design principles.
 
 %Developers often fail to communicate the positive correlation between internal quality and development cost, which leads \gls{pm}'s to give internal quality less priority in favor of feature development.
 
 
 % Motivation for helping the code review
-There are mainly two techniques for detecting violations of design principles, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality regarding design principles and not being integrated into the development process. Therefore, manual code review is the main arena where most design issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to human failure. Having a tool that could help this process would help both the reviewer and the author of the \gls{pr} with not overlooking possible design issues, and could cause useful design discussions within the team.
-
-% Motivation for designing a solution for integration with the workflow
-Another aspect of such a system is how it should be integrated in the development process to reduce the amount of noise from false-positives. If such a system could be created it could be an inspiration for other tools supporting other programming languages or domains that are subject for analysis. \\
+There are mainly two techniques for detecting violations of design principles, code-analysis using tools and manual code-review. Some code-analysis tools offer design principle analysis as mentioned in section \ref{relatedwork}, but suffer from limited functionality and not being integrated into the development process. Therefore, manual code review is the main arena where most design issues are found. Finding design issues through code review is time-consuming and requires deep understanding of the problem that is being resolved. This process is prone to errors and overlooking due to human failure. Having a tool that could help this process would help to reduce the amount of design issues that will appear in production code, effectively increasing the internal quality and reducing development time and cost.
 
 \\ The definition of the specific research problem is based on the two sub goals (\(G_{1.1}\)) and (\(G_{1.2}\)) of this study. It is as following: \textbf{How to create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise by false-positives?}
 
 \section{Define the objectives of a solution}
 \label{objectives-of-solution}
-The objectives of a solution is initially specified based on the current knowledge about how the final product should look and be like. The objectives is then used in the evaluation of the developed prototype or artifact, and further refined based on the findings in the evaluation and the users needs. This is a continuous process that will go on as long as the product is under development. The defined objectives of a solution, its specifications and refinements can be found in section \ref{results}.
+The objectives of a solution is initially specified based on the current knowledge about how the final product should look and be like. The objectives is then used in the evaluation of the developed prototype or artifact, and further refined based on the findings in the evaluation. This is a continuous process that will go on as long as the product is under development. The defined objectives of a solution, its specifications and refinements can be found in the results chapter.
 
 \section{Design and development}
 \label{design-development}
 
 % Generally about design and development
-The design and development phase involves the development of vertical- and horizontal prototypes, with both high and low fidelity, as well as the development of the final prototype. To get feedback on the initial idea as quickly as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on the different dimensions. This way, the number of regressions will be reduced. Therefore, to iterate quickly, low fidelity prototypes will be created first, before gradually building more high fidelity prototypes.
+The design and development phase involves the development multiple prototypes, with both high and low fidelity. To get feedback on the initial idea as quickly as possible, and then iterate and adjust the product, it is important to explore and create multiple prototypes with focus on the different dimensions. This way, the number of regressions will be reduced. Therefore, to iterate quickly, low fidelity prototypes will be created first, before gradually building more high fidelity prototypes.
 
-The evaluation of the prototypes, and why and how the different prototypes were developed is presented in the result chapter. 
+The evaluation of the prototypes, why and how the different prototypes were developed is presented in the result chapter.
 
 \section{Demonstration}
 
 % General about demonstration. Specific demonstration details is found in results section.
 The next logical step after developing a prototype is to demonstrate and test it. Depending on the prototype created, different forms of demonstration will be used. For the low fidelity prototypes, interviews and visual presentations will be used, while for the higher fidelity prototypes functional testing of the developed prototypes will be executed. 
 
-The most important aspect of demonstrating the prototypes, is to try to create an environment that is as similar as possible to the environment that the final product will be used in. This way, the feedback will be as accurate as possible. This also involves getting users (other developers) to test the prototypes. The user group that is best suited for being informants are experienced developers that have knowledge about applying and using design principles.
+The most important aspect of demonstrating the prototypes, is to try to create an environment that is as similar as possible to the environment that the final product will be used in. This way, the feedback will be as accurate as possible. This also involves getting users (other developers) to test the prototypes. The user group that is best suited for being informants and testers are experienced developers that have knowledge about applying and using design principles.
 
 %Unfortunately, because a lack of resources and funding on the research project they were impossible to recruit for more in-depth evaluation. Attempts at recruiting informants for in-depth testing of the product was done by having presentations, posting on social media, creating posts in developer forums, and posting in chat groups for related tools and for work, without any luck. Additionally, the corona virus disease made physical recruitment more difficult. A conscious decision on shifting the focus to internal evaluation and feedback from open-source community was therefore seen necessary.
 
+A description of the demonstration of each of the prototypes is found in the result chapter. 
 
-A specific description of how the demonstration of each prototype was done can be seen in the results section.
-
- 
 \section{Evaluation}
 % General about evaluation. Specific evaluation details is found in results section.
-In the evaluation phase we will observe and evaluate how well the developed artifact solves the problem. We will compare the artifact with the objectives of a solution, and use different techniques for evaluation based on the type of artifact and at which stage in development we are. Evaluation methods includes qualitative methods and quantitative methods. The qualitative methods include feedback gathered from having conversations with experienced developers and through presentation of prototypes. The quantitative methods include interest measurement and analysis of rule-invocations executing the final artifact on different code-bases.  
+In the evaluation phase we will observe and evaluate how well the developed artifact solves the objectives of a solution. We will compare the artifact with the objectives of a solution, and use different techniques for evaluation based on the type of artifact and at which stage in development we are. Evaluation methods includes qualitative methods and quantitative methods. The qualitative methods include feedback gathered from having conversations with experienced developers and through presentation of prototypes. The quantitative methods include interest measurement and analysis of rule-invocations executing the final prototype on different code-bases.  
 
-Continuous evaluation of the prototypes and the developed artifact is important to adjust the product to the users needs. After each evaluation activity, based on how the artifact compares to the objectives of a solution it is decided if another iteration is required.
+Continuous evaluation of the prototypes and the developed artifacts is important to continuously adjust the product to the users needs. After each evaluation activity, based on how the artifact compares to the objectives of a solution it is decided if another iteration is required.
 
 The results from the evaluations is presented in the result chapter.
 
