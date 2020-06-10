@@ -30,14 +30,14 @@
 
 \selectlanguage{norsk}
 \begin{abstract}
-    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en tidlig versjon av et \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at det å automatisk legge til kommentarer på \acrfull{pr} for å informere utvikleren om mulige design-problemer vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Dette gjør at man kan utvikle regler for deteksjon av brudd på designprinsipper med lavere krav til treffsikkerhet enn tidligere. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt ha stor innvirkning på videre utvikling av programvare.  
+    Feil eller unngått bruk av designprinsipper i programvareutvikling medfører vedlikeholdsproblemer og øker utviklingskostnadene. Til nå har verktøy for utviklere i liten grad sett etter brudd på designprinsipper, og har heller ikke vært en del av arbeidsflyten til utviklere. Dette har vært grunnet vanskeligheten av å detektere brudd på designprinsipper uten å skape støy i utvikligsprosessen. Dette studiet tar en innovativ tilnærming til problemet for å se hvordan man kan lage et verktøy for deteksjon av brudd på designprinsipper som er integrert inn i arbeidsflyten til utviklere, og som ikke lider av støy. Ved å kombinere teknologi for kodeanalyse og teknologi for kvalitetssikring av kode utvikles et verktøy for deteksjon av brudd på designprinsipper med en forskningsmetode som kalles Design science. Flere iterasjoner av utvikling, testing og evaluering av prototyper ble gjennomført og endte med en tidlig versjon av et \gls{mvp}. Dette produktet ble så evaluert internt og gjennom tilbakemeldinger fra open-source community. Resultatene viser at det å automatisk legge til kommentarer på \acrfull{pr} for å informere utvikleren om mulige design-problemer vil redusere innvirkningen av falske positiver, og dermed redusere støyen betraktelig sammenlignet med tidligere metoder. Dette gjør at man kan utvikle regler for deteksjon av brudd på designprinsipper med lavere krav til treffsikkerhet enn tidligere. Likevel, vanskeligheten av å detektere brudd på design-prinsipper skaper så mye falske-positiver at videre utvikling av mekanismer for å redusere støy behøves. Med videre forskning på gode heuristikker for deteksjon av brudd på designprinsipper og implementasjon av nye mekanismer for redusering av støy vil et slikt verktøy potensielt ha stor innvirkning på videre utvikling av programvare.  
     
 \end{abstract}
 
 \selectlanguage{english}
 \begin{abstract}
 	%Sample IMRaD abstract: 
-	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detecting design principle violations without creating noise in the developer workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with an early version of a \acrfull{mvp}. The product was then evaluated internally and received feedback from the open-source community. The results show that using automated comments on \gls{pr} to inform the developer about possible design issues will reduce the noise from false-positives significantly. This will enable the development of rules for \gls{ddpv} with lower requirements on accuracy than what is traditionally accepted. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this this could have big implications on the maintainability of developed software. 
+	Absence of correctly applied design principles triggers maintainability problems in software development and increases development cost. To current date, tools for developers have to a small extent targeted design principles and have suffered from not being an integrated part of the developers workflow. The reason being the difficulties in detecting design principle violations without creating noise in the developer workflow. This study targets this problem and takes an innovative approach for investigating how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from noise. By combining technologies for code analysis and \gls{qa}, a tool for \gls{ddpv} was developed using the Design science methodology. Multiple iterations of development, testing and evaluation of prototypes was carried out and ended with an early version of a \acrfull{mvp}. The product was then evaluated internally and received feedback from the open-source community. The results show that using automated comments on \gls{pr} to inform the developer about possible design issues will reduce the noise from false-positives significantly. This will enable the development of rules for \gls{ddpv} with lower requirements on accuracy than what is traditionally accepted. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise is needed. With continued research on good heuristics for \gls{ddpv} and implementation of suggested mechanisms for reduction of noise, a tool like this this could have big implications on the maintainability of developed software. 
 	
 \end{abstract}
 \clearpage
@@ -73,7 +73,7 @@ Given the limitations in current approaches for detecting violation of design pr
 % Present the goal and then how to reach it
 The main goal of the study is to create a tool that help developers adhere to the design principles, ultimately improving the maintainability of code. By looking at existing tools, existing methods for \acrfull{ddpv}, and both advantages and disadvantages of existing developer workflows, we think it is possible to develop an effective tool for \gls{ddpv} without creating significant amounts of noise in the developer workflow.
 
-To help with specific guidelines for development and evaluation of such a tool, the design science methodology will be followed.
+To help with specific guidelines for development and evaluation of such a tool, the Design science methodology will be followed.
 
 
 The outline of the paper is as follows; Chapter \ref{background} gives some background information and an introduction to the topics maintainable code, code analysis and developer workflow. Chapter \ref{relatedwork} gives some insight in related work in the area. Chapter \ref{methodology} presents the goal of the study and the research question. Then a description of the selected research methodology and the required steps is provided. \ref{results} presents the results from developing and evaluating the prototypes. Chapter \ref{discussion} discusses the results ending with the conclusion of the study.  
@@ -91,7 +91,7 @@ Software maintainability is a measure of how easy it is to modify and extend exi
 Software is a product that evolves over time and that continuously needs fixes, features and updates according to the customer and users needs. To make the process of developing software product cheaper we need to ensure it meets certain requirements regarding quality. It may seem counter intuitive, but high quality software is actually cheaper to produce. You can read more about this in section \ref{problem-identification-and-motiviation}. The software community is highly opinionated and software quality is measured differently based on (but not limited to) domain, programming language and business requirements. Therefore, measuring software quality and creating rules without exceptions is extremely hard. However, interestingly, the ratio of time spent reading (i.e understanding code) versus writing code is well over 10 to 1 as Robert C. Martin states in \cite{Martin:2008:CCH:1388398}. The quality of code can therefore be measured by the amount of time that is used to understand it. To reduce the amount of time spent on understanding code, we need to ensure that the written code is understandable. We need to ensure that it is easy to understand what the code does and why it does what it does. It should be easy to locate what needs to change, easy to make changes and easy to ensure that the changes does not create unwanted side effects. \hfill 
 \hfill \newline
 
-More formally, developers have defined a set of quality attributes that will help ensure that the code is of high quality. A commonly accepted collection of quality attributes include extensibility, modularity, testability, understandability, performance, reliability and security. Martin Fowler did a useful distinction using the terms \textit{internal attributes} and \textit{external attributes} \cite{internalExternal}. The distinction is whether the attribute is visible for the user or not. The internal quality attributes correspond to maintainability, that is our focus. 
+More formally, developers have defined a set of quality attributes that will help ensure that the code is of high quality. A commonly accepted collection of quality attributes include extensibility, modularity, testability, understandability, performance, reliability and security. Martin Fowler did a useful distinction using the terms \textit{internal attributes} and \textit{external attributes} \cite{is-high-quality-softaware-worth-it}. The distinction is whether the attribute is visible for the user or not. The internal quality attributes correspond to maintainability, that is our focus. 
 
 Following are the definitions of the internal quality attributes with most importance in this study:
 \begin{itemize}
@@ -285,15 +285,15 @@ Other quality aspects of tools such as performance and usability will not be con
 
 
 \section{Research methodology}
-To reach the goals it will be necessary to have a practical approach where an innovative product is designed, developed and evaluated. As the goal is to help developers create more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a usual choice for such development. However, for this study the end product should also provide a general contribution to the research field of improving maintainability of code. The contribution should include what is learned in the process, to see if such an approach could be put more work into and possibly being a new way of helping developers create maintainable software. The Design Science research methodology fits that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{Peffers2007ADS}.
+To reach the goals it will be necessary to have a practical approach where an innovative product is designed, developed and evaluated. As the goal is to help developers create more maintainable code, it is also necessary to have a user-centered approach for evaluating the product. A traditional agile user-centered design process would be a usual choice for such development. However, for this study the end product should also provide a general contribution to the research field of improving maintainability of code. The contribution should include what is learned in the process, to see if such an approach could be put more work into and possibly being a new way of helping developers create maintainable software. The Design science research methodology fits that purpose. It is presented in (A Design Science Research Methodology for Information Systems Research) \cite{Peffers2007ADS}.
 
 % About the chosen methodology
-Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. The software artifact will be created through a series of iterations that include the following activities: Problem identification and motivation, definition of objectives of a solution, design and development, demonstration, evaluation and communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the design science methodology. 
+Design science is a research methodology that focuses on getting knowledge about a domain through development of innovative artifacts. The methodology provides specific guidelines for evaluation and iteration in research projects. The software artifact will be created through a series of iterations that include the following activities: Problem identification and motivation, definition of objectives of a solution, design and development, demonstration, evaluation and communication. Figure \ref{fig:designScience} is taken from Peffers. K \cite{Peffers2007ADS} and shows the process of the Design science methodology. 
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{report/images/designScience.png}
-    \caption{The process of the design science research methodology.}
+    \caption{The process of the Design science research methodology.}
     \label{fig:designScience}
 \end{figure}
 
@@ -370,21 +370,21 @@ Continuous evaluation of the prototypes and the developed artifacts is important
 The results from the evaluations is presented in the result chapter.
 
 \section{Communication}
-The last step of the design science methodology is to communicate the end result and the developed knowledge about \gls{ddpv}. The general contribution and the developed knowledge of improving the maintainability of code through \gls{ddpv} is provided through this thesis. The final artifact is available for use and further development on GitHub\cite{detekt-hint-repository}.
+The last step of the Design science methodology is to communicate the end result and the developed knowledge about \gls{ddpv}. The general contribution and the developed knowledge of improving the maintainability of code through \gls{ddpv} is provided through this thesis. The final artifact is available for use and further development on GitHub\cite{detekt-hint-repository}.
 \cleardoublepage
 
 
 \chapter{Results}
 \label{results}
 
-In this chapter we will present the results of executing multiple iterations of product development, following the design science methodology. The results of design and development are 4 different prototypes.
+In this chapter we will present the results of executing multiple iterations of product development, following the Design science methodology. The results of design and development are 4 different prototypes.
 
 In section \ref{initial-os} we present the initial objectives of a solution, before giving a brief overview of the developed prototypes in section \ref{on-prototypes}. 
 The prototypes are described and evaluated more in detail in sections \ref{initial-prototype}, \ref{vertical-prototype}, \ref{horizontal-prototype} and \ref{final-prototype}. The prototypes are presented and evaluated in the order the they were created. For the final prototype with the name Detekt-hint, we have dedicated a separate section (\ref{evaluation-final-prototype}) for the evaluation, which was evaluated both internally and externally using the open-source community. A description of the technical solution of the final prototype is found in section \ref{technical-solution}.
 
 \section{Initial objectives of a solution}
 \label{initial-os}
-The objectives of a solution was found during multiple iterations of the design science methodology. Before each of the prototypes is presented in the next sections, we will look into the objectives of a solution that were initially specified. The initial objectives of a solution were based on the current knowledge about the domain and how the solution should be engineered to best achieve the goals. 
+The objectives of a solution was found during multiple iterations of the Design science methodology. Before each of the prototypes is presented in the next sections, we will look into the objectives of a solution that were initially specified. The initial objectives of a solution were based on the current knowledge about the domain and how the solution should be engineered to best achieve the goals. 
 
 The first objective is that the solution should be able to detect violations of design principles using static code analysis. As discussed in the background, static code analysis is best suited for this task as we search to improve the source code itself, and not dynamic quality aspects of the code. The selection of which principles to support is based on three criteria. 
 
@@ -425,12 +425,12 @@ For the individual rules there were also some specific objectives that need to b
 
 \section{Prototypes and development}
 \label{on-prototypes}
-As stated in the design and development section \ref{design-development} low-fidelity prototypes is created first, before more functional artifacts are developed. Describing the exact number of iterations and which iteration steps that were executed during development is not possible as one continuously evaluates and adjusts the product under development. However, seeing the development process in a big picture we can approximately look at 4 iterations in the design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
+As stated in the design and development section \ref{design-development} low-fidelity prototypes is created first, before more functional artifacts are developed. Describing the exact number of iterations and which iteration steps that were executed during development is not possible as one continuously evaluates and adjusts the product under development. However, seeing the development process in a big picture we can approximately look at 4 iterations in the Design science methodology. A visualization of the general process can be seen in figure \ref{fig:workflow}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{../images/workflow.png}
-    \caption{The general process of development - The iterations in the design science methodology.}
+    \caption{The general process of development - The iterations in the Design science methodology.}
     \label{fig:workflow}
 \end{figure}
 
@@ -465,7 +465,7 @@ The prototype can be seen in figure \ref{fig:mockup}. As can be seen in figure \
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{../images/demo.png}
-    \caption{Initial prototype that was presented on social media and discussed with friends. The rule suggests the use of composition instead of inheritance, and helps testing if the classes adheres to the \gls{lsp}. }
+    \caption{Screenshot of the initial prototype that was presented on social media and discussed with friends. It shows the \gls{coi} rule. The rule suggests the use of composition instead of inheritance, and helps testing if the classes adheres to the \gls{lsp}. In this case, the classical Square - Rectangle problem is presented. \texttt{Square} should not be derived from \texttt{Rectangle} as it would violate the \gls{lsp}. \texttt{Square} does not functionally behave like \texttt{Rectangle} as squares by definition have the same width and height. \texttt{Rectangle} should have two independent methods for changing its size, but clearly these methods is not appropriate for the \texttt{Square}. }
     \label{fig:mockup}
 \end{figure}
 
@@ -540,18 +540,21 @@ The vertical prototype showed that a limited number of rules have to be supporte
 
 The horizontal prototype was built by creating sample \gls{pr}'s in a sample repository on GitHub, and then commenting on the \gls{pr}'s with a bot user. Example images from the prototype is presented in figure \ref{fig:horizontal-prototype} and figure \ref{fig:lcom-image}. The rest of the prototype can be seen in appendix \ref{horizontal-prototype-images}. Compared to the other prototypes in figure \ref{fig:radar-chart}, this prototype is having a focus on the visuals, content and breadth dimension, while having a low depth and is non-interactive.
 
+
 \subsection*{Demonstration}
 Initially, to get structured feedback on the prototype, it was planned to present the prototype to a group of people using a semi structured interview. To get informants to the semi-structured interview, a presentation for approximately 20 participants at Javabin\footnote{A user group for persons interested in software development on the Java and \gls{jvm} platform, and related technologies.} Trondheim was held. Search for informants also included asking companies with Kotlin developers, including Bekk and Netlight, but with limited success. 6 participants signed up for joining the semi-structured interview, but we were only able to get in touch with 2 of them to actually join the semi structured interview. The interview followed the semi-structured interview schema that can be found in the appendix \ref{semi-structured-interview-schema}.
 
 Due to the outbreak of \gls{covid19}, physical meetings could not be arranged, and further complicated the issue of contacting and speaking with other developers directly. We were then forced to find other ways of reaching out to people to gather feedback. The prototype were shown in multiple slack channels for work, the official Kotlin channel and various other channels.
 
+\clearpage
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/final_isp.png}
-    \caption{Screenshot of horizontal prototype - Showing the \gls{isp} rule that has detected an empty method, which is a sign of violating the \gls{isp}.}
+    \caption{Screenshot of the horizontal prototype showing the \gls{isp} rule. It has detected an empty method, which is a sign of violating the \gls{isp}. In this case the \texttt{EconomicPrinter} implements methods from \texttt{AllInOnePrinter} which it does not need. A solution would be to define separate interfaces for each of the responsibilities (e.g \texttt{Printable, Faxable, Scanable}) and let the concrete implementations of printers implement the interfaces they need.}
     \label{fig:horizontal-prototype}
 \end{figure}
 
+\clearpage
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/comment_lackOfCohesion.png}
@@ -660,7 +663,7 @@ Building on the invocations presented in the above chart, the accuracy of the to
 
 
 
-\subsection{Evaluation of using comments on \gls{pr} to reduce impact of reporting false-positives}
+\subsection{Evaluation of using comments on PR to reduce impact of reporting false-positives}
 \label{evaluation-comments}
 In general, automatically adding comments to \gls{pr}'s works as a good way of exposing possible design flaws late in the development process. With informative comments that is having references to the code, possible false-positives are sorted out in a matter of seconds, and easily closed with the "resolve conversation" option. Invocation of most rules ends with informative comments, with the exception of the \gls{lcom} rule that only presents the \gls{lcom} value. However, giving a lot of context and suggestion for solutions may not always be necessary, especially after getting known with the tool. Ways of providing short succinct comments while still having the possibility of reading more about possible solutions should be looked into.
 
@@ -874,7 +877,7 @@ As a last note, the tool is not limited to just targeting design principles. Rul
 \label{conclusion}
 
 
-This research aimed to answer how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from the noise by false-positives. By following the design science methodology, multiple iterations of product development was carried out, and resulted in multiple prototypes and a early \gls{mvp}, using comments on \gls{pr}'s to report possible design issues. The \gls{mvp} was evaluated internally and using the open-source community. 
+This research aimed to answer how one can create a tool for \gls{ddpv} that is integrated in the developer workflow without suffering from the noise by false-positives. By following the Design science methodology, multiple iterations of product development was carried out, and resulted in multiple prototypes and a early \gls{mvp}, using comments on \gls{pr}'s to report possible design issues. The \gls{mvp} was evaluated internally and using the open-source community. 
 
 
 The results show that using automated comments on \gls{pr} to inform the developer about possible design issues will reduce the noise from false-positives significantly. This will enable the development of rules for \gls{ddpv} with lower requirements on accuracy than what is traditionally accepted. However, the difficulty of \gls{ddpv} creates such big amount of false-positives that further development on mechanisms for reducing the noise, and research on accurate heuristics for \gls{ddpv} is needed.
