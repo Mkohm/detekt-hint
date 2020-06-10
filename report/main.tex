@@ -465,7 +465,7 @@ The prototype can be seen in figure \ref{fig:mockup}. As can be seen in figure \
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{../images/demo.png}
-    \caption{Initial prototype that was presented on social media and discussed with friends.}
+    \caption{Initial prototype that was presented on social media and discussed with friends. The rule suggests the use of composition instead of inheritance, and helps testing if the classes adheres to the \gls{lsp}. }
     \label{fig:mockup}
 \end{figure}
 
@@ -714,7 +714,7 @@ The final prototype being an early functional prototype, can be evaluated agains
 
 \section{Technical solution}
 \label{technical-solution}
-To better understand the developed tool, its strength and weaknesses, implications and limitations a technical description of the tool is provided. Following is a description of the different components, ending with a description of how they interact.
+To better understand the developed tool, its strength and weaknesses, implications and limitations a technical description of the tool is provided. Following is a description of the different components, ending with a description of how the different components interact to provide the ending result.
 
 \subsection{Detekt}
 Detekt is a static analysis tool for Kotlin. Detekt is comprised of a set of rules for analysis of Kotlin source code. Part of Detekt is also the Detekt-api, which gives access to a framework for creating rules, configuring rules, and for analyzing the source code. Under the hood it gives us access to IntelliJ \gls{psi} for code analysis. The PSI is built on top of the \gls{ast} provided by the Kotlin compiler, and enables modification, querying and navigation of the underlying \gls{ast}. Detekt is made extensible, and plugins (new rule-sets) can easily be added. It is easily invoked using the \gls{cli} interface.
@@ -748,14 +748,14 @@ The Detekt-hint rule set is a plugin to Detekt, and contains the implemented rul
 \subsection{Danger}
 Danger is a system which is created for the purpose of automatically adding comments to \gls{pr}'s. It provides an easy to use \gls{api} for extracting the required information from Git, and provides methods for commenting on \gls{pr}'s, using a bot. It is executed in the \gls{ci} environment on every commit to \gls{pr}'s that is created. It will therefore remove the comments when the issues are resolved, to reflect the current state of the \gls{pr}. 
 
-\subsection{GitHub Actions and the interaction}
-GitHub Actions is a tool created by GitHub for automating software workflows, including \gls{ci}/\gls{cd}. A custom GitHub Action workflow is created for Detekt-hint, which executes the Detekt-\gls{cli} together with the Detekt-hint rule set, generating the report containing all the comments to be added on the \gls{pr}. Danger is then executed and picks up the file with the comments to be added. It will then add a comment on the \gls{pr} for every comment in the file. A diagram of how everything interacts can be seen in figure \ref{fig:integration}. 
+\subsection{GitHub Actions and the execution flow}
+GitHub Actions is a tool created by GitHub for automating software workflows, including \gls{ci}/\gls{cd}. A custom GitHub Action workflow is created for Detekt-hint. When a \gls{pr} is created or updated this workflow will executes the Detekt-\gls{cli} together with the Detekt-hint rule set. This will generate the report containing all the comments to be added on the \gls{pr}. Danger is then executed and picks up the report with the comments to be added. It will then add a comment on the \gls{pr} for every comment in the file. A diagram of how everything interacts can be seen in figure \ref{fig:integration}. 
 
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{images/detekt-hint-execution.png}
-    \caption{The overall execution flow of the developed solution.}
+    \caption{The overall execution flow and the components of the developed solution.}
     \label{fig:integration}
 \end{figure}
 

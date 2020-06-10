@@ -7,7 +7,7 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{../images/comment_isp.png}
-    \caption{Prototype of the \gls{isp} rule.}
+    \caption{Screenshot of the horizontal prototype showing the \gls{isp} rule. It has detected an empty method, which is a sign of violating the \gls{isp}. In this case the \texttt{EconomicPrinter} implements methods from \texttt{AllInOnePrinter} which it does not need. A solution would be to define separate interfaces for each of the responsibilities (e.g \texttt{Printable, Faxable, Scanable}) and let the concrete implementations of printers implement the interfaces they need.}
     \label{fig:isp}
 \end{figure}
 
@@ -15,7 +15,7 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{../images/comment_lackOfCohesion.png}
-    \caption{Prototype of the \gls{lcom} rule.}
+    \caption{Screenshot of the horizontal prototype showing the \gls{lcom} rule, with a visual representation of the lack of cohesion. The figure shows which fields that are referenced from each of the methods in the class. In this case all the methods of the class references their own separate field. This indicates that each of the methods and corresponding fields have separate responsibilities within the class. This would therefore be an indication of violating the \gls{srp}.}
     \label{fig:lcom}
 \end{figure}
 
@@ -23,7 +23,7 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/comment_ocp2.png}
-    \caption{Prototype of the \gls{ocp} rule.}
+    \caption{Screenshot of the horizontal prototype that shows the \gls{ocp} rule, using a simple program for drawing shapes. In this case the rule detected checking of concrete implementations to control flow. The rule suggests creating an abstraction for \texttt{Rectangle}, \texttt{Circle} (e.g an interface \texttt{Shape} with a \texttt{draw} method that all \texttt{Rectangle} and \texttt{Cirle} should implement) such that eventual new shapes added to the program would not need to modify existing code. }
     \label{fig:ocp}
 \end{figure}
 
@@ -31,7 +31,7 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/horizontal-prototype-coh.png}
-    \caption{Prototype of the composition over inheritance / \gls{lsp} rule.}
+    \caption{Screenshot of the horizontal prototype that shows the \gls{coi} rule. The rule suggests the use of composition instead of inheritance, and helps testing if the classes adheres to the \gls{lsp}. In this case, the classical Square - Rectangle problem is presented. \texttt{Square} should not be derived from \texttt{Rectangle} as it would violate the \gls{lsp}. \texttt{Square} does not functionally behave like \texttt{Rectangle} as Squares by definition have two equally long sides. \texttt{Rectangle} should have two independent methods for changing its size, but clearly these methods is not appropriate for the \texttt{Square}. }
     \label{fig:liskov}
 \end{figure}
 
@@ -97,23 +97,23 @@
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/final_coh.png}
-    \caption{Working prototype of \gls{coi} rule.}
+    \caption{Screenshot of the final prototype that shows the \gls{coi} rule. The rule suggests the use of composition instead of inheritance, and helps testing if the classes adheres to the \gls{lsp}. In this case, the classical Square - Rectangle problem is presented. \texttt{Square} should not be derived from \texttt{Rectangle} as it would violate the \gls{lsp}. \texttt{Square} does not functionally behave like \texttt{Rectangle} as Squares by definition have two equally long sides. \texttt{Rectangle} should have two independent methods for changing its size, but clearly these methods is not appropriate for the \texttt{Square}.}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/final_ocp.png}
-    \caption{Working prototype of \gls{ocp} rule.}
+    \caption{Screenshot of the final prototype that shows the \gls{ocp} rule, using a simple program for drawing shapes. In this case the rule detected checking of concrete implementations to control flow. The rule suggests creating an abstraction for \texttt{Rectangle}, \texttt{Circle} (e.g an interface \texttt{Shape} with a \texttt{draw} method that all \texttt{Rectangle} and \texttt{Cirle} should implement) such that eventual new shapes added to the program would not need to modify existing code.}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/final_lcom.png}
-    \caption{Working prototype of \gls{lcom} rule.}
+    \caption{Screenshot of the final prototype showing the \gls{lcom} rule. This is an indication of violating the \gls{srp}, due to low cohesion in the class. In this case, each of the methods reference their own field, telling us that there is no relationship between the different methods, and that they don't need to exist in the same class.}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/final_isp.png}
-    \caption{Working prototype of \gls{isp} rule.}
+    \caption{Screenshot of the final prototype showing the \gls{isp} rule. It has detected an empty method, which is a sign of violating the \gls{isp}. In this case the \texttt{EconomicPrinter} implements methods from \texttt{AllInOnePrinter} which it does not need. A solution would be to define separate interfaces for each of the responsibilities (e.g \texttt{Printable, Faxable, Scanable}) and let the concrete implementations of printers implement the interfaces they need.}
 \end{figure}
