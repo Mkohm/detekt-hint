@@ -1,12 +1,12 @@
 <div align="center">
 
-# detekt-hint
+# detekt-hint (Attention: Looking for developers)
 Detection of design principle violations in Kotlin added as comments on pull requests.
 
 ## [Getting started](#getting-started) | :checkered_flag: [Roadmap](#upcoming-features) | :thought_balloon: [Ask a question](https://github.com/Mkohm/detekt-hint/issues/new) | :book: [Documentation](https://mkohm.github.io/detekt-hint/docs/)
 
 
-[![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/307995daba5f21506f4d/maintainability)](https://codeclimate.com/github/Mkohm/detekt-hint/maintainability) [![codecov](https://codecov.io/gh/Mkohm/detekt-hint/branch/master/graph/badge.svg)](https://codecov.io/gh/Mkohm/detekt-hint) [![Build Status](https://travis-ci.com/Mkohm/detekt-hint.svg?branch=master)](https://travis-ci.com/Mkohm/detekt-hint) [ ![Download](https://api.bintray.com/packages/bintray/jcenter/io.github.mkohm%3Adetekt-hint/images/download.svg) ](https://bintray.com/bintray/jcenter/io.github.mkohm%3Adetekt-hint/_latestVersion)
 [![Kotlinlang slack](https://img.shields.io/static/v1?label=kotlinlang&message=detekt-hint&color=brightgreen&logo=slack&style=flat-square)](https://app.slack.com/client/T09229ZC6/C012ZSM6L1J)
 [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
